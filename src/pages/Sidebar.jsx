@@ -1,8 +1,20 @@
-import { NavLink, Outlet } from "react-router-dom";
+
+import { Button } from "flowbite-react";
+import { TbLogout2 } from "react-icons/tb";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const Sidebar = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userPass');
+        toast.success('Logged out successfully!');
+        navigate('/');
+    };
     return (
-        <div className="flex">
+        <div className="flex font-lexend">
             {/* Flowbite sidebar */}
             <nav className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -19,39 +31,32 @@ const Sidebar = () => {
                                 <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Flowbite</span>
                             </a>
                         </div>
-                        <div className="flex items-center">
-                            <div className="flex items-center ms-3">
-                                <div>
-                                    <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                        <span className="sr-only">Open user menu</span>
-                                        <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo"/>
-                                    </button>
+                        {/* user dropdown */}
+                        <div className="dropdown dropdown-end">
+                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img src="https://i.ibb.co/LnFWKKk/download-8.jpg" />
                                 </div>
-                                <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
-                                    <div className="px-4 py-3" role="none">
-                                        <p className="text-sm text-gray-900 dark:text-white" role="none">
-                                            Neil Sims
-                                        </p>
-                                        <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
-                                            neil.sims@flowbite.com
-                                        </p>
-                                    </div>
-                                    <ul className="py-1" role="none">
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Settings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            </label>
+                            <ul tabIndex={0} className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-40">
+                                <li>
+                                    <p className="font-medium">Ronaldo</p>
+
+                                </li>
+                                <li>
+                                    <button className="font-medium">Profile</button>
+                                </li>
+                                <li>
+                                    <Button
+                                        onClick={handleLogout}
+                                        gradientMonochrome="failure"
+                                        className="w-full flex items-center justify-center"
+                                    >
+                                        <TbLogout2 className="w-5 h-5" />
+                                        <span className="text-sm ml-2">Logout</span>
+                                    </Button>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -80,8 +85,9 @@ const Sidebar = () => {
                     </ul>
                 </div>
             </aside>
+            <ToastContainer></ToastContainer>
 
-            <main className="flex-grow ml-52 p-4 mt-12">
+            <main className="flex-grow ml-52 p-4 mt-20">
                 <Outlet />
             </main>
         </div>
