@@ -6,7 +6,9 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Login from "./pages/Login";
+import Sidebar from "./pages/Sidebar";
 import Dashboard from "./pages/Dashboard";
+import Tender from "./pages/Tender";
 
 const router = createBrowserRouter([
   {
@@ -14,9 +16,19 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "/dashboard",
-    element: <Dashboard></Dashboard>
-  }
+    path: "/sidebar",
+    element: <Sidebar></Sidebar>,
+    children: [
+      {
+        path: "/sidebar/dashboard",
+        element: <Dashboard></Dashboard>
+      },
+      {
+        path: "/sidebar/tender",
+        element: <Tender></Tender>
+      }
+    ]
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

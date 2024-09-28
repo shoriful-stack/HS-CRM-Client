@@ -1,26 +1,42 @@
-import { BiSolidFoodMenu } from "react-icons/bi";
-import { MdDashboard } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import React from 'react';
+import { FaMoneyCheckAlt, FaUsers, FaShoppingCart } from 'react-icons/fa';
 
 const Dashboard = () => {
     return (
-        <div className="flex">
-            {/* dashboard side bar */}
-            <div className="w-52 min-h-screen bg-[#008080] text-white">
-                <ul className="menu p-4">
-                    <li>
-                        <NavLink to="/dashboard/dashboard">
-                        <MdDashboard />
-                            Dashboard</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/dashboard/tender">
-                        <BiSolidFoodMenu />
-                            Tender</NavLink>
-                    </li>
-                </ul>
+        <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {/* Revenue Card */}
+                <div className="bg-white shadow-lg rounded-lg p-4">
+                    <h2 className="text-xl font-bold">Revenue</h2>
+                    <div className="flex items-center justify-between">
+                        <FaMoneyCheckAlt className='text-3xl' />
+                        <span className="text-4xl font-bold">5</span>
+                    </div>
+                    <p className="text-sm text-gray-600">June 1st - July 1st</p>
+                </div>
+
+                {/* Users Card */}
+                <div className="bg-white shadow-lg rounded-lg p-4">
+                    <h2 className="text-xl font-bold">Users</h2>
+                    <div className="flex items-center justify-between">
+                        <FaUsers className='text-3xl' />
+                        <span className="text-4xl font-bold">200</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Active Users</p>
+                </div>
+
+                {/* Orders Card */}
+                <div className="bg-white shadow-lg rounded-lg p-4">
+                    <h2 className="text-xl font-bold">Orders</h2>
+                    <div className="flex items-center justify-between">
+                        <FaShoppingCart className='text-3xl' />
+                        <span className="text-4xl font-bold">150</span>
+                    </div>
+                    <p className="text-sm text-gray-600">Completed Orders</p>
+                </div>
             </div>
         </div>
     );
 };
-export default Dashboard
+
+export default Dashboard;

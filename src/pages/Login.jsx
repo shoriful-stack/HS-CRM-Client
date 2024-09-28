@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import backgroundImg from '../assets/images/crmImg.avif';
+import { MdEmail } from "react-icons/md";
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +23,7 @@ const Login = () => {
             localStorage.setItem('userEmail', JSON.stringify({ email }));
             localStorage.setItem('userPass', JSON.stringify({ password }));
             toast.success('Login successful!');
-            navigate('/dashboard');
+            navigate('/sidebar/dashboard');
         } else {
             toast.error('Invalid email or password!');
         }
@@ -30,7 +31,7 @@ const Login = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImg})` }}>
-            <div className="w-full max-w-sm p-8 bg-white rounded-lg shadow-lg">
+            <div className="w-full max-w-sm p-8 bg-cyan-950/75 rounded-lg shadow-lg">
                 <div className="flex justify-center mb-6">
                     <div className="bg-gray-200 p-4 rounded-full">
                         <svg
@@ -42,18 +43,18 @@ const Login = () => {
                         </svg>
                     </div>
                 </div>
-                <h2 className="text-3xl font-semibold text-center text-gray-700 mb-4">Login</h2>
+                <h2 className="text-3xl font-semibold text-center text-white mb-4 font-lexend">Login</h2>
                 <form onSubmit={handleLogin}>
                     <div className="form-group mb-4">
                         <div className="relative">
                             <span className="absolute inset-y-0 left-3 flex items-center">
-                                <FaUser className="h-4 w-5" />
+                                <MdEmail className="h-4 w-5" />
                             </span>
                             <input
                                 type="email"
                                 name="email"
                                 className="w-full px-4 py-3 pl-10 border border-blue-700 rounded-lg focus:outline-none"
-                                placeholder="Username"
+                                placeholder="Email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
@@ -80,7 +81,7 @@ const Login = () => {
                         </div>
                     </div>
                     <div className="form-control">
-                        <button type="submit" className="btn bg-teal-500 hover:bg-teal-300 text-white w-full">Login</button>
+                        <button type="submit" className="btn bg-teal-500 hover:bg-teal-300 text-white w-full font-lexend">Login</button>
                     </div>
                 </form>
             </div>
