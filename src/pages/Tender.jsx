@@ -43,7 +43,7 @@ const Tender = () => {
   return (
     <div className="font-lexend">
       <div className="flex justify-between items-center mb-2">
-        <h1 className="font-bold">Tenders</h1>
+        <h1 className="font-bold text-xl">Tenders</h1>
         <div className="flex items-center">
           <button
             onClick={openModal}
@@ -167,6 +167,66 @@ const Tender = () => {
           </tr>
         </thead>
         <tbody>
+          <tr className="bg-gray-100">
+            <td className="px-3 py-2 border text-center">1</td>
+            <td className="px-3 py-2 border text-sm">
+              Three more die from dengue in Dhaka
+            </td>
+            <td className="px-3 py-2 border text-sm">Tender 1.2.3</td>
+            <td className="px-3 py-2 border text-sm">Anil Kumar</td>
+            <td className="px-3 py-2 border text-sm">23 Sep, 2022</td>
+            <td className="px-3 py-2 border text-sm">30 Sep, 2022</td>
+            <td className="px-3 py-2 border text-red-500 text-sm text-center">
+              Closed
+            </td>
+            <td className="px-3 py-2 border text-center text-sm">
+              <strong>
+                <a href="#" className="underline">
+                  Click Here
+                </a>
+              </strong>
+            </td>
+          </tr>
+          <tr className="bg-gray-100">
+            <td className="px-3 py-2 border text-center">1</td>
+            <td className="px-3 py-2 border text-sm">
+              Three more die from dengue in Dhaka
+            </td>
+            <td className="px-3 py-2 border text-sm">Tender 1.2.3</td>
+            <td className="px-3 py-2 border text-sm">Anil Kumar</td>
+            <td className="px-3 py-2 border text-sm">23 Sep, 2022</td>
+            <td className="px-3 py-2 border text-sm">30 Sep, 2022</td>
+            <td className="px-3 py-2 border text-red-500 text-sm text-center">
+              Closed
+            </td>
+            <td className="px-3 py-2 border text-center text-sm">
+              <strong>
+                <a href="#" className="underline">
+                  Click Here
+                </a>
+              </strong>
+            </td>
+          </tr>
+          <tr className="bg-gray-100">
+            <td className="px-3 py-2 border text-center">1</td>
+            <td className="px-3 py-2 border text-sm">
+              Three more die from dengue in Dhaka
+            </td>
+            <td className="px-3 py-2 border text-sm">Tender 1.2.3</td>
+            <td className="px-3 py-2 border text-sm">Anil Kumar</td>
+            <td className="px-3 py-2 border text-sm">23 Sep, 2022</td>
+            <td className="px-3 py-2 border text-sm">30 Sep, 2022</td>
+            <td className="px-3 py-2 border text-red-500 text-sm text-center">
+              Closed
+            </td>
+            <td className="px-3 py-2 border text-center text-sm">
+              <strong>
+                <a href="#" className="underline">
+                  Click Here
+                </a>
+              </strong>
+            </td>
+          </tr>
           <tr className="bg-gray-100">
             <td className="px-3 py-2 border text-center">1</td>
             <td className="px-3 py-2 border text-sm">
