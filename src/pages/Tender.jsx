@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FaEdit, FaHistory, FaRegEye } from "react-icons/fa";
+import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 
 const Tender = () => {
@@ -55,13 +57,13 @@ const Tender = () => {
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal Open */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
             <button
               onClick={closeModal}
-              className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl"
+              className="absolute top-3 right-3 hover:text-gray-700 text-3xl"
             >
               ×
             </button>
@@ -77,61 +79,73 @@ const Tender = () => {
                   value={formData.projectTitle}
                   onChange={handleChange}
                   required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Reference
-                </label>
-                <input
-                  type="text"
-                  name="reference"
-                  value={formData.reference}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                />
+              {/* Reference and customer row */}
+              <div className="flex justify-between items-center gap-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Reference
+                  </label>
+                  <input
+                    type="text"
+                    name="reference"
+                    value={formData.reference}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Customer
+                  </label>
+                  <select
+                    name="customer"
+                    value={formData.customer}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-[6px] px-2 focus:outline-none focus:ring-teal-500 focus:border-teal-500 text-sm"
+                  >
+                    <option value="">Select Customer</option>
+                    <option value="Customer 1">Customer 1</option>
+                    <option value="Customer 2">Customer 2</option>
+                    <option value="Customer 3">Customer 3</option>
+                    <option value="Customer 4">Customer 4</option>
+                  </select>
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Customer
-                </label>
-                <input
-                  type="text"
-                  name="customer"
-                  value={formData.customer}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                />
+              {/* Project start date and end date row */}
+              <div className="flex justify-between items-center gap-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Project Start Date
+                  </label>
+                  <input
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Project End Date
+                  </label>
+                  <input
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Project Start Date
-                </label>
-                <input
-                  type="date"
-                  name="startDate"
-                  value={formData.startDate}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Project End Date
-                </label>
-                <input
-                  type="date"
-                  name="endDate"
-                  value={formData.endDate}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                />
-              </div>
+              {/* Modal Close  */}
               <div className="flex justify-end">
                 <button
                   type="button"
@@ -179,12 +193,39 @@ const Tender = () => {
             <td className="px-3 py-2 border text-red-500 text-sm text-center">
               Closed
             </td>
-            <td className="px-3 py-2 border text-center text-sm">
-              <strong>
-                <a href="#" className="underline">
-                  Click Here
-                </a>
-              </strong>
+            <td className="px-3 py-1 border text-center text-sm relative">
+              <div className="dropdown dropdown-bottom dropdown-end relative">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="px-[6px] py-[5px] rounded-md text-white bg-blue-600"
+                >
+                  <IoMdArrowDropdownCircle className="text-2xl" />
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                >
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaRegEye />
+                      <span>View</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaEdit />
+                      <span>Edit</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaHistory />
+                      <span>Project History</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
           <tr className="bg-gray-100">
@@ -199,12 +240,39 @@ const Tender = () => {
             <td className="px-3 py-2 border text-red-500 text-sm text-center">
               Closed
             </td>
-            <td className="px-3 py-2 border text-center text-sm">
-              <strong>
-                <a href="#" className="underline">
-                  Click Here
-                </a>
-              </strong>
+            <td className="px-3 py-1 border text-center text-sm relative">
+              <div className="dropdown dropdown-bottom dropdown-end relative">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="px-[6px] py-[5px] rounded-md text-white bg-blue-600"
+                >
+                  <IoMdArrowDropdownCircle className="text-2xl" />
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                >
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaRegEye />
+                      <span>View</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaEdit />
+                      <span>Edit</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaHistory />
+                      <span>Project History</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
           <tr className="bg-gray-100">
@@ -219,12 +287,39 @@ const Tender = () => {
             <td className="px-3 py-2 border text-red-500 text-sm text-center">
               Closed
             </td>
-            <td className="px-3 py-2 border text-center text-sm">
-              <strong>
-                <a href="#" className="underline">
-                  Click Here
-                </a>
-              </strong>
+            <td className="px-3 py-1 border text-center text-sm relative">
+              <div className="dropdown dropdown-bottom dropdown-end relative">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="px-[6px] py-[5px] rounded-md text-white bg-blue-600"
+                >
+                  <IoMdArrowDropdownCircle className="text-2xl" />
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                >
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaRegEye />
+                      <span>View</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaEdit />
+                      <span>Edit</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaHistory />
+                      <span>Project History</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
           <tr className="bg-gray-100">
@@ -239,12 +334,39 @@ const Tender = () => {
             <td className="px-3 py-2 border text-red-500 text-sm text-center">
               Closed
             </td>
-            <td className="px-3 py-2 border text-center text-sm">
-              <strong>
-                <a href="#" className="underline">
-                  Click Here
-                </a>
-              </strong>
+            <td className="px-3 py-1 border text-center text-sm relative">
+              <div className="dropdown dropdown-bottom dropdown-end relative">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="px-[6px] py-[5px] rounded-md text-white bg-blue-600"
+                >
+                  <IoMdArrowDropdownCircle className="text-2xl" />
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                >
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaRegEye />
+                      <span>View</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaEdit />
+                      <span>Edit</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#" className="flex items-center space-x-2">
+                      <FaHistory />
+                      <span>Project History</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </td>
           </tr>
         </tbody>
