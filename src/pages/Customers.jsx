@@ -110,33 +110,18 @@ const Customers = () => {
                                 </div>
                             </div>
                             {/* Project start date and end date row */}
-                            <div className="flex justify-between items-center gap-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Address
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="address"
-                                        value={formData.address}
-                                        onChange={handleChange}
-                                        required
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Status
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="status"
-                                        value={formData.status}
-                                        onChange={handleChange}
-                                        required
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Address
+                                </label>
+                                <textarea
+                                    type="text"
+                                    name="address"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    required
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                />
                             </div>
                             {/* Modal Close  */}
                             <div className="flex justify-end">
@@ -175,18 +160,18 @@ const Customers = () => {
                 <tbody>
                     <tr className="bg-gray-100">
                         <td className="px-3 py-2 border text-center">1</td>
-                        <td className="px-3 py-2 border text-sm">
+                        <td className="px-3 py-2 border text-xs">
                             Summit Towers Ltd.
                         </td>
-                        <td className="px-3 py-2 border text-sm">+8801810313991</td>
-                        <td className="px-3 py-2 border text-sm">hanif@gmail.com</td>
-                        <td className="px-3 py-2 border text-sm">Plot No.31, , Sec-5, IMT Manesar, , Gurgaon - 122050, India</td>
-                        <td className="px-3 py-2 border text-green-500 text-sm text-center">
+                        <td className="px-3 py-2 border text-xs">+8801810313991</td>
+                        <td className="px-3 py-2 border text-xs">hanif@gmail.com</td>
+                        <td className="px-3 py-2 border text-xs">Plot No.31, , Sec-5, IMT Manesar, , Gurgaon - 122050, India</td>
+                        <td className="px-3 py-2 border text-green-500 text-xs text-center">
                             Active
                         </td>
-                        <td className="px-3 py-1 border text-center">
+                        <td className="px-3 py-2 border text-center">
                             <div className="bg-blue-500 rounded-md pl-2 py-2">
-                               <FaEdit className="bg-blue-500 text-white"/>
+                                <FaEdit className="bg-blue-500 text-white" />
                             </div>
                         </td>
                     </tr>
