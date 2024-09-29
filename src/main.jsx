@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Sidebar from "./pages/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import Tender from "./pages/Tender";
+import Customers from "./pages/Customers";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/sidebar/tender",
         element: <Tender></Tender>
+      },
+      {
+        path: "/sidebar/customer",
+        element:<Customers></Customers> 
       }
     ]
   },
