@@ -11,6 +11,7 @@ const Tender = () => {
     customer: "",
     startDate: "",
     endDate: "",
+    status: "",
   });
 
   const openModal = () => {
@@ -25,6 +26,7 @@ const Tender = () => {
       customer: "",
       startDate: "",
       endDate: "",
+      status: "",
     });
   };
 
@@ -69,29 +71,15 @@ const Tender = () => {
             </button>
             <h2 className="text-xl font-semibold mb-4">Add New Tender</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700">
-                  Project Title
-                </label>
-                <input
-                  type="text"
-                  name="projectTitle"
-                  value={formData.projectTitle}
-                  onChange={handleChange}
-                  required
-                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                />
-              </div>
-              {/* Reference and customer row */}
               <div className="flex justify-between items-center gap-2">
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
-                    Reference
+                    Project Title
                   </label>
                   <input
                     type="text"
-                    name="reference"
-                    value={formData.reference}
+                    name="projectTitle"
+                    value={formData.projectTitle}
                     onChange={handleChange}
                     required
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
@@ -116,8 +104,21 @@ const Tender = () => {
                   </select>
                 </div>
               </div>
-              {/* Project start date and end date row */}
+              {/* Reference and customer row */}
               <div className="flex justify-between items-center gap-2">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Reference
+                  </label>
+                  <input
+                    type="text"
+                    name="reference"
+                    value={formData.reference}
+                    onChange={handleChange}
+                    required
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                  />
+                </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700">
                     Project Start Date
@@ -126,19 +127,6 @@ const Tender = () => {
                     type="date"
                     name="startDate"
                     value={formData.startDate}
-                    onChange={handleChange}
-                    required
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">
-                    Project End Date
-                  </label>
-                  <input
-                    type="date"
-                    name="endDate"
-                    value={formData.endDate}
                     onChange={handleChange}
                     required
                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
