@@ -5,13 +5,20 @@ import AddModal from "../Components/AddModal";
 import { ToastContainer } from "react-toastify";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import EditCustomerModal from "../Components/EditCustomerModal";
 
 
 const Customers = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [selectedCustomer, setSelectedCustomer] = useState(null);
     const openModal = () => {
         setIsModalOpen(true);
     };
+    const openEditModal = (customer) => {
+        setSelectedCustomer(customer);
+        setEditModalOpen(true);
+    }
     const axiosSecure = useAxiosSecure();
     const { data: customers = [] } = useQuery({
         queryKey: ['customers'],
@@ -49,7 +56,8 @@ const Customers = () => {
                 </thead>
                 <tbody>
                     {
-                        customers.map((customer, index) => <tr className="bg-gray-100">
+                        customers?.map((customer, index) => 
+                        <tr key={customer._id} className="bg-gray-100">
                             <td className="px-1 py-2 border text-center">{index + 1}</td>
                             <td className="px-3 py-2 border text-xs">
                                 {customer.name}
@@ -61,15 +69,16 @@ const Customers = () => {
                                 {customer.status}
                             </td>
                             <td className="px-3 py-2 border text-center">
-                                <div className="bg-blue-500 rounded-md px-2 py-2 w-8">
+                                <button onClick={()=>openEditModal(customer)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
                                     <FaEdit className="bg-blue-500 text-white" />
-                                </div>
+                                </button>
                             </td>
                         </tr>)
                     }
                 </tbody>
             </table>
             <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+            <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer}></EditCustomerModal>
             <ToastContainer></ToastContainer>
         </div>
     );
