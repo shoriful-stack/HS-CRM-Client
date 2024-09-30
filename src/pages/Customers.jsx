@@ -3,7 +3,8 @@ import { FaEdit } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import AddModal from "../Components/AddModal";
 import { ToastContainer } from "react-toastify";
-
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 
 const Customers = () => {
@@ -11,6 +12,14 @@ const Customers = () => {
     const openModal = () => {
         setIsModalOpen(true);
     };
+    const axiosSecure = useAxiosSecure();
+    const { data: customers = [] } = useQuery({
+        queryKey: ['customers'],
+        queryFn: async () => {
+            const res = await axiosSecure.get("/customers");
+            return res.data;
+        }
+    })
     return (
         <div className="font-lexend">
             <div className="flex justify-between items-center mb-2">
@@ -29,7 +38,7 @@ const Customers = () => {
             <table className="table-auto w-full border-collapse border">
                 <thead>
                     <tr className="bg-gray-800 text-white">
-                        <th className="px-2 py-2 border text-sm">SL.NO.</th>
+                        <th className="px-1 py-2 border text-sm">SL.NO.</th>
                         <th className="px-2 py-2 border text-sm">Name</th>
                         <th className="px-2 py-2 border text-sm">Phone</th>
                         <th className="px-2 py-2 border text-sm">Email</th>
@@ -39,23 +48,25 @@ const Customers = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr className="bg-gray-100">
-                        <td className="px-3 py-2 border text-center">1</td>
-                        <td className="px-3 py-2 border text-xs">
-                            Summit Towers Ltd.
-                        </td>
-                        <td className="px-3 py-2 border text-xs">+8801810313991</td>
-                        <td className="px-3 py-2 border text-xs">hanif@gmail.com</td>
-                        <td className="px-3 py-2 border text-xs">Plot No.31, , Sec-5, IMT Manesar, , Gurgaon - 122050, India</td>
-                        <td className="px-3 py-2 border text-green-500 text-xs text-center">
-                            Active
-                        </td>
-                        <td className="px-3 py-2 border text-center">
-                            <div className="bg-blue-500 rounded-md pl-2 py-2">
-                                <FaEdit className="bg-blue-500 text-white" />
-                            </div>
-                        </td>
-                    </tr>
+                    {
+                        customers.map((customer, index) => <tr className="bg-gray-100">
+                            <td className="px-1 py-2 border text-center">{index + 1}</td>
+                            <td className="px-3 py-2 border text-xs">
+                                {customer.name}
+                            </td>
+                            <td className="px-3 py-2 border text-xs">{customer.phone}</td>
+                            <td className="px-3 py-2 border text-xs">{customer.email}</td>
+                            <td className="px-3 py-2 border text-xs">{customer.address}</td>
+                            <td className="px-3 py-2 border text-green-500 text-xs text-center">
+                                {customer.status}
+                            </td>
+                            <td className="px-3 py-2 border text-center">
+                                <div className="bg-blue-500 rounded-md px-2 py-2 w-8">
+                                    <FaEdit className="bg-blue-500 text-white" />
+                                </div>
+                            </td>
+                        </tr>)
+                    }
                 </tbody>
             </table>
             <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />

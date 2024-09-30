@@ -3,7 +3,6 @@ import { FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import backgroundImg from '../assets/images/crmImg.avif';
 import { MdEmail } from "react-icons/md";
 
 const Login = () => {
@@ -30,62 +29,70 @@ const Login = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-cover bg-center" style={{ backgroundImage: `url(${backgroundImg})` }}>
-            <div className="w-full max-w-sm p-8 bg-cyan-950/75 rounded-lg shadow-lg">
-                <div className="flex justify-center mb-6">
-                    <div className="bg-gray-200 p-4 rounded-full">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            fill="currentColor"
-                            className="h-10 w-10 text-teal-500">
-                            <path d="M12 12c2.97 0 5.35-2.17 5.87-5.01A5.992 5.992 0 0 0 12 2c-2.68 0-4.94 1.79-5.77 4.23C6.68 9.95 9.12 12 12 12zM12 14c-4.41 0-8 3.59-8 8h2c0-3.31 2.69-6 6-6s6 2.69 6 6h2c0-4.41-3.59-8-8-8z" />
-                        </svg>
-                    </div>
-                </div>
-                <h2 className="text-3xl font-semibold text-center text-white mb-4 font-lexend">Login</h2>
-                <form onSubmit={handleLogin}>
-                    <div className="form-group mb-4">
-                        <div className="relative">
-                            <span className="absolute inset-y-0 left-3 flex items-center">
-                                <MdEmail className="h-4 w-5" />
-                            </span>
-                            <input
-                                type="email"
-                                name="email"
-                                className="w-full px-4 py-3 pl-10 border border-blue-700 rounded-lg focus:outline-none"
-                                placeholder="Email"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group mb-4">
-                        <div className="relative">
-                            <span className="absolute inset-y-0 left-3 flex items-center">
-                                <FaLock className="h-4 w-5" />
-                            </span>
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                name="password"
-                                className="w-full px-4 py-3 pl-10 border border-blue-700 rounded-lg focus:outline-none"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                required
-                            />
-                            <span className="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
-                                {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
-                            </span>
-                        </div>
-                    </div>
-                    <div className="form-control">
-                        <button type="submit" className="btn bg-teal-500 hover:bg-teal-300 text-white w-full font-lexend">Login</button>
-                    </div>
-                </form>
+        <div className="bg-slate-50 min-h-screen flex flex-col justify-center">
+            <div className="text-center mb-1">
+                <h1 className="text-[22px] font-bold text-gray-800">CUSTOMER RELATIONSHIP MANAGEMENT SYSTEM</h1>
             </div>
-            <ToastContainer />
+            <div className="flex justify-center items-center mb-4">
+                <img className="w-48 h-9" src="https://i.ibb.co.com/zrNvt4h/logo-hs.png" alt="Logo" />
+            </div>
+            <div className="flex items-center justify-center">
+                <div className="w-full max-w-sm px-5 py-4 bg-white rounded-lg shadow-lg">
+                    <div className="flex justify-center mb-2">
+                        <div className="bg-gray-200 p-4 rounded-full">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                className="h-10 w-10 text-teal-500">
+                                <path d="M12 12c2.97 0 5.35-2.17 5.87-5.01A5.992 5.992 0 0 0 12 2c-2.68 0-4.94 1.79-5.77 4.23C6.68 9.95 9.12 12 12 12zM12 14c-4.41 0-8 3.59-8 8h2c0-3.31 2.69-6 6-6s6 2.69 6 6h2c0-4.41-3.59-8-8-8z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h2 className="text-3xl font-semibold text-center text-gray-700 mb-4 font-lexend">Login</h2>
+                    <form onSubmit={handleLogin}>
+                        <div className="form-group mb-4">
+                            <div className="relative">
+                                <span className="absolute inset-y-0 left-3 flex items-center">
+                                    <MdEmail className="h-4 w-5" />
+                                </span>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    className="w-full px-4 py-3 pl-10 rounded-lg"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="form-group mb-4">
+                            <div className="relative">
+                                <span className="absolute inset-y-0 left-3 flex items-center">
+                                    <FaLock className="h-4 w-5" />
+                                </span>
+                                <input
+                                    type={showPassword ? 'text' : 'password'}
+                                    name="password"
+                                    className="w-full px-4 py-3 pl-10 rounded-lg focus:outline-none"
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                                <span className="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                                    {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="form-control">
+                            <button type="submit" className="btn bg-green-500 hover:bg-black text-white w-full font-lexend">Login</button>
+                        </div>
+                    </form>
+                </div>
+                <ToastContainer />
+            </div>
         </div>
     );
 };
