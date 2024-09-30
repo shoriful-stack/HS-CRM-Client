@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import useCustomer from "../Hooks/useCustomer";
 
 const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer}) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
+    const [ , , refetch] = useCustomer();
 
     useEffect(() => {
         if (customer) {
@@ -27,11 +29,12 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer}) => {
             address: data.address,
             status: data.status
         };
-        const customerRes = await axiosSecure.put(`/customers/${customer._id}`, updatedCustomer);
+        const customerRes = await axiosSecure.patch(`/customers/${customer._id}`, updatedCustomer);
         console.log(customerRes.data);
 
         if (customerRes.data.modifiedCount > 0) {
             reset();
+            refetch();
             toast.success(`${data.name} updated successfully`);
             closeModal();
         }
