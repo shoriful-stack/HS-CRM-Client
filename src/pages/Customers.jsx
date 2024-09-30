@@ -1,44 +1,15 @@
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
+import AddModal from "../Components/AddModal";
+import { ToastContainer } from "react-toastify";
+
+
 
 const Customers = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "",
-        phone: "",
-        email: "",
-        address: "",
-        status: "",
-    });
-
     const openModal = () => {
         setIsModalOpen(true);
-    };
-
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setFormData({
-            name: "",
-            phone: "",
-            email: "",
-            address: "",
-            status: "",
-        });
-    };
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log("Form Data Submitted:", formData);
-        closeModal();
     };
     return (
         <div className="font-lexend">
@@ -54,96 +25,6 @@ const Customers = () => {
                     </button>
                 </div>
             </div>
-
-            {/* Modal Open */}
-            {isModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
-                        <button
-                            onClick={closeModal}
-                            className="absolute top-3 right-3 hover:text-gray-700 text-3xl"
-                        >
-                            ×
-                        </button>
-                        <h2 className="text-xl font-semibold mb-4">Add New Customer</h2>
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Customer Name
-                                </label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                />
-                            </div>
-                            {/* Reference and customer row */}
-                            <div className="flex justify-between items-center gap-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Phone
-                                    </label>
-                                    <input
-                                        type="phone"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        required
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Email
-                                    </label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        required
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
-                            </div>
-                            {/* Project start date and end date row */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Address
-                                </label>
-                                <textarea
-                                    type="text"
-                                    name="address"
-                                    value={formData.address}
-                                    onChange={handleChange}
-                                    required
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                />
-                            </div>
-                            {/* Modal Close  */}
-                            <div className="flex justify-end">
-                                <button
-                                    type="button"
-                                    onClick={closeModal}
-                                    className="mr-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-gray-400"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-teal-600"
-                                >
-                                    Submit
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            )}
-            {/* End of Modal */}
 
             <table className="table-auto w-full border-collapse border">
                 <thead>
@@ -177,6 +58,8 @@ const Customers = () => {
                     </tr>
                 </tbody>
             </table>
+            <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+            <ToastContainer></ToastContainer>
         </div>
     );
 }
