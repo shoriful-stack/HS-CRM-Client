@@ -6,6 +6,9 @@ import { ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
 import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
+import { TbDatabaseExport } from "react-icons/tb";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const Customers = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,18 +22,45 @@ const Customers = () => {
         setEditModalOpen(true);
     }
     const [customers, loading,] = useCustomer();
+    const handleExport = () => {
+        const data = customers.map((customer, index) => ({
+            "SL.NO.": index + 1,
+            "Name": customer.name,
+            "Phone": customer.phone,
+            "Email": customer.email,
+            "Address": customer.address,
+            "Status": customer.status,
+        }));
+
+        // Create worksheet
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
+
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(dataBlob, 'customers.xlsx');
+    };
 
     return (
         <div className="font-lexend">
             <div className="flex justify-between items-center mb-2">
                 <h1 className="font-bold text-xl">Customers</h1>
-                <div className="flex items-center">
+                <div className="flex items-center gap-1">
                     <button
                         onClick={openModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
                         <IoAddCircleSharp className="w-5 h-5" />
                         <span className="text-sm">Add New</span>
+                    </button>
+                    <button
+                        onClick={handleExport}
+                        className="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
+                    >
+                        <TbDatabaseExport className="w-5 h-4" />
+                        <span className="text-sm">Export</span>
                     </button>
                 </div>
             </div>
@@ -62,8 +92,8 @@ const Customers = () => {
                                 <td className="px-3 py-1 border text-xs">{customer.email}</td>
                                 <td className="px-3 py-1 border text-xs">{customer.address}</td>
                                 <td className="px-2 py-1 border text-xs text-center">
-                                    <button
-                                        className={`px-2 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
+                                    <p
+                                        className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
                                                 customer.status === 'Inactive' ? 'bg-red-500 text-white' :
                                                     ''
                                             }`}
@@ -71,7 +101,7 @@ const Customers = () => {
                                         {customer.status === 'Active' ? 'Active' :
                                             customer.status === 'Inactive' ? 'Inactive' :
                                                 ''}
-                                    </button>
+                                    </p>
                                 </td>
                                 <td className="px-2 py-1 border text-center">
                                     <button onClick={() => openEditModal(customer)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
