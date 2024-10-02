@@ -4,7 +4,7 @@ import useAxiosSecure from "./useAxiosSecure";
 const useCustomer = (page, limit) => {
     const axiosSecure = useAxiosSecure();
 
-    const { data, isPending: loading, refetch, isError, error } = useQuery({
+    const { data, isPending: loading, refetch } = useQuery({
         queryKey: ["customers", page, limit],
         queryFn: async () => {
             const res = await axiosSecure.get("/customers", {
@@ -15,7 +15,7 @@ const useCustomer = (page, limit) => {
         keepPreviousData: true, // Keeps previous data while fetching new data
     });
 
-    return [data, loading, refetch, isError, error];
+    return [data, loading, refetch];
 }
 
 export default useCustomer;

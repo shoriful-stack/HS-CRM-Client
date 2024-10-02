@@ -17,10 +17,10 @@ const Customers = () => {
 
     // Pagination States
     const [currentPage, setCurrentPage] = useState(1);
-    const limit = 10; // Items per page
+    const limit = 10; 
 
     // Fetch Customers
-    const [data, loading, refetch, isError, error] = useCustomer(currentPage, limit);
+    const [data, loading, ] = useCustomer(currentPage, limit);
     const customers = data?.customers || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;

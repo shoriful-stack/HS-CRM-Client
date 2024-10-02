@@ -8,7 +8,8 @@ import useProject from "../Hooks/useProject";
 const EditTenderModal = ({ editProjectModalOpen, setEditProjectModalOpen,  project}) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [customers, , ] = useCustomer();
+    const [data, , ] = useCustomer();
+    const customers = data?.customers || [];
     const [ , , refetch] = useProject();
 
     useEffect(() => {

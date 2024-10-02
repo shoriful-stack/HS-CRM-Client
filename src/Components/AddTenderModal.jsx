@@ -7,7 +7,8 @@ import useProject from "../Hooks/useProject";
 const AddTenderModal = ({ isAddModalOpen, setIsAddModalOpen }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [customers, , ] = useCustomer();
+    const [data, , ] = useCustomer();
+    const customers = data?.customers || [];
     const [ , , refetch] = useProject();
 
     const onSubmit = async (data) => {

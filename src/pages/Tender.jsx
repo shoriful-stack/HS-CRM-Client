@@ -13,7 +13,8 @@ import { saveAs } from 'file-saver';
 
 const Tender = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [projects, loading,] = useProject();
+  const [data, loading,] = useProject();
+  const projects = data?.projects || [];
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
 
