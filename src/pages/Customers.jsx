@@ -6,21 +6,25 @@ import { ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
 import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
-import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled} from "react-icons/tb";
+import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import ImportModal from "../Components/ImportModal";
 
 const Customers = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const [importModalOpen, setImportModalOpen] = useState(false);
+    const axiosSecure = useAxiosSecure();
 
     // Pagination States
     const [currentPage, setCurrentPage] = useState(1);
-    const limit = 10; 
+    const limit = 10;
 
     // Fetch Customers
-    const [data, loading, ] = useCustomer(currentPage, limit);
+    const [data, loading,] = useCustomer(currentPage, limit);
     const customers = data?.customers || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
@@ -32,6 +36,27 @@ const Customers = () => {
         setSelectedCustomer(customer);
         setEditModalOpen(true);
     }
+
+    const openImportModal = () => {
+        setImportModalOpen(true);
+    };
+
+    const handleImport = async (data) => {
+        try {
+            // Send the data to your backend
+            const response = await axiosSecure.post("/customers", data);
+            if (response.status === 200) {
+                // Optionally, you can refetch the customers here
+                console.log("Import successful:", response.data);
+                // Show a success message
+            }
+        } catch (error) {
+            console.error("Import failed:", error);
+            // Show an error message
+        }
+    };
+
+
     const handleExport = () => {
         const data = customers.map((customer, index) => ({
             "SL.NO.": index + 1,
@@ -121,6 +146,7 @@ const Customers = () => {
                         <span className="text-xs">Add New</span>
                     </button>
                     <button
+                        onClick={openImportModal}
                         className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
                         <FaFileImport className="w-5 h-4" />
@@ -141,61 +167,62 @@ const Customers = () => {
                 <Loader />
             ) : (
                 <>
-                <table className="table-auto w-full border-collapse border">
-                    <thead>
-                        <tr className="bg-gray-800 text-white">
-                            <th className="px-1 py-2 border text-sm">Sl.No.</th>
-                            <th className="px-2 py-2 border text-sm">Name</th>
-                            <th className="px-2 py-2 border text-sm">Phone</th>
-                            <th className="px-2 py-2 border text-sm">Email</th>
-                            <th className="px-2 py-2 border text-sm">Address</th>
-                            <th className="px-2 py-2 border text-sm">Status</th>
-                            <th className="px-2 py-2 border text-sm">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {customers.length === 0 ? (
-                            <tr>
-                                <td colSpan="7" className="text-center py-4">No customers found.</td>
+                    <table className="table-auto w-full border-collapse border">
+                        <thead>
+                            <tr className="bg-gray-800 text-white">
+                                <th className="px-1 py-2 border text-sm">Sl.No.</th>
+                                <th className="px-2 py-2 border text-sm">Name</th>
+                                <th className="px-2 py-2 border text-sm">Phone</th>
+                                <th className="px-2 py-2 border text-sm">Email</th>
+                                <th className="px-2 py-2 border text-sm">Address</th>
+                                <th className="px-2 py-2 border text-sm">Status</th>
+                                <th className="px-2 py-2 border text-sm">Action</th>
                             </tr>
-                        ) : (customers?.map((customer, index) =>
-                            <tr key={customer._id} className="bg-gray-100">
-                                <td className="px-1 py-1 border text-center">{index + 1}</td>
-                                <td className="px-3 py-1 border text-xs">
-                                    {customer.name}
-                                </td>
-                                <td className="px-3 py-1 border text-xs">{customer.phone}</td>
-                                <td className="px-3 py-1 border text-xs">{customer.email}</td>
-                                <td className="px-3 py-1 border text-xs">{customer.address}</td>
-                                <td className="px-2 py-1 border text-xs text-center">
-                                    <p
-                                        className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
-                                            customer.status === 'Inactive' ? 'bg-red-500 text-white' :
-                                                ''
-                                            }`}
-                                    >
-                                        {customer.status === 'Active' ? 'Active' :
-                                            customer.status === 'Inactive' ? 'Inactive' :
-                                                ''}
-                                    </p>
-                                </td>
-                                <td className="px-2 py-1 border text-center">
-                                    <button onClick={() => openEditModal(customer)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
-                                        <FaEdit className="bg-blue-500 text-white" />
-                                    </button>
-                                </td>
-                            </tr>))
-                        }
-                    </tbody>
-                </table>
-                {/* Pagination control */}
-               {renderPagination()}
-               </>
+                        </thead>
+                        <tbody>
+                            {customers.length === 0 ? (
+                                <tr>
+                                    <td colSpan="7" className="text-center py-4">No customers found.</td>
+                                </tr>
+                            ) : (customers?.map((customer, index) =>
+                                <tr key={customer._id} className="bg-gray-100">
+                                    <td className="px-1 py-1 border text-center">{index + 1}</td>
+                                    <td className="px-3 py-1 border text-xs">
+                                        {customer.name}
+                                    </td>
+                                    <td className="px-3 py-1 border text-xs">{customer.phone}</td>
+                                    <td className="px-3 py-1 border text-xs">{customer.email}</td>
+                                    <td className="px-3 py-1 border text-xs">{customer.address}</td>
+                                    <td className="px-2 py-1 border text-xs text-center">
+                                        <p
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
+                                                customer.status === 'Inactive' ? 'bg-red-500 text-white' :
+                                                    ''
+                                                }`}
+                                        >
+                                            {customer.status === 'Active' ? 'Active' :
+                                                customer.status === 'Inactive' ? 'Inactive' :
+                                                    ''}
+                                        </p>
+                                    </td>
+                                    <td className="px-2 py-1 border text-center">
+                                        <button onClick={() => openEditModal(customer)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
+                                            <FaEdit className="bg-blue-500 text-white" />
+                                        </button>
+                                    </td>
+                                </tr>))
+                            }
+                        </tbody>
+                    </table>
+                    {/* Pagination control */}
+                    {renderPagination()}
+                </>
 
             )}
 
             <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
             <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer}></EditCustomerModal>
+            <ImportModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>
     );
