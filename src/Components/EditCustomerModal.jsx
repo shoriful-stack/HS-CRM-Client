@@ -38,6 +38,10 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer}) => {
             toast.success(`${data.name} updated successfully`);
             closeModal();
         }
+        if (customerRes.data.modifiedCount === 0) {
+            refetch();
+            closeModal();
+        }
     };
 
     const closeModal = () => {
@@ -110,7 +114,7 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer}) => {
                                 </label>
                                 <select
                                      name="status"
-                                     {...register("status", { required: true })}
+                                     {...register("status")}
                                      className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 >
                                     <option value="">Select Status</option>

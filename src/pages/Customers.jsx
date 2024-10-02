@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaFileImport } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import AddModal from "../Components/AddModal";
 import { ToastContainer } from "react-toastify";
@@ -52,15 +52,21 @@ const Customers = () => {
                         onClick={openModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
-                        <IoAddCircleSharp className="w-5 h-5" />
-                        <span className="text-sm">Add New</span>
+                        <IoAddCircleSharp className="w-5 h-4" />
+                        <span className="text-xs">Add New</span>
+                    </button>
+                    <button
+                        className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
+                    >
+                        <FaFileImport  className="w-5 h-4" />
+                        <span className="text-xs">Import</span>
                     </button>
                     <button
                         onClick={handleExport}
                         className="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
                         <TbDatabaseExport className="w-5 h-4" />
-                        <span className="text-sm">Export</span>
+                        <span className="text-xs">Export</span>
                     </button>
                 </div>
             </div>
@@ -72,7 +78,7 @@ const Customers = () => {
                 <table className="table-auto w-full border-collapse border">
                     <thead>
                         <tr className="bg-gray-800 text-white">
-                            <th className="px-1 py-2 border text-sm">SL.NO.</th>
+                            <th className="px-1 py-2 border text-sm">Sl.No.</th>
                             <th className="px-2 py-2 border text-sm">Name</th>
                             <th className="px-2 py-2 border text-sm">Phone</th>
                             <th className="px-2 py-2 border text-sm">Email</th>
