@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import useProject from "../Hooks/useProject";
 import Loader from "../Components/Loader";
 import EditTenderModal from "../Components/EditTenderModal";
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const Tender = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -40,12 +42,12 @@ const Tender = () => {
     // Create worksheet
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Projects");
 
     const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
     const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(dataBlob, 'customers.xlsx');
+    saveAs(dataBlob, 'projects.xlsx');
   };
 
 
