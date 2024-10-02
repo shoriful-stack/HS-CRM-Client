@@ -5,9 +5,12 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import AddTenderModal from "../Components/AddTenderModal";
 import { TbDatabaseExport } from "react-icons/tb";
 import { ToastContainer } from "react-toastify";
+import useProject from "../Hooks/useProject";
+import Loader from "../Components/Loader";
 
 const Tender = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [projects, loading, refetch] = useProject();
 
   const openAddModal = () => {
     setIsAddModalOpen(true);
@@ -40,7 +43,11 @@ const Tender = () => {
           </button>
         </div>
       </div>
-      <table className="table-auto w-full border-collapse border">
+
+      {/* Show Loader when loading */}
+      {loading ? (
+        <Loader />
+      ) : (<table className="table-auto w-full border-collapse border">
         <thead>
           <tr className="bg-gray-800 text-white">
             <th className="px-2 py-2 border text-sm">Sl.No.</th>
@@ -57,56 +64,58 @@ const Tender = () => {
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-gray-100">
-            <td className="px-3 py-2 border text-center">1</td>
-            <td className="px-3 py-2 border text-xs">Rollout</td>
-            <td className="px-3 py-2 border text-xs">Summit Towers Ltd.</td>
-            <td className="px-3 py-2 border text-xs">Service</td>
-            <td className="px-3 py-2 border text-xs">DCPS</td>
-            <td className="px-3 py-2 border text-xs">Anil Kumar</td>
-            <td className="px-3 py-2 border text-xs">Helal Uddin</td>
-            <td className="px-3 py-2 border text-xs">
-              2024
-            </td>
-            <td className="px-3 py-2 border text-xs">Step 1</td>
-            <td className="px-3 py-2 border text-xs">DCPS_BTS</td>
-            <td className="px-3 py-1 border text-center text-sm relative">
-              <div className="dropdown dropdown-bottom dropdown-end relative">
-                <div
-                  tabIndex={0}
-                  role="button"
-                  className="px-[6px] py-[5px] rounded-md text-white bg-blue-600"
-                >
-                  <IoMdArrowDropdownCircle className="text-2xl" />
+          {
+            projects.map((project, index) => <tr key={project._id} className="bg-gray-100">
+              <td className="px-3 py-2 border text-center">{index + 1}</td>
+              <td className="px-3 py-2 border text-xs">{project.project_name}</td>
+              <td className="px-3 py-2 border text-xs">{project.customer_name}</td>
+              <td className="px-3 py-2 border text-xs">{project.project_category}</td>
+              <td className="px-3 py-2 border text-xs">{project.department}</td>
+              <td className="px-3 py-2 border text-xs">{project.hod}</td>
+              <td className="px-3 py-2 border text-xs">{project.pm}</td>
+              <td className="px-3 py-2 border text-xs">
+                {project.year}
+              </td>
+              <td className="px-3 py-2 border text-xs">{project.phase}</td>
+              <td className="px-3 py-2 border text-xs">{project.project_code}</td>
+              <td className="px-3 py-1 border text-center text-sm relative">
+                <div className="dropdown dropdown-bottom dropdown-end relative">
+                  <div
+                    tabIndex={0}
+                    role="button"
+                    className="px-[6px] py-[5px] rounded-md text-white bg-blue-600"
+                  >
+                    <IoMdArrowDropdownCircle className="text-2xl" />
+                  </div>
+                  <ul
+                    tabIndex={0}
+                    className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                  >
+                    <li>
+                      <a href="#" className="flex items-center space-x-2">
+                        <FaRegEye />
+                        <span>View</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center space-x-2">
+                        <FaEdit />
+                        <span>Edit</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" className="flex items-center space-x-2">
+                        <FaHistory />
+                        <span>Project History</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-                <ul
-                  tabIndex={0}
-                  className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
-                >
-                  <li>
-                    <a href="#" className="flex items-center space-x-2">
-                      <FaRegEye />
-                      <span>View</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="flex items-center space-x-2">
-                      <FaEdit />
-                      <span>Edit</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" className="flex items-center space-x-2">
-                      <FaHistory />
-                      <span>Project History</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </td>
-          </tr>
+              </td>
+            </tr>)
+          }
         </tbody>
-      </table>
+      </table>)}
       <AddTenderModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} />
       <ToastContainer></ToastContainer>
     </div>
