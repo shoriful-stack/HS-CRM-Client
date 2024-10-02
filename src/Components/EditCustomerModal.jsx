@@ -19,6 +19,9 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer}) => {
             setValue("status", customer.status);
         }
     }, [customer, setValue]);
+    const closeModal = () => {
+        setEditModalOpen(false);
+    };
     const onSubmit = async (data) => {
         console.log(data);
 
@@ -42,10 +45,6 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer}) => {
             refetch();
             closeModal();
         }
-    };
-
-    const closeModal = () => {
-        setEditModalOpen(false);
     };
 
     return (

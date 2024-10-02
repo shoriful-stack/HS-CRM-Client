@@ -7,13 +7,45 @@ import { TbDatabaseExport } from "react-icons/tb";
 import { ToastContainer } from "react-toastify";
 import useProject from "../Hooks/useProject";
 import Loader from "../Components/Loader";
+import EditTenderModal from "../Components/EditTenderModal";
 
 const Tender = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [projects, loading, refetch] = useProject();
+  const [projects, loading,] = useProject();
+  const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const openAddModal = () => {
     setIsAddModalOpen(true);
+  };
+  const openEditTenderModal = (project) => {
+    setSelectedProject(project);
+    setEditProjectModalOpen(true);
+  };
+
+  const handleExport = () => {
+    const data = projects.map((project, index) => ({
+      "Sl.No.": index + 1,
+      "Project Name": project.project_name,
+      "Customer Name": project.customer_name,
+      "Project Category": project.project_category,
+      "Department": project.department,
+      "HOD": project.hod,
+      "PM": project.pm,
+      "Year": project.year,
+      "Phase": project.phase,
+      "Project Code": project.project_code
+    }));
+
+    // Create worksheet
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
+
+    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(dataBlob, 'customers.xlsx');
   };
 
 
@@ -36,6 +68,7 @@ const Tender = () => {
             <span className="text-xs">Import</span>
           </button>
           <button
+            onClick={handleExport}
             className="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
           >
             <TbDatabaseExport className="w-5 h-4" />
@@ -98,7 +131,7 @@ const Tender = () => {
                       </a>
                     </li>
                     <li>
-                      <a href="#" className="flex items-center space-x-2">
+                      <a onClick={() => openEditTenderModal(project)} href="#" className="flex items-center space-x-2">
                         <FaEdit />
                         <span>Edit</span>
                       </a>
@@ -117,6 +150,7 @@ const Tender = () => {
         </tbody>
       </table>)}
       <AddTenderModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} />
+      <EditTenderModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} />
       <ToastContainer></ToastContainer>
     </div>
   );
