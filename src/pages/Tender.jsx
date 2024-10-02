@@ -33,7 +33,7 @@ const Tender = () => {
       "Project Category": project.project_category,
       "Department": project.department,
       "HOD": project.hod,
-      "PM": project.pm,
+      "Project Manager": project.pm,
       "Year": project.year,
       "Phase": project.phase,
       "Project Code": project.project_code
@@ -87,11 +87,11 @@ const Tender = () => {
           <tr className="bg-gray-800 text-white">
             <th className="px-2 py-2 border text-sm">Sl.No.</th>
             <th className="px-2 py-2 border text-sm">Project Name</th>
-            <th className="px-2 py-2 border text-sm">Customer Name</th>
             <th className="px-2 py-2 border text-sm">Project Category</th>
+            <th className="px-2 py-2 border text-sm">Customer Name</th>
             <th className="px-2 py-2 border text-sm">Department</th>
             <th className="px-2 py-2 border text-sm">HOD</th>
-            <th className="px-2 py-2 border text-sm">PM</th>
+            <th className="px-2 py-2 border text-sm">Project Manager</th>
             <th className="px-2 py-2 border text-sm">Year</th>
             <th className="px-2 py-2 border text-sm">Phase</th>
             <th className="px-2 py-2 border text-sm">Project Code</th>
@@ -103,8 +103,8 @@ const Tender = () => {
             projects.map((project, index) => <tr key={project._id} className="bg-gray-100">
               <td className="px-3 py-2 border text-center">{index + 1}</td>
               <td className="px-3 py-2 border text-xs">{project.project_name}</td>
-              <td className="px-3 py-2 border text-xs">{project.customer_name}</td>
               <td className="px-3 py-2 border text-xs">{project.project_category}</td>
+              <td className="px-3 py-2 border text-xs">{project.customer_name}</td>
               <td className="px-3 py-2 border text-xs">{project.department}</td>
               <td className="px-3 py-2 border text-xs">{project.hod}</td>
               <td className="px-3 py-2 border text-xs">{project.pm}</td>

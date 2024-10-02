@@ -1,16 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
 
-const useCustomer = () => {
+const useCustomer = (page, limit) => {
     const axiosSecure = useAxiosSecure();
 
-    const {data: customers = [], isPending: loading, refetch} = useQuery({
-        queryKey: ["customers"],
-        queryFn: async() => {
-            const res = await axiosSecure.get("/customers");
+    const { data, isPending: loading, refetch, isError, error } = useQuery({
+        queryKey: ["customers", page, limit],
+        queryFn: async () => {
+            const res = await axiosSecure.get("/customers", {
+                params: { page, limit },
+            });
             return res.data;
-        }
-    })
-    return [customers, loading, refetch]
+        },
+        keepPreviousData: true, // Keeps previous data while fetching new data
+    });
+
+    return [data, loading, refetch, isError, error];
 }
+
 export default useCustomer;

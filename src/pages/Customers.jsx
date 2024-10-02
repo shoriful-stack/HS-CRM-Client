@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
 import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
-import { TbDatabaseExport } from "react-icons/tb";
+import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled} from "react-icons/tb";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
@@ -14,6 +14,17 @@ const Customers = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+    // Pagination States
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 10; // Items per page
+
+    // Fetch Customers
+    const [data, loading, refetch, isError, error] = useCustomer(currentPage, limit);
+    const customers = data?.customers || [];
+    const total = data?.total || 0;
+    const totalPages = data?.totalPages || 1;
+
     const openModal = () => {
         setIsModalOpen(true);
     };
@@ -21,7 +32,6 @@ const Customers = () => {
         setSelectedCustomer(customer);
         setEditModalOpen(true);
     }
-    const [customers, loading,] = useCustomer();
     const handleExport = () => {
         const data = customers.map((customer, index) => ({
             "SL.NO.": index + 1,
@@ -42,7 +52,62 @@ const Customers = () => {
         const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
         saveAs(dataBlob, 'customers.xlsx');
     };
+    // Pagination Handlers
+    const handlePrevious = () => {
+        setCurrentPage((prev) => Math.max(prev - 1, 1));
+    };
 
+    const handleNext = () => {
+        setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+    };
+
+    const handlePageSelect = (page) => {
+        setCurrentPage(page);
+    };
+
+    const renderPagination = () => {
+        const pages = [];
+        const maxPagesToShow = 5;
+        let startPage = Math.max(currentPage - Math.floor(maxPagesToShow / 2), 1);
+        let endPage = startPage + maxPagesToShow - 1;
+
+        if (endPage > totalPages) {
+            endPage = totalPages;
+            startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+                <button
+                    key={i}
+                    onClick={() => handlePageSelect(i)}
+                    className={`px-2 py-[2px] rounded-md mx-[2px] ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+                >
+                    {i}
+                </button>
+            );
+        }
+
+        return (
+            <div className="flex justify-center items-center mt-4">
+                <button
+                    onClick={handlePrevious}
+                    disabled={currentPage === 1}
+                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+                >
+                    <TbPlayerTrackPrevFilled />
+                </button>
+                {pages}
+                <button
+                    onClick={handleNext}
+                    disabled={currentPage === totalPages}
+                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+                >
+                    <TbPlayerTrackNextFilled />
+                </button>
+            </div>
+        );
+    };
     return (
         <div className="font-lexend">
             <div className="flex justify-between items-center mb-2">
@@ -58,7 +123,7 @@ const Customers = () => {
                     <button
                         className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
-                        <FaFileImport  className="w-5 h-4" />
+                        <FaFileImport className="w-5 h-4" />
                         <span className="text-xs">Import</span>
                     </button>
                     <button
@@ -75,6 +140,7 @@ const Customers = () => {
             {loading ? (
                 <Loader />
             ) : (
+                <>
                 <table className="table-auto w-full border-collapse border">
                     <thead>
                         <tr className="bg-gray-800 text-white">
@@ -88,7 +154,11 @@ const Customers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {customers?.map((customer, index) =>
+                        {customers.length === 0 ? (
+                            <tr>
+                                <td colSpan="7" className="text-center py-4">No customers found.</td>
+                            </tr>
+                        ) : (customers?.map((customer, index) =>
                             <tr key={customer._id} className="bg-gray-100">
                                 <td className="px-1 py-1 border text-center">{index + 1}</td>
                                 <td className="px-3 py-1 border text-xs">
@@ -100,8 +170,8 @@ const Customers = () => {
                                 <td className="px-2 py-1 border text-xs text-center">
                                     <p
                                         className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
-                                                customer.status === 'Inactive' ? 'bg-red-500 text-white' :
-                                                    ''
+                                            customer.status === 'Inactive' ? 'bg-red-500 text-white' :
+                                                ''
                                             }`}
                                     >
                                         {customer.status === 'Active' ? 'Active' :
@@ -114,10 +184,14 @@ const Customers = () => {
                                         <FaEdit className="bg-blue-500 text-white" />
                                     </button>
                                 </td>
-                            </tr>)
+                            </tr>))
                         }
                     </tbody>
                 </table>
+                {/* Pagination control */}
+               {renderPagination()}
+               </>
+
             )}
 
             <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
