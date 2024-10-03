@@ -182,7 +182,7 @@ const Customers = () => {
                 <Loader />
             ) : (
                 <>
-                    <table className="table-auto w-full border-collapse border">
+                    <table className="table table-xs w-full border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-1 py-2 border text-sm">Sl.No.</th>

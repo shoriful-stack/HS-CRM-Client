@@ -8,12 +8,12 @@ import {
 import Login from "./pages/Login";
 import Sidebar from "./pages/Sidebar";
 import Dashboard from "./pages/Dashboard";
-import Tender from "./pages/Tender";
 import Customers from "./pages/Customers";
 import {
   QueryClient,
   QueryClientProvider
 } from '@tanstack/react-query'
+import Projects from "./pages/Projects";
 
 const queryClient = new QueryClient()
 
@@ -31,8 +31,8 @@ const router = createBrowserRouter([
         element: <Dashboard></Dashboard>
       },
       {
-        path: "/sidebar/tender",
-        element: <Tender></Tender>
+        path: "/sidebar/projects",
+        element: <Projects></Projects>
       },
       {
         path: "/sidebar/customer",

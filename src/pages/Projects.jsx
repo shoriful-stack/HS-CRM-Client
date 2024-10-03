@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import { FaEdit, FaFileImport, FaHistory, FaRegEye } from "react-icons/fa";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
-import AddTenderModal from "../Components/AddTenderModal";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import { toast, ToastContainer } from "react-toastify";
 import useProject from "../Hooks/useProject";
 import Loader from "../Components/Loader";
-import EditTenderModal from "../Components/EditTenderModal";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import AddProjectModal from "../Components/AddProjectModal";
+import EditProjectModal from "../Components/EditProjectModal";
 
-const Tender = () => {
+const Projects = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -164,7 +164,7 @@ const Tender = () => {
         <Loader />
       ) : (
         <>
-          <table className="table-auto w-full border-collapse border">
+          <table className="table table-xs w-full border-collapse border">
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="px-2 py-2 border text-sm">Sl.No.</th>
@@ -199,7 +199,7 @@ const Tender = () => {
                   </td>
                   <td className="px-3 py-2 border text-xs">{project.phase}</td>
                   <td className="px-3 py-2 border text-xs">{project.project_code}</td>
-                  <td className="px-3 py-1 border text-center text-sm relative">
+                  <td className="px-1 py-[1px] border text-center text-sm relative">
                     <div className="dropdown dropdown-bottom dropdown-end relative">
                       <div
                         tabIndex={0}
@@ -241,11 +241,11 @@ const Tender = () => {
           {renderPagination()}
         </>
       )}
-      <AddTenderModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
-      <EditTenderModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
+      <AddProjectModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
+      <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
       <ToastContainer></ToastContainer>
     </div>
   );
 };
 
-export default Tender;
+export default Projects;
