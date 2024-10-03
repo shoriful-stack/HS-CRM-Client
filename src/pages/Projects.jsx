@@ -183,11 +183,11 @@ const Projects = () => {
             <tbody>
               {projects.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center py-4">No projects found.</td>
+                  <td colSpan="7" className="text-center py-4">No projects available.</td>
                 </tr>
               ) : (
                 projects.map((project, index) => <tr key={project._id} className="bg-gray-100">
-                  <td className="px-3 py-2 border text-center">{index + 1}</td>
+                  <td className="px-3 py-2 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                   <td className="px-3 py-2 border text-xs">{project.project_name}</td>
                   <td className="px-3 py-2 border text-xs">{project.project_category}</td>
                   <td className="px-3 py-2 border text-xs">{project.customer_name}</td>

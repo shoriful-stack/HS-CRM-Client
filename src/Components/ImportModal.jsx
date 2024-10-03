@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import * as XLSX from 'xlsx';
-import useAxiosSecure from '../Hooks/useAxiosSecure';
 
 const ImportModal = ({ isOpen, onClose, onImport }) => {
     const [file, setFile] = useState(null);
-    const axiosSecure = useAxiosSecure();
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
 
-    const handleImport = async () => {
+    const handleImport = async (event) => {
+        event.preventDefault();
+
         if (!file) {
             toast.error("Please upload a file!");
             return;
@@ -19,26 +19,23 @@ const ImportModal = ({ isOpen, onClose, onImport }) => {
 
         const reader = new FileReader();
         reader.onload = async (e) => {
-            const data = new Uint8Array(e.target.result);
-            console.log(data);
-            const workbook = XLSX.read(data, { type: "array" });
-            const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            const customers = XLSX.utils.sheet_to_json(worksheet);
-
             try {
-                const response = await axiosSecure.post("/customers", {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(customers),
-                });
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
+                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                const customers = XLSX.utils.sheet_to_json(worksheet);
 
-                if (!response.ok) throw new Error("Failed to import customers");
+                if (customers.length === 0) {
+                    toast.error("No data found in the file!");
+                    return;
+                }
 
-                const result = await response.json();
-                toast.success(`${result.insertedCount} customers imported successfully!`);
-                setIsModalOpen(false); // Close the modal
+                // Pass the parsed data to the parent component
+                await onImport(customers);
+                toast.success(`${customers.length} customers imported successfully!`);
+                onClose();
             } catch (error) {
+                console.error("Import failed:", error);
                 toast.error("Import failed: " + error.message);
             }
         };
@@ -52,12 +49,16 @@ const ImportModal = ({ isOpen, onClose, onImport }) => {
                 <div className="bg-white p-4 rounded-md">
                     <h2 className="font-bold mb-2">Import Customers</h2>
                     <form onSubmit={handleImport}>
-                        <input type="file" onChange={handleFileChange} />
+                        <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
                         <div className="mt-2 flex justify-end">
                             <button type="submit" className="bg-blue-500 text-white px-2 py-2 rounded-md text-sm">
                                 Import
                             </button>
-                            <button type="button" onClick={onClose} className="ml-2 bg-gray-500 text-white px-2 py-2 rounded-md text-sm">
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="ml-2 bg-gray-500 text-white px-2 py-2 rounded-md text-sm"
+                            >
                                 Cancel
                             </button>
                         </div>

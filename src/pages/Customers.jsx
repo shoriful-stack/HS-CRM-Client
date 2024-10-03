@@ -41,18 +41,22 @@ const Customers = () => {
         setImportModalOpen(true);
     };
 
-    const handleImport = async (data) => {
+    const handleImport = async (customersData) => {
         try {
-            // Send the data to your backend
-            const response = await axiosSecure.post("/customers", data);
+            const response = await axiosSecure.post("/customers/all", customersData, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
             if (response.status === 200) {
-                // Optionally, you can refetch the customers here
-                console.log("Import successful:", response.data);
-                // Show a success message
+                refetch();
+            } else {
+                toast.error("Import failed!");
             }
         } catch (error) {
             console.error("Import failed:", error);
-            // Show an error message
+            toast.error("Import failed: " + (error.response?.data?.message || error.message));
         }
     };
 
@@ -197,11 +201,11 @@ const Customers = () => {
                         <tbody>
                             {customers.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" className="text-center py-4">No customers found.</td>
+                                    <td colSpan="7" className="text-center py-4">No customers available.</td>
                                 </tr>
                             ) : (customers?.map((customer, index) =>
                                 <tr key={customer._id} className="bg-gray-100">
-                                    <td className="px-1 py-1 border text-center">{index + 1}</td>
+                                    <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                                     <td className="px-3 py-1 border text-xs">
                                         {customer.name}
                                     </td>

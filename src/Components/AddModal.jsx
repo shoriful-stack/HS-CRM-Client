@@ -1,12 +1,10 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast} from "react-toastify";
-import useCustomer from "../Hooks/useCustomer";
 
-const AddModal = ({isModalOpen, setIsModalOpen}) => {
+const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [ , , refetch] = useCustomer();
 
     const onSubmit = async (data) => {
         console.log(data);
