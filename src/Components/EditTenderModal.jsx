@@ -3,14 +3,12 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import useCustomer from "../Hooks/useCustomer";
-import useProject from "../Hooks/useProject";
 
-const EditTenderModal = ({ editProjectModalOpen, setEditProjectModalOpen,  project}) => {
+const EditTenderModal = ({ editProjectModalOpen, setEditProjectModalOpen,  project, refetch}) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
     const [data, , ] = useCustomer();
     const customers = data?.customers || [];
-    const [ , , refetch] = useProject();
 
     useEffect(() => {
         if (project) {

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaEdit, FaFileImport } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import AddModal from "../Components/AddModal";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
 import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
@@ -24,7 +24,7 @@ const Customers = () => {
     const limit = 10;
 
     // Fetch Customers
-    const [data, loading,] = useCustomer(currentPage, limit);
+    const [data, loading, refetch] = useCustomer(currentPage, limit);
     const customers = data?.customers || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
@@ -57,26 +57,41 @@ const Customers = () => {
     };
 
 
-    const handleExport = () => {
-        const data = customers.map((customer, index) => ({
-            "SL.NO.": index + 1,
-            "Name": customer.name,
-            "Phone": customer.phone,
-            "Email": customer.email,
-            "Address": customer.address,
-            "Status": customer.status,
-        }));
+    const handleExport = async () => {
+        try {
+            // Fetch all customers from the new API endpoint
+            const response = await axiosSecure.get("/customers/all");
+    
+            if (response.status === 200) {
+                const allCustomers = response.data;
+    
+                // Prepare the data for export
+                const data = allCustomers.map((customer, index) => ({
+                    "SL.NO.": index + 1,
+                    "Name": customer.name,
+                    "Phone": customer.phone,
+                    "Email": customer.email,
+                    "Address": customer.address,
+                    "Status": customer.status,
+                }));
+    
+                // Create worksheet
+                const worksheet = XLSX.utils.json_to_sheet(data);
+                const workbook = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
+    
+                const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    
+                // Download the file
+                const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+                saveAs(dataBlob, 'customers.xlsx');
+            }
+        } catch (error) {
+            console.error("Failed to export customers:", error);
+            // Show an error message if needed
+        }
+    };    
 
-        // Create worksheet
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
-
-        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-        const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-        saveAs(dataBlob, 'customers.xlsx');
-    };
     // Pagination Handlers
     const handlePrevious = () => {
         setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -220,8 +235,8 @@ const Customers = () => {
 
             )}
 
-            <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-            <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer}></EditCustomerModal>
+            <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} refetch={refetch} />
+            <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer} refetch={refetch}></EditCustomerModal>
             <ImportModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>

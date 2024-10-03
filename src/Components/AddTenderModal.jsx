@@ -2,14 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import useCustomer from "../Hooks/useCustomer";
-import useProject from "../Hooks/useProject";
 
-const AddTenderModal = ({ isAddModalOpen, setIsAddModalOpen }) => {
+const AddTenderModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
     const [data, , ] = useCustomer();
     const customers = data?.customers || [];
-    const [ , , refetch] = useProject();
 
     const onSubmit = async (data) => {
         console.log(data);

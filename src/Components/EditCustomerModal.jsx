@@ -2,12 +2,11 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import useCustomer from "../Hooks/useCustomer";
 
-const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer}) => {
+const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch}) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [ , , refetch] = useCustomer();
+    
 
     useEffect(() => {
         if (customer) {

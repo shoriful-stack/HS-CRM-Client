@@ -4,17 +4,19 @@ import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import AddTenderModal from "../Components/AddTenderModal";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import useProject from "../Hooks/useProject";
 import Loader from "../Components/Loader";
 import EditTenderModal from "../Components/EditTenderModal";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Tender = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const axiosSecure = useAxiosSecure();
 
 
   // Pagination States
@@ -22,7 +24,7 @@ const Tender = () => {
   const limit = 10;
 
   // Fetch Projects
-  const [data, loading,] = useProject();
+  const [data, loading, refetch] = useProject(currentPage, limit);
   const projects = data?.projects || [];
   const total = data?.total || 0;
   const totalPages = data?.totalPages || 1;
@@ -35,31 +37,43 @@ const Tender = () => {
     setEditProjectModalOpen(true);
   };
 
-  const handleExport = () => {
-    const data = projects.map((project, index) => ({
-      "Sl.No.": index + 1,
-      "Project Name": project.project_name,
-      "Customer Name": project.customer_name,
-      "Project Category": project.project_category,
-      "Department": project.department,
-      "HOD": project.hod,
-      "Project Manager": project.pm,
-      "Year": project.year,
-      "Phase": project.phase,
-      "Project Code": project.project_code
-    }));
+  const handleExport = async () => {
+    try {
+      // Fetch all projects from the new API endpoint
+      const response = await axiosSecure.get("/projects/all");
 
-    // Create worksheet
-    const worksheet = XLSX.utils.json_to_sheet(data);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Projects");
+      if (response.status === 200) {
+        const allProjects = response.data;
 
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        // Prepare the data for export
+        const data = allProjects.map((project, index) => ({
+          "Sl.No.": index + 1,
+          "Project Name": project.project_name,
+          "Customer Name": project.customer_name,
+          "Project Category": project.project_category,
+          "Department": project.department,
+          "HOD": project.hod,
+          "Project Manager": project.pm,
+          "Year": project.year,
+          "Phase": project.phase,
+          "Project Code": project.project_code
+        }));
 
-    const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(dataBlob, 'projects.xlsx');
+        // Create worksheet
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Projects");
+
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+        // Download the file
+        const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+        saveAs(dataBlob, 'projects.xlsx');
+      }
+    } catch (error) {
+      console.error("Failed to export projects:", error);
+    }
   };
-
 
   // Pagination Handlers
   const handlePrevious = () => {
@@ -227,8 +241,8 @@ const Tender = () => {
           {renderPagination()}
         </>
       )}
-      <AddTenderModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} />
-      <EditTenderModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} />
+      <AddTenderModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
+      <EditTenderModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
       <ToastContainer></ToastContainer>
     </div>
   );
