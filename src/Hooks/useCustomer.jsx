@@ -12,7 +12,8 @@ const useCustomer = (page, limit) => {
             });
             return res.data;
         },
-        keepPreviousData: true, // Keeps previous data while fetching new data
+        // keeps previous data while fetching new data
+        keepPreviousData: true, 
     });
 
     return [data, loading, refetch];

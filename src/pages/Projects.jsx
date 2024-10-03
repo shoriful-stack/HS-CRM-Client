@@ -11,11 +11,13 @@ import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import AddProjectModal from "../Components/AddProjectModal";
 import EditProjectModal from "../Components/EditProjectModal";
+import ImportProjectsModal from "../Components/ImportProjectsModal";
 
 const Projects = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [importModalOpen, setImportModalOpen] = useState(false);
   const axiosSecure = useAxiosSecure();
 
 
@@ -35,6 +37,28 @@ const Projects = () => {
   const openEditTenderModal = (project) => {
     setSelectedProject(project);
     setEditProjectModalOpen(true);
+  };
+  const openImportModal = () => {
+    setImportModalOpen(true);
+  };
+
+  const handleImport = async (projectsData) => {
+    try {
+      const response = await axiosSecure.post("/projects/all", projectsData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.status === 200) {
+        refetch();
+      } else {
+        toast.error("Import failed!");
+      }
+    } catch (error) {
+      console.error("Import failed:", error);
+      toast.error("Import failed: " + (error.response?.data?.message || error.message));
+    }
   };
 
   const handleExport = async () => {
@@ -144,6 +168,7 @@ const Projects = () => {
             <span className="text-xs">Add New</span>
           </button>
           <button
+            onClick={openImportModal}
             className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
           >
             <FaFileImport className="w-5 h-4" />
@@ -243,6 +268,7 @@ const Projects = () => {
       )}
       <AddProjectModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
       <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
+      <ImportProjectsModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
       <ToastContainer></ToastContainer>
     </div>
   );
