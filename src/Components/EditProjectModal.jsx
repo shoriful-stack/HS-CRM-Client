@@ -2,13 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import useCustomer from "../Hooks/useCustomer";
+import useAllCustomer from "../Hooks/useAllCustomers";
 
-const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen,  project, refetch}) => {
+const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, project, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [data, , ] = useCustomer();
-    const customers = data?.customers || [];
+    const [allCustomers] = useAllCustomer(); // This hook contain all the data of customers collection
 
     useEffect(() => {
         if (project) {
@@ -20,7 +19,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen,  proj
             setValue("hod", project.hod);
             setValue("pm", project.pm);
             setValue("year", project.year);
-            setValue("phase",project.phase);
+            setValue("phase", project.phase);
             setValue("project_code", project.project_code);
         }
     }, [project, setValue]);
@@ -92,9 +91,9 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen,  proj
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Customer</option>
-                                        {customers.map((customer) => (
+                                        {allCustomers.map((customer) => (
                                             <option key={customer._id} value={customer.name}>
-                                                {customer.name} 
+                                                {customer.name}
                                             </option>
                                         ))}
                                     </select>

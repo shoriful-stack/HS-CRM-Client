@@ -24,7 +24,7 @@ const Customers = () => {
     const limit = 10;
 
     // Fetch Customers
-    const [data, loading, refetch] = useCustomer(currentPage, limit);
+    const [data, loading, refetch] = useCustomer(currentPage, limit); // This hook contain the 1st 10 data of customer collection cause of pagination
     const customers = data?.customers || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;

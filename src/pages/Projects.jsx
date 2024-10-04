@@ -26,7 +26,7 @@ const Projects = () => {
   const limit = 10;
 
   // Fetch Projects
-  const [data, loading, refetch] = useProject(currentPage, limit);
+  const [data, loading, refetch] = useProject(currentPage, limit); // This hook contain the 1st 10 data of project collection
   const projects = data?.projects || [];
   const total = data?.total || 0;
   const totalPages = data?.totalPages || 1;
@@ -158,7 +158,7 @@ const Projects = () => {
   return (
     <div className="font-lexend">
       <div className="flex justify-between items-center mb-2">
-        <h1 className="font-bold text-xl">Tenders</h1>
+        <h1 className="font-bold text-xl">Projects</h1>
         <div className="flex items-center gap-1">
           <button
             onClick={openAddModal}

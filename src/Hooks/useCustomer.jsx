@@ -1,7 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "./useAxiosSecure";
 
-const useCustomer = (page, limit) => {
+// This hook contain the 1st 10 data of customer collection cause of pagination
+const useCustomer = (page, limit) => { 
     const axiosSecure = useAxiosSecure();
 
     const { data, isPending: loading, refetch } = useQuery({

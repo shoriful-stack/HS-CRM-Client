@@ -1,13 +1,12 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-import useCustomer from "../Hooks/useCustomer";
+import useAllCustomer from "../Hooks/useAllCustomers";
 
 const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [data, , ] = useCustomer();
-    const customers = data?.customers || [];
+    const [allCustomers] = useAllCustomer();
 
     const onSubmit = async (data) => {
         console.log(data);
@@ -74,7 +73,7 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Customer</option>
-                                        {customers.map((customer) => (
+                                        {allCustomers.map((customer) => (
                                             <option key={customer._id} value={customer.name}>
                                                 {customer.name} 
                                             </option>
