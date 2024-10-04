@@ -14,6 +14,7 @@ import {
   QueryClientProvider
 } from '@tanstack/react-query'
 import Projects from "./pages/Projects";
+import Employee from "./pages/Employee";
 
 const queryClient = new QueryClient()
 
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/sidebar/customer",
         element: <Customers></Customers>
+      },
+      {
+        path: "/sidebar/employee",
+        element: <Employee></Employee>
       }
     ]
   },

@@ -1,11 +1,19 @@
 import { Button } from "flowbite-react";
+import { useState } from "react";
 import { FaUsers } from "react-icons/fa";
+import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { TbLogout2 } from "react-icons/tb";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
 const Sidebar = () => {
     const navigate = useNavigate();
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+    // Toggle dropdown and change arrow direction
+    const toggleDropdown = () => {
+        setDropdownOpen(!isDropdownOpen); 
+    };
 
     const handleLogout = () => {
         localStorage.removeItem('userEmail');
@@ -96,11 +104,30 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/sidebar/customer" className={getNavLinkClass}>
-                                {/* Customer Icon */}
+                            <button onClick={toggleDropdown} className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg dark:text-white dark:bg-gray-700 group dark:hover:bg-gray-700">
                                 <FaUsers className="text-xl flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
-                                <span className="ms-3 text-white">Customers</span>
-                            </NavLink>
+                                <span className="flex-1 ms-3 text-left text-white font-medium text-sm">CRM</span>
+                                {/* Arrow Icon */}
+                                {isDropdownOpen ? (
+                                    <IoIosArrowDown className="w-5 h-5 text-white" />
+                                ) : (
+                                    <IoIosArrowForward className="w-5 h-5 text-white" />
+                                )}
+                            </button>
+                            {isDropdownOpen && (
+                                <ul className="space-y-2 pl-8 mt-2">
+                                    <li>
+                                        <NavLink to="/sidebar/customer" className={getNavLinkClass}>
+                                            <span className="ms-3 text-gray-300">- Customers</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/sidebar/employee" className={getNavLinkClass}>
+                                            <span className="ms-3 text-gray-300">- Employee</span>
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            )}
                         </li>
                     </ul>
                 </div>
