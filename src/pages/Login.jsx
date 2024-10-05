@@ -22,7 +22,7 @@ const Login = () => {
             localStorage.setItem('userEmail', JSON.stringify({ email }));
             localStorage.setItem('userPass', JSON.stringify({ password }));
             toast.success('Login successful!');
-            navigate('/sidebar/dashboard');
+            navigate('/dashboard/home');
         } else {
             toast.error('Invalid email or password!');
         }

@@ -65,10 +65,10 @@ const Customers = () => {
         try {
             // Fetch all customers from the new API endpoint
             const response = await axiosSecure.get("/customers/all");
-    
+
             if (response.status === 200) {
                 const allCustomers = response.data;
-    
+
                 // Prepare the data for export
                 const data = allCustomers.map((customer, index) => ({
                     "SL.NO.": index + 1,
@@ -78,14 +78,14 @@ const Customers = () => {
                     "Address": customer.address,
                     "Status": customer.status,
                 }));
-    
+
                 // Create worksheet
                 const worksheet = XLSX.utils.json_to_sheet(data);
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, "Customers");
-    
+
                 const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-    
+
                 // Download the file
                 const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
                 saveAs(dataBlob, 'customers.xlsx');
@@ -94,7 +94,7 @@ const Customers = () => {
             console.error("Failed to export customers:", error);
             // Show an error message if needed
         }
-    };    
+    };
 
     // Pagination Handlers
     const handlePrevious = () => {
@@ -120,6 +120,9 @@ const Customers = () => {
             startPage = Math.max(endPage - maxPagesToShow + 1, 1);
         }
 
+        const startCustomer = (currentPage - 1) * limit + 1;
+        const endCustomer = Math.min(currentPage * limit, total);
+
         for (let i = startPage; i <= endPage; i++) {
             pages.push(
                 <button
@@ -133,22 +136,29 @@ const Customers = () => {
         }
 
         return (
-            <div className="flex justify-center items-center mt-4">
-                <button
-                    onClick={handlePrevious}
-                    disabled={currentPage === 1}
-                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
-                >
-                    <TbPlayerTrackPrevFilled />
-                </button>
-                {pages}
-                <button
-                    onClick={handleNext}
-                    disabled={currentPage === totalPages}
-                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
-                >
-                    <TbPlayerTrackNextFilled />
-                </button>
+            <div className="flex justify-between items-center mt-4">
+                {/* Show customer range information */}
+                <span className="text-sm text-gray-600">
+                    Showing {startCustomer} to {endCustomer} of {total} customers
+                </span>
+
+                <div className="flex items-center">
+                    <button
+                        onClick={handlePrevious}
+                        disabled={currentPage === 1}
+                        className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+                    >
+                        <TbPlayerTrackPrevFilled />
+                    </button>
+                    {pages}
+                    <button
+                        onClick={handleNext}
+                        disabled={currentPage === totalPages}
+                        className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+                    >
+                        <TbPlayerTrackNextFilled />
+                    </button>
+                </div>
             </div>
         );
     };

@@ -15,6 +15,8 @@ import {
 } from '@tanstack/react-query'
 import Projects from "./pages/Projects";
 import Employee from "./pages/Employee";
+import Department from "./pages/Department";
+import Designation from "./pages/Designation";
 
 const queryClient = new QueryClient()
 
@@ -24,24 +26,32 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "/sidebar",
+    path: "/dashboard",
     element: <Sidebar></Sidebar>,
     children: [
       {
-        path: "/sidebar/dashboard",
+        path: "/dashboard/home",
         element: <Dashboard></Dashboard>
       },
       {
-        path: "/sidebar/projects",
+        path: "/dashboard/projects",
         element: <Projects></Projects>
       },
       {
-        path: "/sidebar/customer",
+        path: "/dashboard/customers",
         element: <Customers></Customers>
       },
       {
-        path: "/sidebar/employee",
+        path: "/dashboard/employees",
         element: <Employee></Employee>
+      },
+      {
+        path: "/dashboard/department",
+        element: <Department></Department>
+      },
+      {
+        path: "/dashboard/designation",
+        element: <Designation></Designation>
       }
     ]
   },

@@ -2,6 +2,7 @@ import { Button } from "flowbite-react";
 import { useState } from "react";
 import { FaUsers } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import { IoSettings } from "react-icons/io5";
 import { TbLogout2 } from "react-icons/tb";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,10 +10,15 @@ import { toast, ToastContainer } from "react-toastify";
 const Sidebar = () => {
     const navigate = useNavigate();
     const [isDropdownOpen, setDropdownOpen] = useState(false);
+    const [isSettingsDropdownOpen, setSettingsDropdownOpen] = useState(false);
 
     // Toggle dropdown and change arrow direction
     const toggleDropdown = () => {
         setDropdownOpen(!isDropdownOpen); 
+    };
+
+    const toggleSettingsDropdown = () => {
+        setSettingsDropdownOpen(!isSettingsDropdownOpen); 
     };
 
     const handleLogout = () => {
@@ -85,7 +91,7 @@ const Sidebar = () => {
                 <div className="h-full px-3 pb-4 overflow-y-auto bg-gray-900 dark:bg-gray-800">
                     <ul className="space-y-2 font-normal text-sm">
                         <li className="mt-2">
-                            <NavLink to="/sidebar/dashboard" end className={getNavLinkClass}>
+                            <NavLink to="/dashboard/home" end className={getNavLinkClass}>
                                 {/* Dashboard Icon */}
                                 <svg className="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                                     <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
@@ -95,7 +101,7 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to="/sidebar/projects" className={getNavLinkClass}>
+                            <NavLink to="/dashboard/projects" className={getNavLinkClass}>
                                 {/* Projects Icon */}
                                 <svg className="flex-shrink-0 w-4 h-4 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                     <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286C10 17.169 10.831 18 11.857 18h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
@@ -109,21 +115,47 @@ const Sidebar = () => {
                                 <span className="flex-1 ms-3 text-left text-white font-medium text-sm">CRM</span>
                                 {/* Arrow Icon */}
                                 {isDropdownOpen ? (
-                                    <IoIosArrowDown className="w-5 h-5 text-white" />
+                                    <IoIosArrowDown className="w-5 h-4 text-white" />
                                 ) : (
-                                    <IoIosArrowForward className="w-5 h-5 text-white" />
+                                    <IoIosArrowForward className="w-5 h-4 text-white" />
                                 )}
                             </button>
                             {isDropdownOpen && (
                                 <ul className="space-y-2 pl-8 mt-2">
                                     <li>
-                                        <NavLink to="/sidebar/customer" className={getNavLinkClass}>
+                                        <NavLink to="/dashboard/customers" className={getNavLinkClass}>
                                             <span className="ms-3 text-gray-300">- Customers</span>
                                         </NavLink>
                                     </li>
                                     <li>
-                                        <NavLink to="/sidebar/employee" className={getNavLinkClass}>
-                                            <span className="ms-3 text-gray-300">- Employee</span>
+                                        <NavLink to="/dashboard/employees" className={getNavLinkClass}>
+                                            <span className="ms-3 text-gray-300">- Employees</span>
+                                        </NavLink>
+                                    </li>
+                                </ul>
+                            )}
+                        </li>
+                        <li>
+                            <button onClick={toggleSettingsDropdown} className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg dark:text-white dark:bg-gray-700 group dark:hover:bg-gray-700">
+                                <IoSettings className="text-xl flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
+                                <span className="flex-1 ms-3 text-left text-white font-medium text-sm">Settings</span>
+                                {/* Arrow Icon */}
+                                {isSettingsDropdownOpen ? (
+                                    <IoIosArrowDown className="w-5 h-4 text-white" />
+                                ) : (
+                                    <IoIosArrowForward className="w-5 h-4 text-white" />
+                                )}
+                            </button>
+                            {isSettingsDropdownOpen && (
+                                <ul className="space-y-2 pl-8 mt-2">
+                                    <li>
+                                        <NavLink to="/dashboard/department" className={getNavLinkClass}>
+                                            <span className="ms-3 text-gray-300">- Department</span>
+                                        </NavLink>
+                                    </li>
+                                    <li>
+                                        <NavLink to="/dashboard/designation" className={getNavLinkClass}>
+                                            <span className="ms-3 text-gray-300">- Designation</span>
                                         </NavLink>
                                     </li>
                                 </ul>
