@@ -1,100 +1,36 @@
 import { useState } from "react";
-import { FaEdit, FaFileImport } from "react-icons/fa";
+import { FaEdit } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
-import AddModal from "../Components/AddModal";
 import { toast, ToastContainer } from "react-toastify";
-import EditCustomerModal from "../Components/EditCustomerModal";
-import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
-import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
-import useAxiosSecure from "../Hooks/useAxiosSecure";
-import ImportModal from "../Components/ImportModal";
+import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
+import AddDepartmentModal from "../Components/AddDepartmentModal";
+import useDepartment from "../Hooks/useDepartment";
+import EditDepartmentModal from "../Components/EditDepartmentModal";
 
 const Designation = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editModalOpen, setEditModalOpen] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const [importModalOpen, setImportModalOpen] = useState(false);
-    const axiosSecure = useAxiosSecure();
+    const [isDesignationModalOpen, setIsDesignationModalOpen] = useState(false);
+    const [editDesignationModalOpen, setEditDesignationModalOpen] = useState(false);
+    const [selectedDesignation, setSelectedDesignation] = useState(null);
 
     // Pagination States
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
 
     // Fetch Designation
-    const [data, loading, refetch] = useCustomer(currentPage, limit); // This hook contain the 1st 10 data of customer collection cause of pagination
-    const Designation = data?.Designation || [];
+    const [data, loading, refetch] = useDepartment(currentPage, limit); // This hook contain the 1st 10 data of department collection cause of pagination
+    const designation = data?.designation || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
 
-    const openModal = () => {
-        setIsModalOpen(true);
+    const openDesignationModal = () => {
+        setIsDesignationModalOpen(true);
     };
-    const openEditModal = (customer) => {
-        setSelectedCustomer(customer);
-        setEditModalOpen(true);
+
+    const openEditModal = (designation) => {
+        setSelectedDesignation(designation);
+        setEditDesignationModalOpen(true);
     }
-
-    const openImportModal = () => {
-        setImportModalOpen(true);
-    };
-
-    const handleImport = async (DesignationData) => {
-        try {
-            const response = await axiosSecure.post("/Designation/all", DesignationData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-
-            if (response.status === 200) {
-                refetch();
-            } else {
-                toast.error("Import failed!");
-            }
-        } catch (error) {
-            console.error("Import failed:", error);
-            toast.error("Import failed: " + (error.response?.data?.message || error.message));
-        }
-    };
-
-
-    const handleExport = async () => {
-        try {
-            // Fetch all Designation from the new API endpoint
-            const response = await axiosSecure.get("/Designation/all");
-
-            if (response.status === 200) {
-                const allDesignation = response.data;
-
-                // Prepare the data for export
-                const data = allDesignation.map((customer, index) => ({
-                    "SL.NO.": index + 1,
-                    "Name": customer.name,
-                    "Phone": customer.phone,
-                    "Email": customer.email,
-                    "Address": customer.address,
-                    "Status": customer.status,
-                }));
-
-                // Create worksheet
-                const worksheet = XLSX.utils.json_to_sheet(data);
-                const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Designation");
-
-                const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-                // Download the file
-                const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-                saveAs(dataBlob, 'Designation.xlsx');
-            }
-        } catch (error) {
-            console.error("Failed to export Designation:", error);
-            // Show an error message if needed
-        }
-    };
 
     // Pagination Handlers
     const handlePrevious = () => {
@@ -120,8 +56,8 @@ const Designation = () => {
             startPage = Math.max(endPage - maxPagesToShow + 1, 1);
         }
 
-        const startCustomer = (currentPage - 1) * limit + 1;
-        const endCustomer = Math.min(currentPage * limit, total);
+        const startDesignation = (currentPage - 1) * limit + 1;
+        const endDesignation = Math.min(currentPage * limit, total);
 
         for (let i = startPage; i <= endPage; i++) {
             pages.push(
@@ -139,7 +75,7 @@ const Designation = () => {
             <div className="flex justify-between items-center mt-4">
                 {/* Show customer range information */}
                 <span className="text-sm text-gray-600">
-                    Showing {startCustomer} to {endCustomer} of {total} Designation
+                    Showing {startDesignation} to {endDesignation} of {total} Designation
                 </span>
 
                 <div className="flex items-center">
@@ -168,25 +104,11 @@ const Designation = () => {
                 <h1 className="font-bold text-xl">Designation</h1>
                 <div className="flex items-center gap-1">
                     <button
-                        onClick={openModal}
+                        onClick={openDesignationModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
                         <IoAddCircleSharp className="w-5 h-4" />
                         <span className="text-xs">Add New</span>
-                    </button>
-                    <button
-                        onClick={openImportModal}
-                        className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
-                    >
-                        <FaFileImport className="w-5 h-4" />
-                        <span className="text-xs">Import</span>
-                    </button>
-                    <button
-                        onClick={handleExport}
-                        className="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
-                    >
-                        <TbDatabaseExport className="w-5 h-4" />
-                        <span className="text-xs">Export</span>
                     </button>
                 </div>
             </div>
@@ -201,37 +123,35 @@ const Designation = () => {
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-1 py-2 border text-sm">Sl.No.</th>
                                 <th className="px-2 py-2 border text-sm">Designation</th>
+                                <th className="px-2 py-2 border text-sm">Status</th>
                                 <th className="px-2 py-2 border text-sm">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {Designation.length === 0 ? (
+                            {designation.length === 0 ? (
                                 <tr>
                                     <td colSpan="7" className="text-center py-4">No Designation available.</td>
                                 </tr>
-                            ) : (Designation?.map((customer, index) =>
-                                <tr key={customer._id} className="bg-gray-100">
+                            ) : (designation?.map((department, index) =>
+                                <tr key={department._id} className="bg-gray-100">
                                     <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                                     <td className="px-3 py-1 border text-xs">
-                                        {customer.name}
+                                        {department.department_name}
                                     </td>
-                                    <td className="px-3 py-1 border text-xs">{customer.phone}</td>
-                                    <td className="px-3 py-1 border text-xs">{customer.email}</td>
-                                    <td className="px-3 py-1 border text-xs">{customer.address}</td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
-                                                customer.status === 'Inactive' ? 'bg-red-500 text-white' :
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${department.department_status === 'Active' ? 'bg-green-500 text-white' :
+                                                department.department_status === 'Inactive' ? 'bg-red-500 text-white' :
                                                     ''
                                                 }`}
                                         >
-                                            {customer.status === 'Active' ? 'Active' :
-                                                customer.status === 'Inactive' ? 'Inactive' :
+                                            {department.department_status === 'Active' ? 'Active' :
+                                                department.department_status === 'Inactive' ? 'Inactive' :
                                                     ''}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(customer)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
+                                        <button onClick={() => openEditModal(department)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
                                             <FaEdit className="bg-blue-500 text-white" />
                                         </button>
                                     </td>
@@ -245,9 +165,8 @@ const Designation = () => {
 
             )}
 
-            <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} refetch={refetch} />
-            <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer} refetch={refetch}></EditCustomerModal>
-            <ImportModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
+            <AddDepartmentModal isDesignationModalOpen={isDesignationModalOpen} setIsDesignationModalOpen={setIsDesignationModalOpen} refetch={refetch} />
+            <EditDesignationModal editDesignationModalOpen={editDesignationModalOpen} setEditDesignationModalOpen={setEditDepartmentModalOpen} department={selectedDepartment} refetch={refetch}></EditDesignationModal>
             <ToastContainer></ToastContainer>
         </div>
     );
