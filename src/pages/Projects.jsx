@@ -119,42 +119,52 @@ const Projects = () => {
     let endPage = startPage + maxPagesToShow - 1;
 
     if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+        endPage = totalPages;
+        startPage = Math.max(endPage - maxPagesToShow + 1, 1);
     }
 
+    const startProject = (currentPage - 1) * limit + 1;
+    const endProject = Math.min(currentPage * limit, total);
+
     for (let i = startPage; i <= endPage; i++) {
-      pages.push(
-        <button
-          key={i}
-          onClick={() => handlePageSelect(i)}
-          className={`px-2 py-[2px] rounded-md mx-[2px] ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-        >
-          {i}
-        </button>
-      );
+        pages.push(
+            <button
+                key={i}
+                onClick={() => handlePageSelect(i)}
+                className={`px-2 py-[2px] rounded-md mx-[2px] ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+            >
+                {i}
+            </button>
+        );
     }
 
     return (
-      <div className="flex justify-center items-center mt-4">
-        <button
-          onClick={handlePrevious}
-          disabled={currentPage === 1}
-          className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
-        >
-          <TbPlayerTrackPrevFilled />
-        </button>
-        {pages}
-        <button
-          onClick={handleNext}
-          disabled={currentPage === totalPages}
-          className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
-        >
-          <TbPlayerTrackNextFilled />
-        </button>
-      </div>
+        <div className="flex justify-between items-center mt-4">
+            {/* Show customer range information */}
+            <span className="text-sm text-gray-600">
+                Showing {startProject} to {endProject} of {total} projects
+            </span>
+
+            <div className="flex items-center">
+                <button
+                    onClick={handlePrevious}
+                    disabled={currentPage === 1}
+                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+                >
+                    <TbPlayerTrackPrevFilled />
+                </button>
+                {pages}
+                <button
+                    onClick={handleNext}
+                    disabled={currentPage === totalPages}
+                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+                >
+                    <TbPlayerTrackNextFilled />
+                </button>
+            </div>
+        </div>
     );
-  };
+};
   return (
     <div className="font-lexend">
       <div className="flex justify-between items-center mb-2">
