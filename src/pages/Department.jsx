@@ -2,26 +2,24 @@ import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
-import EditCustomerModal from "../Components/EditCustomerModal";
-import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import useAxiosSecure from "../Hooks/useAxiosSecure";
 import AddDepartmentModal from "../Components/AddDepartmentModal";
+import useDepartment from "../Hooks/useDepartment";
+import EditDepartmentModal from "../Components/EditDepartmentModal";
 
 const Department = () => {
     const [isDepartmentModalOpen, setIsDepartmentModalOpen] = useState(false);
-    const [editModalOpen, setEditModalOpen] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
-    const axiosSecure = useAxiosSecure();
+    const [editDepartmentModalOpen, setEditDepartmentModalOpen] = useState(false);
+    const [selectedDepartment, setSelectedDepartment] = useState(null);
 
     // Pagination States
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
 
     // Fetch Department
-    const [data, loading, refetch] = useCustomer(currentPage, limit); // This hook contain the 1st 10 data of customer collection cause of pagination
-    const Department = data?.Department || [];
+    const [data, loading, refetch] = useDepartment(currentPage, limit); // This hook contain the 1st 10 data of department collection cause of pagination
+    const departments = data?.departments || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
 
@@ -29,9 +27,9 @@ const Department = () => {
         setIsDepartmentModalOpen(true);
     };
 
-    const openEditModal = (customer) => {
-        setSelectedCustomer(customer);
-        setEditModalOpen(true);
+    const openEditModal = (department) => {
+        setSelectedDepartment(department);
+        setEditDepartmentModalOpen(true);
     }
 
     // Pagination Handlers
@@ -58,8 +56,8 @@ const Department = () => {
             startPage = Math.max(endPage - maxPagesToShow + 1, 1);
         }
 
-        const startCustomer = (currentPage - 1) * limit + 1;
-        const endCustomer = Math.min(currentPage * limit, total);
+        const startDepartment = (currentPage - 1) * limit + 1;
+        const endDepartment = Math.min(currentPage * limit, total);
 
         for (let i = startPage; i <= endPage; i++) {
             pages.push(
@@ -77,7 +75,7 @@ const Department = () => {
             <div className="flex justify-between items-center mt-4">
                 {/* Show customer range information */}
                 <span className="text-sm text-gray-600">
-                    Showing {startCustomer} to {endCustomer} of {total} Department
+                    Showing {startDepartment} to {endDepartment} of {total} Department
                 </span>
 
                 <div className="flex items-center">
@@ -130,33 +128,30 @@ const Department = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Department.length === 0 ? (
+                            {departments.length === 0 ? (
                                 <tr>
                                     <td colSpan="7" className="text-center py-4">No Department available.</td>
                                 </tr>
-                            ) : (Department?.map((customer, index) =>
-                                <tr key={customer._id} className="bg-gray-100">
+                            ) : (departments?.map((department, index) =>
+                                <tr key={department._id} className="bg-gray-100">
                                     <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                                     <td className="px-3 py-1 border text-xs">
-                                        {customer.name}
+                                        {department.department_name}
                                     </td>
-                                    <td className="px-3 py-1 border text-xs">{customer.phone}</td>
-                                    <td className="px-3 py-1 border text-xs">{customer.email}</td>
-                                    <td className="px-3 py-1 border text-xs">{customer.address}</td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
-                                                customer.status === 'Inactive' ? 'bg-red-500 text-white' :
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${department.department_status === 'Active' ? 'bg-green-500 text-white' :
+                                                department.department_status === 'Inactive' ? 'bg-red-500 text-white' :
                                                     ''
                                                 }`}
                                         >
-                                            {customer.status === 'Active' ? 'Active' :
-                                                customer.status === 'Inactive' ? 'Inactive' :
+                                            {department.department_status === 'Active' ? 'Active' :
+                                                department.department_status === 'Inactive' ? 'Inactive' :
                                                     ''}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(customer)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
+                                        <button onClick={() => openEditModal(department)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
                                             <FaEdit className="bg-blue-500 text-white" />
                                         </button>
                                     </td>
@@ -171,7 +166,7 @@ const Department = () => {
             )}
 
             <AddDepartmentModal isDepartmentModalOpen={isDepartmentModalOpen} setIsDepartmentModalOpen={setIsDepartmentModalOpen} refetch={refetch} />
-            <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer} refetch={refetch}></EditCustomerModal>
+            <EditDepartmentModal editDepartmentModalOpen={editDepartmentModalOpen} setEditDepartmentModalOpen={setEditDepartmentModalOpen} department={selectedDepartment} refetch={refetch}></EditDepartmentModal>
             <ToastContainer></ToastContainer>
         </div>
     );
