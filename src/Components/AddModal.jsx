@@ -13,7 +13,7 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
             name: data.name,
             phone: data.phone,
             email: data.email,
-            status: data.status,
+            status: data.status || "Active",
             address: data.address
         }
         const customerRes = await axiosSecure.post('/customers', addCustomer);

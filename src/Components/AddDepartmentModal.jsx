@@ -8,23 +8,28 @@ const AddDepartmentModal = ({ isDepartmentModalOpen, setIsDepartmentModalOpen, r
 
     const closeModal = () => {
         setIsDepartmentModalOpen(false);
+        reset();
     };
 
     const onSubmit = async (data) => {
         console.log(data);
 
         const addDepartment = {
-            department_name: data.department_name,
-            department_status: data.department_status
+            department_name: data.department_name.trim(),
+            department_status: data.department_status || "Active"
         }
-        const departmentRes = await axiosSecure.post('/departments', addDepartment);
-        console.log(departmentRes.data);
+        try {
+            const departmentRes = await axiosSecure.post('/departments', addDepartment);
+            console.log(departmentRes.data);
 
-        if (departmentRes.data.insertedId) {
-            reset();
-            refetch();
-            toast.success(`${data.department_name} added successfully`);
-            closeModal();
+            if (departmentRes.data.insertedId) {
+                reset();
+                refetch();
+                toast.success(`${data.department_name} added successfully`);
+                closeModal();
+            }
+        } catch (error) {
+            toast.error(`${data.department_name} already exists.`);
         }
     }
 
