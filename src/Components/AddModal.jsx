@@ -6,30 +6,37 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
 
+    const closeModal = () => {
+        setIsModalOpen(false);
+        reset();
+    };
+
     const onSubmit = async (data) => {
         console.log(data);
 
         const addCustomer = {
-            name: data.name,
+            name: data.name.trim(),
             phone: data.phone,
             email: data.email,
             status: data.status || "Active",
             address: data.address
         }
-        const customerRes = await axiosSecure.post('/customers', addCustomer);
-        console.log(customerRes.data);
 
-        if (customerRes.data.insertedId) {
-            reset();
-            refetch();
-            toast.success(`${data.name} added successfully`);
-            closeModal();
+        try{
+            const customerRes = await axiosSecure.post('/customers', addCustomer);
+            console.log(customerRes.data);
+    
+            if (customerRes.data.insertedId) {
+                reset();
+                refetch();
+                toast.success(`${data.name} added successfully`);
+                closeModal();
+            }
+        }catch (error){
+            toast.error(`${data.name} already exists.`);
         }
     }
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-    };
 
     return (
         <>
