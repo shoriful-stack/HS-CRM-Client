@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
-import AddModal from "../Components/AddModal";
 import { toast, ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
 import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import AddDepartmentModal from "../Components/AddDepartmentModal";
 
 const Department = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDepartmentModalOpen, setIsDepartmentModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const axiosSecure = useAxiosSecure();
@@ -25,8 +25,8 @@ const Department = () => {
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
 
-    const openModal = () => {
-        setIsModalOpen(true);
+    const openDepartmentModal = () => {
+        setIsDepartmentModalOpen(true);
     };
 
     const openEditModal = (customer) => {
@@ -106,7 +106,7 @@ const Department = () => {
                 <h1 className="font-bold text-xl">Department</h1>
                 <div className="flex items-center gap-1">
                     <button
-                        onClick={openModal}
+                        onClick={openDepartmentModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
                         <IoAddCircleSharp className="w-5 h-4" />
@@ -170,7 +170,7 @@ const Department = () => {
 
             )}
 
-            <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} refetch={refetch} />
+            <AddDepartmentModal isDepartmentModalOpen={isDepartmentModalOpen} setIsDepartmentModalOpen={setIsDepartmentModalOpen} refetch={refetch} />
             <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer} refetch={refetch}></EditCustomerModal>
             <ToastContainer></ToastContainer>
         </div>
