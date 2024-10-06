@@ -2,11 +2,14 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import useAllDepartment from "../Hooks/useAllDepartments";
+import useAllDesignation from "../Hooks/useAllDesignation";
 
 const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
     const [allDepartments] = useAllDepartment();
+    const [allDesignations] = useAllDesignation();
+
 
     const closeModal = () => {
         setIsEmployeeModalOpen(false);
@@ -92,10 +95,10 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                         {...register("designation", { required: true })}
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
-                                        <option className="hidden" value="">Select Customer</option>
-                                        {allDepartments.map((customer) => (
-                                            <option key={customer._id} value={customer.name}>
-                                                {customer.name}
+                                        <option className="hidden" value="">Select Designation</option>
+                                        {allDesignations.map((designation) => (
+                                            <option key={designation._id} value={designation.designation}>
+                                                {designation.designation}
                                             </option>
                                         ))}
                                     </select>
@@ -104,23 +107,47 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                             <div className="flex justify-between items-center gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Phone
+                                        Phone*
                                     </label>
                                     <input
                                         type="phone"
-                                        name="phone"
-                                        {...register("phone")}
+                                        name="employee_phone"
+                                        {...register("employee_phone", { required: true })}
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Email
+                                        Email*
                                     </label>
                                     <input
                                         type="email"
-                                        name="email"
-                                        {...register("email")}
+                                        name="employee_email"
+                                        {...register("employee_email", { required: true })}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-between items-center gap-2">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Office ID*
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="employee_uid"
+                                        {...register("employee_uid", { required: true })}
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Password*
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="employee_pass"
+                                        {...register("employee_pass", { required: true })}
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
