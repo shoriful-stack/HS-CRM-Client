@@ -4,9 +4,9 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import useDepartment from "../Hooks/useDepartment";
 import EditDesignationModal from "../Components/EditDesignationModal";
 import AddDesignationModal from "../Components/AddDesignationModal";
+import useDesignation from "../Hooks/useDesignation";
 
 const Designation = () => {
     const [isDesignationModalOpen, setIsDesignationModalOpen] = useState(false);
@@ -18,8 +18,8 @@ const Designation = () => {
     const limit = 10;
 
     // Fetch Designation
-    const [data, loading, refetch] = useDepartment(currentPage, limit); // This hook contain the 1st 10 data of department collection cause of pagination
-    const designation = data?.designation || [];
+    const [data, loading, refetch] = useDesignation(currentPage, limit); // This hook contain the 1st 10 data of designation collection cause of pagination
+    const designations = data?.designations || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
 
@@ -101,7 +101,7 @@ const Designation = () => {
     return (
         <div className="font-lexend">
             <div className="flex justify-between items-center mb-2">
-                <h1 className="font-bold text-xl">Designation</h1>
+                <h1 className="font-bold text-xl">Designations</h1>
                 <div className="flex items-center gap-1">
                     <button
                         onClick={openDesignationModal}
@@ -128,30 +128,30 @@ const Designation = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {designation.length === 0 ? (
+                            {designations.length === 0 ? (
                                 <tr>
                                     <td colSpan="7" className="text-center py-4">No Designation available.</td>
                                 </tr>
-                            ) : (designation?.map((department, index) =>
-                                <tr key={department._id} className="bg-gray-100">
+                            ) : (designations?.map((designation, index) =>
+                                <tr key={designation._id} className="bg-gray-100">
                                     <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                                     <td className="px-3 py-1 border text-xs">
-                                        {department.department_name}
+                                        {designation.designation}
                                     </td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${department.department_status === 'Active' ? 'bg-green-500 text-white' :
-                                                department.department_status === 'Inactive' ? 'bg-red-500 text-white' :
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${designation.designation_status === 'Active' ? 'bg-green-500 text-white' :
+                                                designation.designation_status === 'Inactive' ? 'bg-red-500 text-white' :
                                                     ''
                                                 }`}
                                         >
-                                            {department.department_status === 'Active' ? 'Active' :
-                                                department.department_status === 'Inactive' ? 'Inactive' :
+                                            {designation.designation_status === 'Active' ? 'Active' :
+                                                designation.designation_status === 'Inactive' ? 'Inactive' :
                                                     ''}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(department)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
+                                        <button onClick={() => openEditModal(designation)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
                                             <FaEdit className="bg-blue-500 text-white" />
                                         </button>
                                     </td>
