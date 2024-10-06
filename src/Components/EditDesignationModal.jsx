@@ -3,18 +3,18 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 
-const EditDesignationModal = ({ editDesignationModalOpen, setEditDesignationModalOpen, department, refetch }) => {
+const EditDesignationModal = ({ editDesignationModalOpen, setEditDesignationModalOpen, designation, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
 
 
     useEffect(() => {
-        if (department) {
-            // Set form values with department data when modal opens
-            setValue("department_name", department.department_name);
-            setValue("department_status", department.department_status);
+        if (designation) {
+            // Set form values with designation data when modal opens
+            setValue("designation", designation.designation);
+            setValue("designation_status", designation.designation_status);
         }
-    }, [department, setValue]);
+    }, [designation, setValue]);
     const closeModal = () => {
         setEditDesignationModalOpen(false);
     };
@@ -22,19 +22,19 @@ const EditDesignationModal = ({ editDesignationModalOpen, setEditDesignationModa
         console.log(data);
 
         const updatedDesignation = {
-            department_name: data.department_name,
-            department_status: data.department_status
+            designation: data.designation,
+            designation_status: data.designation_status
         };
-        const departmentRes = await axiosSecure.patch(`/departments/${department._id}`, updatedDepartment);
-        console.log(departmentRes.data);
+        const designationRes = await axiosSecure.patch(`/designations/${designation._id}`, updatedDesignation);
+        console.log(designationRes.data);
 
-        if (departmentRes.data.modifiedCount > 0) {
+        if (designationRes.data.modifiedCount > 0) {
             reset();
             refetch();
-            toast.success(`${data.department_name} updated successfully`);
+            toast.success(`${data.designation} updated successfully`);
             closeModal();
         }
-        if (departmentRes.data.modifiedCount === 0) {
+        if (designationRes.data.modifiedCount === 0) {
             refetch();
             closeModal();
         }
@@ -60,8 +60,8 @@ const EditDesignationModal = ({ editDesignationModalOpen, setEditDesignationModa
                                 </label>
                                 <input
                                     type="text"
-                                    name="department"
-                                    {...register("department")}
+                                    name="designation"
+                                    {...register("designation")}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
@@ -70,8 +70,8 @@ const EditDesignationModal = ({ editDesignationModalOpen, setEditDesignationModa
                                     Status
                                 </label>
                                 <select
-                                    name="department_status"
-                                    {...register("department_status")}
+                                    name="designation_status"
+                                    {...register("designation_status")}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 >
                                     <option value="">Select Status</option>
