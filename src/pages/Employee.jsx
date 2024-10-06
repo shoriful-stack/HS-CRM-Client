@@ -8,11 +8,11 @@ import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } fr
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import ImportModal from "../Components/ImportModal";
 import AddEmployeeModal from "../Components/AddEmployeeModal";
 import useEmployee from "../Hooks/useEmployee";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import EditEmployeeModal from "../Components/EditEmployeeModal";
+import ImportEmployeesModal from "../Components/ImportEmployeeModal";
 
 const Employees = () => {
     const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
@@ -72,13 +72,15 @@ const Employees = () => {
                 const allEmployees = response.data;
 
                 // Prepare the data for export
-                const data = allEmployees.map((customer, index) => ({
-                    "SL.NO.": index + 1,
-                    "Name": customer.name,
-                    "Phone": customer.phone,
-                    "Email": customer.email,
-                    "Address": customer.address,
-                    "Status": customer.status,
+                const data = allEmployees.map((employee, index) => ({
+                    "Sl.No.": index + 1,
+                    "UID": employee.employee_uid,
+                    "Name": employee.employee_name,
+                    "Phone": employee.employee_phone,
+                    "Email": employee.employee_email,
+                    "Department": employee.department_name,
+                    "Designation": employee.designation,
+                    "Password": employee.employee_pass,
                 }));
 
                 // Create worksheet
@@ -269,7 +271,7 @@ const Employees = () => {
 
             <AddEmployeeModal isEmployeeModalOpen={isEmployeeModalOpen} setIsEmployeeModalOpen={setIsEmployeeModalOpen} refetch={refetch} />
             <EditEmployeeModal editEmployeeModalOpen={editEmployeeModalOpen} setEditEmployeeModalOpen={setEditEmployeeModalOpen} employee={selectedEmployee} refetch={refetch}></EditEmployeeModal>
-            <ImportModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
+            <ImportEmployeesModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>
     );
