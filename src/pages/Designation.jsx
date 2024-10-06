@@ -4,9 +4,9 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import AddDepartmentModal from "../Components/AddDepartmentModal";
 import useDepartment from "../Hooks/useDepartment";
-import EditDepartmentModal from "../Components/EditDepartmentModal";
+import EditDesignationModal from "../Components/EditDesignationModal";
+import AddDesignationModal from "../Components/AddDesignationModal";
 
 const Designation = () => {
     const [isDesignationModalOpen, setIsDesignationModalOpen] = useState(false);
@@ -165,8 +165,8 @@ const Designation = () => {
 
             )}
 
-            <AddDepartmentModal isDesignationModalOpen={isDesignationModalOpen} setIsDesignationModalOpen={setIsDesignationModalOpen} refetch={refetch} />
-            <EditDesignationModal editDesignationModalOpen={editDesignationModalOpen} setEditDesignationModalOpen={setEditDepartmentModalOpen} department={selectedDepartment} refetch={refetch}></EditDesignationModal>
+            <AddDesignationModal isDesignationModalOpen={isDesignationModalOpen} setIsDesignationModalOpen={setIsDesignationModalOpen} refetch={refetch} />
+            <EditDesignationModal editDesignationModalOpen={editDesignationModalOpen} setEditDesignationModalOpen={setEditDesignationModalOpen} designation={selectedDesignation} refetch={refetch}></EditDesignationModal>
             <ToastContainer></ToastContainer>
         </div>
     );
