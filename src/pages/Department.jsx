@@ -101,7 +101,7 @@ const Department = () => {
     return (
         <div className="font-lexend">
             <div className="flex justify-between items-center mb-2">
-                <h1 className="font-bold text-xl">Department</h1>
+                <h1 className="font-bold text-xl">Departments</h1>
                 <div className="flex items-center gap-1">
                     <button
                         onClick={openDepartmentModal}

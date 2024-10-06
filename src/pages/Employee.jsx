@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { FaEdit, FaFileImport } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
-import AddModal from "../Components/AddModal";
 import { toast, ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
 import useCustomer from "../Hooks/useCustomer";
@@ -11,11 +10,12 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import ImportModal from "../Components/ImportModal";
+import AddEmployeeModal from "../Components/AddEmployeeModal";
 
 const Employees = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editModalOpen, setEditModalOpen] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
+    const [editEmployeeModalOpen, setEditEmployeeModalOpen] = useState(false);
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [importModalOpen, setImportModalOpen] = useState(false);
     const axiosSecure = useAxiosSecure();
 
@@ -25,16 +25,16 @@ const Employees = () => {
 
     // Fetch Employees
     const [data, loading, refetch] = useCustomer(currentPage, limit); // This hook contain the 1st 10 data of customer collection cause of pagination
-    const Employees = data?.Employees || [];
+    const employees = data?.employees || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
 
     const openModal = () => {
-        setIsModalOpen(true);
+        setIsEmployeeModalOpen(true);
     };
-    const openEditModal = (customer) => {
-        setSelectedCustomer(customer);
-        setEditModalOpen(true);
+    const openEditModal = (employee) => {
+        setSelectedEmployee(employee);
+        setEditEmployeeModalOpen(true);
     }
 
     const openImportModal = () => {
@@ -210,33 +210,33 @@ const Employees = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Employees.length === 0 ? (
+                            {employees.length === 0 ? (
                                 <tr>
                                     <td colSpan="7" className="text-center py-4">No Employees available.</td>
                                 </tr>
-                            ) : (Employees?.map((customer, index) =>
-                                <tr key={customer._id} className="bg-gray-100">
+                            ) : (employees?.map((employee, index) =>
+                                <tr key={employee._id} className="bg-gray-100">
                                     <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                                     <td className="px-3 py-1 border text-xs">
-                                        {customer.name}
+                                        {employee.name}
                                     </td>
-                                    <td className="px-3 py-1 border text-xs">{customer.phone}</td>
-                                    <td className="px-3 py-1 border text-xs">{customer.email}</td>
-                                    <td className="px-3 py-1 border text-xs">{customer.address}</td>
+                                    <td className="px-3 py-1 border text-xs">{employee.phone}</td>
+                                    <td className="px-3 py-1 border text-xs">{employee.email}</td>
+                                    <td className="px-3 py-1 border text-xs">{employee.address}</td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
-                                                customer.status === 'Inactive' ? 'bg-red-500 text-white' :
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${employee.status === 'Active' ? 'bg-green-500 text-white' :
+                                                employee.status === 'Inactive' ? 'bg-red-500 text-white' :
                                                     ''
                                                 }`}
                                         >
-                                            {customer.status === 'Active' ? 'Active' :
-                                                customer.status === 'Inactive' ? 'Inactive' :
+                                            {employee.status === 'Active' ? 'Active' :
+                                                employee.status === 'Inactive' ? 'Inactive' :
                                                     ''}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(customer)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
+                                        <button onClick={() => openEditModal(employee)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
                                             <FaEdit className="bg-blue-500 text-white" />
                                         </button>
                                     </td>
@@ -250,8 +250,8 @@ const Employees = () => {
 
             )}
 
-            <AddModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} refetch={refetch} />
-            <EditCustomerModal editModalOpen={editModalOpen} setEditModalOpen={setEditModalOpen} customer={selectedCustomer} refetch={refetch}></EditCustomerModal>
+            <AddEmployeeModal isEmployeeModalOpen={isEmployeeModalOpen} setIsEmployeeModalOpen={setIsEmployeeModalOpen} refetch={refetch} />
+            <EditCustomerModal editEmployeeModalOpen={editEmployeeModalOpen} setEditEmployeeModalOpen={setEditEmployeeModalOpen} employee={selectedEmployee} refetch={refetch}></EditCustomerModal>
             <ImportModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>
