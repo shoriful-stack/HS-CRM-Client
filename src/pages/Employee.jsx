@@ -12,6 +12,7 @@ import ImportModal from "../Components/ImportModal";
 import AddEmployeeModal from "../Components/AddEmployeeModal";
 import useEmployee from "../Hooks/useEmployee";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
+import EditEmployeeModal from "../Components/EditEmployeeModal";
 
 const Employees = () => {
     const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
@@ -267,7 +268,7 @@ const Employees = () => {
             )}
 
             <AddEmployeeModal isEmployeeModalOpen={isEmployeeModalOpen} setIsEmployeeModalOpen={setIsEmployeeModalOpen} refetch={refetch} />
-            <EditCustomerModal editEmployeeModalOpen={editEmployeeModalOpen} setEditEmployeeModalOpen={setEditEmployeeModalOpen} employee={selectedEmployee} refetch={refetch}></EditCustomerModal>
+            <EditEmployeeModal editEmployeeModalOpen={editEmployeeModalOpen} setEditEmployeeModalOpen={setEditEmployeeModalOpen} employee={selectedEmployee} refetch={refetch}></EditEmployeeModal>
             <ImportModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>
