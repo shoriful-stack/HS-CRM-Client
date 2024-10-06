@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch}) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
     
 
     useEffect(() => {
@@ -37,6 +39,7 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch
         if (customerRes.data.modifiedCount > 0) {
             reset();
             refetch();
+            queryClient.invalidateQueries(['projects']);
             toast.success(`${data.name} updated successfully`);
             closeModal();
         }

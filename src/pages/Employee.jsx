@@ -124,8 +124,8 @@ const Employees = () => {
             startPage = Math.max(endPage - maxPagesToShow + 1, 1);
         }
 
-        const startCustomer = (currentPage - 1) * limit + 1;
-        const endCustomer = Math.min(currentPage * limit, total);
+        const startEmployee = (currentPage - 1) * limit + 1;
+        const endEmployee = Math.min(currentPage * limit, total);
 
         for (let i = startPage; i <= endPage; i++) {
             pages.push(
@@ -143,7 +143,7 @@ const Employees = () => {
             <div className="flex justify-between items-center mt-4">
                 {/* Show customer range information */}
                 <span className="text-sm text-gray-600">
-                    Showing {startCustomer} to {endCustomer} of {total} Employees
+                    Showing {startEmployee} to {endEmployee} of {total} Employees
                 </span>
 
                 <div className="flex items-center">

@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const EditDepartmentModal = ({ editDepartmentModalOpen, setEditDepartmentModalOpen, department, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
 
 
     useEffect(() => {
@@ -31,6 +33,7 @@ const EditDepartmentModal = ({ editDepartmentModalOpen, setEditDepartmentModalOp
         if (departmentRes.data.modifiedCount > 0) {
             reset();
             refetch();
+            queryClient.invalidateQueries(['employees']);
             toast.success(`${data.department_name} updated successfully`);
             closeModal();
         }

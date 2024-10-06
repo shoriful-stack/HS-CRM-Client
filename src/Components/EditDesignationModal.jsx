@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const EditDesignationModal = ({ editDesignationModalOpen, setEditDesignationModalOpen, designation, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
 
 
     useEffect(() => {
@@ -31,6 +33,7 @@ const EditDesignationModal = ({ editDesignationModalOpen, setEditDesignationModa
         if (designationRes.data.modifiedCount > 0) {
             reset();
             refetch();
+            queryClient.invalidateQueries(['employees']);
             toast.success(`${data.designation} updated successfully`);
             closeModal();
         }
