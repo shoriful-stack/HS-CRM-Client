@@ -20,25 +20,27 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
         console.log(data);
 
         const addEmployee = {
-            name: data.name.trim(),
-            phone: data.phone,
-            email: data.email,
-            status: data.status || "Active",
-            address: data.address
+            employee_name: data.employee_name.trim(),
+            department_name: data.department_name,
+            designation: data.designation,
+            employee_phone: data.employee_phone,
+            employee_email: data.employee_email,
+            employee_uid: data.employee_uid,
+            employee_pass: data.employee_pass
         }
 
         try {
-            const customerRes = await axiosSecure.post('/employees', addEmployee);
-            console.log(customerRes.data);
+            const employeeRes = await axiosSecure.post('/employees', addEmployee);
+            console.log(employeeRes.data);
 
-            if (customerRes.data.insertedId) {
+            if (employeeRes.data.insertedId) {
                 reset();
                 refetch();
-                toast.success(`${data.name} added successfully`);
+                toast.success(`${data.employee_name} added successfully`);
                 closeModal();
             }
         } catch (error) {
-            toast.error(`${data.name} already exists.`);
+            toast.error(`${data.employee_name} already exists.`);
         }
     }
 
@@ -57,6 +59,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                         </button>
                         <h2 className="text-xl font-semibold mb-4">Add New Employee</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                        {/* Employee Name */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">
                                     Employee Name*
@@ -68,6 +71,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
+                            {/* Department and Designation dropdown */}
                             <div className="flex justify-between items-center gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -104,13 +108,14 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                     </select>
                                 </div>
                             </div>
+                            {/* Phone and Email */}
                             <div className="flex justify-between items-center gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Phone*
                                     </label>
                                     <input
-                                        type="phone"
+                                        type="number"
                                         name="employee_phone"
                                         {...register("employee_phone", { required: true })}
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
@@ -128,6 +133,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                     />
                                 </div>
                             </div>
+                            {/* Office ID and password */}
                             <div className="flex justify-between items-center gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">

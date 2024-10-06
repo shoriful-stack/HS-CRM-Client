@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { FaEdit, FaFileImport } from "react-icons/fa";
+import { FaEdit, FaFileImport, FaRegEye } from "react-icons/fa";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
-import useCustomer from "../Hooks/useCustomer";
 import Loader from "../Components/Loader";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import * as XLSX from 'xlsx';
@@ -11,6 +10,8 @@ import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import ImportModal from "../Components/ImportModal";
 import AddEmployeeModal from "../Components/AddEmployeeModal";
+import useEmployee from "../Hooks/useEmployee";
+import { IoMdArrowDropdownCircle } from "react-icons/io";
 
 const Employees = () => {
     const [isEmployeeModalOpen, setIsEmployeeModalOpen] = useState(false);
@@ -24,7 +25,7 @@ const Employees = () => {
     const limit = 10;
 
     // Fetch Employees
-    const [data, loading, refetch] = useCustomer(currentPage, limit); // This hook contain the 1st 10 data of customer collection cause of pagination
+    const [data, loading, refetch] = useEmployee(currentPage, limit); // This hook contain the 1st 10 data of customer collection cause of pagination
     const employees = data?.employees || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
@@ -32,7 +33,7 @@ const Employees = () => {
     const openModal = () => {
         setIsEmployeeModalOpen(true);
     };
-    const openEditModal = (employee) => {
+    const openEditEmployeeModal = (employee) => {
         setSelectedEmployee(employee);
         setEditEmployeeModalOpen(true);
     }
@@ -41,9 +42,9 @@ const Employees = () => {
         setImportModalOpen(true);
     };
 
-    const handleImport = async (EmployeesData) => {
+    const handleImport = async (employeesData) => {
         try {
-            const response = await axiosSecure.post("/Employees/all", EmployeesData, {
+            const response = await axiosSecure.post("/employees/all", employeesData, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -204,8 +205,8 @@ const Employees = () => {
                                 <th className="px-2 py-2 border text-sm">Name</th>
                                 <th className="px-2 py-2 border text-sm">Phone</th>
                                 <th className="px-2 py-2 border text-sm">Email</th>
-                                <th className="px-2 py-2 border text-sm">Designation</th>
                                 <th className="px-2 py-2 border text-sm">Department</th>
+                                <th className="px-2 py-2 border text-sm">Designation</th>
                                 <th className="px-2 py-2 border text-sm">Action</th>
                             </tr>
                         </thead>
@@ -218,27 +219,42 @@ const Employees = () => {
                                 <tr key={employee._id} className="bg-gray-100">
                                     <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                                     <td className="px-3 py-1 border text-xs">
-                                        {employee.name}
+                                        {employee.employee_uid}
                                     </td>
-                                    <td className="px-3 py-1 border text-xs">{employee.phone}</td>
-                                    <td className="px-3 py-1 border text-xs">{employee.email}</td>
-                                    <td className="px-3 py-1 border text-xs">{employee.address}</td>
-                                    <td className="px-2 py-1 border text-xs text-center">
-                                        <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${employee.status === 'Active' ? 'bg-green-500 text-white' :
-                                                employee.status === 'Inactive' ? 'bg-red-500 text-white' :
-                                                    ''
-                                                }`}
-                                        >
-                                            {employee.status === 'Active' ? 'Active' :
-                                                employee.status === 'Inactive' ? 'Inactive' :
-                                                    ''}
-                                        </p>
+                                    <td className="px-3 py-1 border text-xs">
+                                        {employee.employee_name}
                                     </td>
-                                    <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(employee)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
-                                            <FaEdit className="bg-blue-500 text-white" />
-                                        </button>
+                                    <td className="px-3 py-1 border text-xs">{employee.employee_phone}</td>
+                                    <td className="px-3 py-1 border text-xs">{employee.employee_email}</td>
+                                    <td className="px-3 py-1 border text-xs">{employee.department_name}</td>
+                                    <td className="px-3 py-1 border text-xs">{employee.designation}</td>
+                                    <td className="px-1 py-[1px] border text-center text-sm relative">
+                                        <div className="dropdown dropdown-bottom dropdown-end relative">
+                                            <div
+                                                tabIndex={0}
+                                                role="button"
+                                                className="px-[6px] py-[5px] rounded-md text-white bg-blue-600"
+                                            >
+                                                <IoMdArrowDropdownCircle className="text-2xl" />
+                                            </div>
+                                            <ul
+                                                tabIndex={0}
+                                                className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                                            >
+                                                <li>
+                                                    <a href="#" className="flex items-center space-x-2">
+                                                        <FaRegEye />
+                                                        <span>View</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a onClick={() => openEditEmployeeModal(employee)} href="#" className="flex items-center space-x-2">
+                                                        <FaEdit />
+                                                        <span>Edit</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>))
                             }
