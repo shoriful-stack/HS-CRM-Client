@@ -2,11 +2,17 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import useAllCustomer from "../Hooks/useAllCustomers";
+import useAllProjects_Master from "../Hooks/useAllProjects_Master";
+import useAllDepartment from "../Hooks/useAllDepartments";
+import useAllEmployee from "../Hooks/useAllEmployees";
 
 const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
     const [allCustomers] = useAllCustomer();
+    const [allProjects] = useAllProjects_Master();
+    const [allDepartments] = useAllDepartment();
+    const [allEmployees] = useAllEmployee();
 
     const onSubmit = async (data) => {
         console.log(data);
@@ -51,17 +57,23 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                         </button>
                         <h2 className="text-xl font-semibold mb-4">Add New Project</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Name*
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="project_name"
                                         {...register("project_name", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Project</option>
+                                        {allProjects.map((project) => (
+                                            <option key={project._id} value={project.project_name}>
+                                                {project.project_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -70,19 +82,19 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                     <select
                                         name="customer_name"
                                         {...register("customer_name", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Customer</option>
                                         {allCustomers.map((customer) => (
                                             <option key={customer._id} value={customer.name}>
-                                                {customer.name} 
+                                                {customer.name}
                                             </option>
                                         ))}
                                     </select>
 
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Category*
@@ -90,7 +102,7 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                     <select
                                         name="project_category"
                                         {...register("project_category", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 block w-full text-sm border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Category</option>
                                         <option value="Service">Service</option>
@@ -101,39 +113,57 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                     <label className="block text-sm font-medium text-gray-700">
                                         Department*
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="department"
                                         {...register("department", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Department</option>
+                                        {allDepartments.map((department) => (
+                                            <option key={department._id} value={department.department_name}>
+                                                {department.department_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        HOD
+                                        HOD*
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="hod"
-                                        {...register("hod")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        {...register("hod", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select HOD</option>
+                                        {allEmployees.map((employee) => (
+                                            <option key={employee._id} value={employee.employee_name}>
+                                                {employee.employee_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        PM
+                                        Project Manager*
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="pm"
-                                        {...register("pm")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        {...register("pm", { required: true })}
+                                        className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Project Manager</option>
+                                        {allEmployees.map((employee) => (
+                                            <option key={employee._id} value={employee.employee_name}>
+                                                {employee.employee_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="grid grid-cols-3 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Year
@@ -142,7 +172,7 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                         type="number"
                                         name="year"
                                         {...register("year", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -153,19 +183,25 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                         type="text"
                                         name="phase"
                                         {...register("phase")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Project Code
+                                        Project Code*
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="project_code"
                                         {...register("project_code", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Code</option>
+                                        {allProjects.map((project) => (
+                                            <option key={project._id} value={project.project_code}>
+                                                {project.project_code}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                             <div className="flex justify-end">

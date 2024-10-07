@@ -4,10 +4,10 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import EditDepartmentModal from "../Components/EditDepartmentModal";
 import useProject_Master from "../Hooks/useProject_Master";
 import AddProject_MasterModal from "../Components/AddProject_MasterModal";
 import EditProject_MasterModal from "../Components/EditProject_MasterModal";
+import ImportProjects_MasterModal from "../Components/ImportProjects_MasterModal";
 
 const Project_Master = () => {
     const [isProject_MasterModalOpen, setIsProject_MasterModalOpen] = useState(false);
@@ -38,9 +38,9 @@ const Project_Master = () => {
         setImportModalOpen(true);
     };
 
-    const handleImport = async (projectsData) => {
+    const handleImport = async (projects_masterData) => {
         try {
-            const response = await axiosSecure.post("/projects/all", projectsData, {
+            const response = await axiosSecure.post("/projects_master/all", projects_masterData, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -198,6 +198,7 @@ const Project_Master = () => {
 
             <AddProject_MasterModal isProject_MasterModalOpen={isProject_MasterModalOpen} setIsProject_MasterModalOpen={setIsProject_MasterModalOpen} refetch={refetch} />
             <EditProject_MasterModal editProject_MasterModalOpen={editProject_MasterModalOpen} setEditProject_MasterModalOpen={setEditProject_MasterModalOpen} project_master={selectedProject_Master} refetch={refetch}></EditProject_MasterModal>
+            <ImportProjects_MasterModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>
     );

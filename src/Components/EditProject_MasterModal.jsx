@@ -26,7 +26,7 @@ const EditProject_MasterModal = ({ editProject_MasterModalOpen, setEditProject_M
             project_code: data.project_code,
             project_status: data.project_status
         };
-        const projectRes = await axiosSecure.patch(`/projects/${project._id}`, updatedProject);
+        const projectRes = await axiosSecure.patch(`/projects_master/${project_master._id}`, updatedProject);
         console.log(projectRes.data);
 
         if (projectRes.data.modifiedCount > 0) {
@@ -84,11 +84,11 @@ const EditProject_MasterModal = ({ editProject_MasterModalOpen, setEditProject_M
                                     Status
                                 </label>
                                 <select
-                                    name="status"
-                                    {...register("status")}
+                                    name="project_status"
+                                    {...register("project_status")}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 >
-                                    <option value="">Select Status</option>
+                                    <option className="hidden" value="">Select Status</option>
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
