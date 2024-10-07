@@ -119,52 +119,52 @@ const Projects = () => {
     let endPage = startPage + maxPagesToShow - 1;
 
     if (endPage > totalPages) {
-        endPage = totalPages;
-        startPage = Math.max(endPage - maxPagesToShow + 1, 1);
+      endPage = totalPages;
+      startPage = Math.max(endPage - maxPagesToShow + 1, 1);
     }
 
     const startProject = (currentPage - 1) * limit + 1;
     const endProject = Math.min(currentPage * limit, total);
 
     for (let i = startPage; i <= endPage; i++) {
-        pages.push(
-            <button
-                key={i}
-                onClick={() => handlePageSelect(i)}
-                className={`px-2 py-[2px] rounded-md mx-[2px] ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-            >
-                {i}
-            </button>
-        );
+      pages.push(
+        <button
+          key={i}
+          onClick={() => handlePageSelect(i)}
+          className={`px-2 py-[2px] rounded-md mx-[2px] ${i === currentPage ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
+        >
+          {i}
+        </button>
+      );
     }
 
     return (
-        <div className="flex justify-between items-center mt-4">
-            {/* Show customer range information */}
-            <span className="text-sm text-gray-600">
-                Showing {startProject} to {endProject} of {total} projects
-            </span>
+      <div className="flex justify-between items-center mt-4">
+        {/* Show customer range information */}
+        <span className="text-sm text-gray-600">
+          Showing {startProject} to {endProject} of {total} projects
+        </span>
 
-            <div className="flex items-center">
-                <button
-                    onClick={handlePrevious}
-                    disabled={currentPage === 1}
-                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
-                >
-                    <TbPlayerTrackPrevFilled />
-                </button>
-                {pages}
-                <button
-                    onClick={handleNext}
-                    disabled={currentPage === totalPages}
-                    className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
-                >
-                    <TbPlayerTrackNextFilled />
-                </button>
-            </div>
+        <div className="flex items-center">
+          <button
+            onClick={handlePrevious}
+            disabled={currentPage === 1}
+            className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+          >
+            <TbPlayerTrackPrevFilled />
+          </button>
+          {pages}
+          <button
+            onClick={handleNext}
+            disabled={currentPage === totalPages}
+            className="px-2 py-1 rounded-md mx-1 bg-gray-200 disabled:opacity-50"
+          >
+            <TbPlayerTrackNextFilled />
+          </button>
         </div>
+      </div>
     );
-};
+  };
   return (
     <div className="font-lexend">
       <div className="flex justify-between items-center mb-2">
@@ -203,6 +203,7 @@ const Projects = () => {
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
+                <th className="px-2 py-2 border text-xs">Action</th>
                 <th className="px-2 py-2 border text-xs">Project Name</th>
                 <th className="px-2 py-2 border text-xs">Project Category</th>
                 <th className="px-2 py-2 border text-xs">Customer Name</th>
@@ -212,7 +213,6 @@ const Projects = () => {
                 <th className="px-2 py-2 border text-xs">Year</th>
                 <th className="px-2 py-2 border text-xs">Phase</th>
                 <th className="px-2 py-2 border text-xs">Project Code</th>
-                <th className="px-2 py-2 border text-xs">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -222,18 +222,7 @@ const Projects = () => {
                 </tr>
               ) : (
                 projects.map((project, index) => <tr key={project._id} className="bg-gray-100">
-                  <td className="px-3 py-2 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
-                  <td className="px-3 py-2 border text-xs">{project.project_name}</td>
-                  <td className="px-3 py-2 border text-xs">{project.project_category}</td>
-                  <td className="px-3 py-2 border text-xs">{project.customer_name}</td>
-                  <td className="px-3 py-2 border text-xs">{project.department}</td>
-                  <td className="px-3 py-2 border text-xs">{project.hod}</td>
-                  <td className="px-3 py-2 border text-xs">{project.pm}</td>
-                  <td className="px-3 py-2 border text-xs">
-                    {project.year}
-                  </td>
-                  <td className="px-3 py-2 border text-xs">{project.phase}</td>
-                  <td className="px-3 py-2 border text-xs">{project.project_code}</td>
+                  <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                   <td className="px-1 py-[1px] border text-center text-sm relative">
                     <div className="dropdown dropdown-bottom dropdown-end relative">
                       <div
@@ -268,6 +257,17 @@ const Projects = () => {
                       </ul>
                     </div>
                   </td>
+                  <td className="px-1 py-1 border text-xs">{project.project_name}</td>
+                  <td className="px-1 py-1 border text-xs">{project.project_category}</td>
+                  <td className="px-1 py-1 border text-xs">{project.customer_name}</td>
+                  <td className="px-1 py-1 border text-xs">{project.department}</td>
+                  <td className="px-1 py-1 border text-xs">{project.hod}</td>
+                  <td className="px-1 py-1 border text-xs">{project.pm}</td>
+                  <td className="px-1 py-1 border text-xs">
+                    {project.year}
+                  </td>
+                  <td className="px-1 py-1 border text-xs">{project.phase}</td>
+                  <td className="px-1 py-1 border text-xs">{project.project_code}</td>
                 </tr>))
               }
             </tbody>

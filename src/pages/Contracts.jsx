@@ -20,6 +20,14 @@ const Contracts = () => {
     const [importModalOpen, setImportModalOpen] = useState(false);
     const axiosSecure = useAxiosSecure();
 
+    const formatDate = (dateString) => {
+        if (!dateString) return ''; // Return empty if no date is provided
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return ''; // Check if the date is invalid
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-GB', options);
+    };
+
 
     // Pagination States
     const [currentPage, setCurrentPage] = useState(1);
@@ -139,7 +147,7 @@ const Contracts = () => {
         }
 
         return (
-            <div className="flex justify-between items-center mt-4">
+            <div className="flex justify-between items-center mt-4 w-[1037px]">
                 {/* Show customer range information */}
                 <span className="text-sm text-gray-600">
                     Showing {startProject} to {endProject} of {total} contracts
@@ -167,7 +175,7 @@ const Contracts = () => {
     };
     return (
         <div className="font-lexend">
-            <div className="flex justify-between items-center mb-2">
+            <div className="flex justify-between items-center mb-2 w-[1037px]">
                 <h1 className="font-bold text-xl">Contracts</h1>
                 <div className="flex items-center gap-1">
                     <button
@@ -198,11 +206,12 @@ const Contracts = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <div className="relative overflow-x-auto">
-                    <table className="table w-full border-collapse border">
+                <div className="overflow-x-auto">
+                    <table className="table w-[1180px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
+                                <th className="px-2 py-2 border text-xs">Action</th>
                                 <th className="px-2 py-2 border text-xs">Title</th>
                                 <th className="px-2 py-2 border text-xs">Project Type</th>
                                 <th className="px-2 py-2 border text-xs">First Party</th>
@@ -214,7 +223,6 @@ const Contracts = () => {
                                 <th className="px-2 py-2 border text-xs">Scan Copy</th>
                                 <th className="px-2 py-2 border text-xs">Hard Copy</th>
                                 <th className="px-2 py-2 border text-xs">Status</th>
-                                <th className="px-2 py-2 border text-xs">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -224,28 +232,7 @@ const Contracts = () => {
                                 </tr>
                             ) : (
                                 contracts.map((contract, index) => <tr key={contract._id} className="bg-gray-100">
-                                    <td className="px-3 py-2 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
-                                    <td className="px-3 py-2 border text-xs">{contract.contract_title}</td>
-                                    <td className="px-3 py-2 border text-xs">
-                                        {contract.project_type === '1' ? 'Service' :
-                                            contract.project_type === '2' ? 'Product' :
-                                                'Supply & Service'}
-                                    </td>
-                                    <td className="px-3 py-2 border text-xs">{contract.first_party}</td>
-                                    <td className="px-3 py-2 border text-xs">{contract.customer_name}</td>
-                                    <td className="px-3 py-2 border text-xs">{contract.signing_date}</td>
-                                    <td className="px-3 py-2 border text-xs">{contract.effective_date}</td>
-                                    <td className="px-3 py-2 border text-xs">{contract.closing_date}</td>
-                                    <td className="px-3 py-2 border text-xs">{contract.refNo}</td>
-                                    <td className="px-3 py-2 border text-xs">
-                                        {contract.scan_copy_status === '1' ? 'Done' : 'Undone'}
-                                    </td>
-                                    <td className="px-3 py-2 border text-xs">{contract.hard_copy_status === '1' ? 'Found' : 'Not Found'}</td>
-                                    <td className="px-3 py-2 border text-xs">
-                                        {contract.contract_status === '1' ? 'Not Expired' :
-                                            contract.contract_status === '0' ? 'Expired' :
-                                                ''}
-                                    </td>
+                                    <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
                                     <td className="px-1 py-[1px] border text-center text-sm relative">
                                         <div className="dropdown dropdown-bottom dropdown-end relative">
                                             <div
@@ -279,6 +266,27 @@ const Contracts = () => {
                                                 </li>
                                             </ul>
                                         </div>
+                                    </td>
+                                    <td className="px-1 py-1 border text-xs">{contract.contract_title}</td>
+                                    <td className="px-1 py-1 border text-xs">
+                                        {contract.project_type === '1' ? 'Service' :
+                                            contract.project_type === '2' ? 'Product' :
+                                                'Supply & Service'}
+                                    </td>
+                                    <td className="px-1 py-1 border text-xs">{contract.first_party}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.customer_name}</td>
+                                    <td className="px-1 py-1 border text-xs">{formatDate(contract.signing_date)}</td>
+                                    <td className="px-1 py-1 border text-xs">{formatDate(contract.effective_date)}</td>
+                                    <td className="px-1 py-1 border text-xs">{formatDate(contract.closing_date)}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.refNo}</td>
+                                    <td className="px-1 py-1 border text-xs">
+                                        {contract.scan_copy_status === '1' ? 'Done' : 'Undone'}
+                                    </td>
+                                    <td className="px-1 py-1 border text-xs">{contract.hard_copy_status === '1' ? 'Found' : 'Not Found'}</td>
+                                    <td className="px-1 py-1 border text-xs">
+                                        {contract.contract_status === '1' ? 'Not Expired' :
+                                            contract.contract_status === '0' ? 'Expired' :
+                                                ''}
                                     </td>
                                 </tr>))
                             }
