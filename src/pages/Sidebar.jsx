@@ -135,7 +135,7 @@ const Sidebar = () => {
                             <li>
                                 <NavLink to="/dashboard/contracts" className={getNavLinkClass}>
                                     {/* Projects Icon */}
-                                    <FaFileContract className="text-[20px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"/>
+                                    <FaFileContract className="text-[20px] flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
                                     {!isCollapsed && <span className="flex-1 ms-2 text-left text-white font-medium text-sm">Contracts</span>}
                                 </NavLink>
                             </li>
@@ -192,6 +192,11 @@ const Sidebar = () => {
                                 </button>
                                 {isSettingsDropdownOpen && !isCollapsed && (
                                     <ul className="space-y-2 pl-8 mt-2">
+                                        <li>
+                                            <NavLink to="/dashboard/project_master" className={getNavLinkClass}>
+                                                <span className="ms-3 text-gray-300">- Project Master</span>
+                                            </NavLink>
+                                        </li>
                                         <li>
                                             <NavLink to="/dashboard/department" className={getNavLinkClass}>
                                                 <span className="ms-3 text-gray-300">- Department</span>

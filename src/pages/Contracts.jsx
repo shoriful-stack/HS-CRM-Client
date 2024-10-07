@@ -9,12 +9,12 @@ import Loader from "../Components/Loader";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import AddProjectModal from "../Components/AddProjectModal";
 import EditProjectModal from "../Components/EditProjectModal";
 import ImportProjectsModal from "../Components/ImportProjectsModal";
+import AddContractModal from "../Components/AddContractModal";
 
 const Contracts = () => {
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
@@ -32,7 +32,7 @@ const Contracts = () => {
   const totalPages = data?.totalPages || 1;
 
   const openAddModal = () => {
-    setIsAddModalOpen(true);
+    setIsAddContractModalOpen(true);
   };
   const openEditTenderModal = (project) => {
     setSelectedProject(project);
@@ -280,7 +280,7 @@ const Contracts = () => {
           {renderPagination()}
         </>
       )}
-      <AddProjectModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
+      <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
       <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
       <ImportProjectsModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
       <ToastContainer></ToastContainer>

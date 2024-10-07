@@ -18,6 +18,7 @@ import Employee from "./pages/Employee";
 import Department from "./pages/Department";
 import Designation from "./pages/Designation";
 import Contracts from "./pages/Contracts";
+import Project_Master from "./pages/Project_Master";
 
 const queryClient = new QueryClient()
 
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/employees",
         element: <Employee></Employee>
+      },
+      {
+        path: "/dashboard/project_master",
+        element: <Project_Master></Project_Master>
       },
       {
         path: "/dashboard/department",
