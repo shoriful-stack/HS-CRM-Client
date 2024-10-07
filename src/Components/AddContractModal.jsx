@@ -11,27 +11,46 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
     const onSubmit = async (data) => {
         console.log(data);
 
-        const addProject = {
-            project_name: data.project_name,
-            customer_name: data.customer_name,
-            project_category: data.project_category,
-            department: data.department,
-            hod: data.hod,
-            pm: data.pm,
-            year: data.year,
-            phase: data.phase,
-            project_code: data.project_code
-        }
-        const projectRes = await axiosSecure.post('/projects', addProject);
-        console.log(projectRes.data);
+        // Create a FormData object to hold the form values and the file
+        const formData = new FormData();
 
-        if (projectRes.data.insertedId) {
-            reset();
-            refetch();
-            toast.success(`${data.project_name} added successfully`);
-            closeAddModal();
+        // Append form fields to FormData
+        formData.append('contract_title', data.contract_title);
+        formData.append('customer_name', data.customer_name);
+        formData.append('project_type', data.project_type);
+        formData.append('refNo', data.refNo);
+        formData.append('first_party', data.first_party);
+        formData.append('signing_date', data.signing_date);
+        formData.append('effective_date', data.effective_date);
+        formData.append('closing_date', data.closing_date);
+        formData.append('scan_copy_status', data.scan_copy_status);
+        formData.append('hard_copy_status', data.hard_copy_status);
+        formData.append('contract_status', data.contract_status);
+
+        // Append file (ensure data.contract_file[0] to get the actual file)
+        formData.append('contract_file', data.contract_file[0]);
+
+        try {
+            // Send the form data (including the file) to the backend
+            const contractRes = await axiosSecure.post('/contracts', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
+            console.log(contractRes.data);
+
+            if (contractRes.data.insertedId) {
+                reset();
+                refetch();
+                toast.success(`${data.contract_title} added successfully`);
+                closeAddModal();
+            }
+        } catch (error) {
+            console.error('Error uploading contract:', error);
+            toast.error('Failed to upload contract');
         }
-    }
+    };
 
     const closeAddModal = () => {
         setIsAddContractModalOpen(false);
@@ -93,8 +112,9 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Type</option>
-                                        <option value="Service">Service</option>
-                                        <option value="Product">Product</option>
+                                        <option value="1">Service</option>
+                                        <option value="2">Product</option>
+                                        <option value="3">Supply & Service</option>
                                     </select>
                                 </div>
                                 <div>
@@ -134,23 +154,23 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Effective Date*
+                                        Effective Date
                                     </label>
                                     <input
                                         type="date"
                                         name="effective_date"
-                                        {...register("effective_date", { required: true })}
+                                        {...register("effective_date")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Closing Date*
+                                        Closing Date
                                     </label>
                                     <input
                                         type="date"
                                         name="closing_date"
-                                        {...register("closing_date", { required: true })}
+                                        {...register("closing_date")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
@@ -180,24 +200,30 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Status</option>
-                                        <option value="1">Done</option>
-                                        <option value="0">Undone</option>
+                                        <option value="1">Found</option>
+                                        <option value="0">Not Found</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Contract Status*
+                                        Contract Status
                                     </label>
                                     <select
                                         name="contract_status"
-                                        {...register("contract_status", { required: true })}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        {...register("contract_status")}
+                                        className="block mt-1 text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Status</option>
                                         <option value="0">Expired</option>
                                         <option value="1">Not Expired</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div>
+                                <label className="text-md font-medium text-gray-700 mr-3">
+                                    Attachment*
+                                </label>
+                                <input type="file" name="contract_file" {...register("contract_file", { required: true })} id="" />
                             </div>
                             <div className="flex justify-end">
                                 <button

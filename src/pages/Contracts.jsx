@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaEdit, FaFileImport, FaHistory, FaRegEye } from "react-icons/fa";
+import { FaDownload, FaEdit, FaFileImport } from "react-icons/fa";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -249,14 +249,14 @@ const Contracts = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                        className="dropdown-content bg-base-100 text-start w-[150px] pl-3 py-2 rounded-md shadow text-sm z-50"
                       >
-                        <li>
+                        {/* <li>
                           <a href="#" className="flex items-center space-x-2">
                             <FaRegEye />
                             <span>View</span>
                           </a>
-                        </li>
+                        </li> */}
                         <li>
                           <a onClick={() => openEditTenderModal(project)} href="#" className="flex items-center space-x-2">
                             <FaEdit />
@@ -265,8 +265,8 @@ const Contracts = () => {
                         </li>
                         <li>
                           <a href="#" className="flex items-center space-x-2">
-                            <FaHistory />
-                            <span>Project History</span>
+                          <FaDownload />
+                            <span>Contract Details</span>
                           </a>
                         </li>
                       </ul>
