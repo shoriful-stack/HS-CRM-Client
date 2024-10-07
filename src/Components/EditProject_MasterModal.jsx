@@ -1,87 +1,102 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
-const AddProject_MasterModal = ({ isProject_MasterModalOpen, setIsProject_MasterModalOpen, refetch }) => {
-    const { register, handleSubmit, reset } = useForm();
+const EditProject_MasterModal = ({ editProject_MasterModalOpen, setEditProject_MasterModalOpen, project_master, refetch }) => {
+    const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
 
+    useEffect(() => {
+        if (project_master) {
+            // Set form values with customer data when modal opens
+            setValue("project_name", project_master.project_name);
+            setValue("project_code", project_master.project_code);
+            setValue("project_status", project_master.project_status);
+        }
+    }, [project_master, setValue]);
+    const closeEditProjectModal = () => {
+        setEditProject_MasterModalOpen(false);
+    };
     const onSubmit = async (data) => {
         console.log(data);
 
-        const addProject = {
+        const updatedProject = {
             project_name: data.project_name,
             project_code: data.project_code,
-            project_status: data.project_status || "1"
-        }
-        const projectRes = await axiosSecure.post('/projects_master', addProject);
+            project_status: data.project_status
+        };
+        const projectRes = await axiosSecure.patch(`/projects/${project._id}`, updatedProject);
         console.log(projectRes.data);
 
-        if (projectRes.data.insertedId) {
+        if (projectRes.data.modifiedCount > 0) {
             reset();
             refetch();
-            toast.success(`${data.project_name} added successfully`);
-            closeAddModal();
+            toast.success(`${data.project_name} updated successfully`);
+            closeEditProjectModal();
         }
-    }
-
-    const closeAddModal = () => {
-        setIsProject_MasterModalOpen(false);
+        if (projectRes.data.modifiedCount === 0) {
+            refetch();
+            closeEditProjectModal();
+        }
     };
 
     return (
         <>
             {/* Modal Component */}
-            {isProject_MasterModalOpen && (
+            {editProject_MasterModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                     <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
                         <button
-                            onClick={closeAddModal}
+                            onClick={closeEditProjectModal}
                             className="absolute top-3 right-3 hover:text-gray-700 text-3xl"
                         >
                             ×
                         </button>
-                        <h2 className="text-xl font-semibold mb-4">Add New Project</h2>
+                        <h2 className="text-xl font-semibold mb-4">Edit Project</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                             <div className="flex justify-between items-center gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Project Name*
+                                        Project Name
                                     </label>
                                     <input
                                         type="text"
                                         name="project_name"
-                                        {...register("project_name", { required: true })}
+                                        {...register("project_name")}
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Project Code*
+                                        Project Code
                                     </label>
                                     <input
                                         type="text"
                                         name="project_code"
-                                        {...register("project_code", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
-                                <div className="hidden">
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Status
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="project_status"
-                                        {...register("project_status")}
+                                        {...register("project_code")}
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Status
+                                </label>
+                                <select
+                                    name="status"
+                                    {...register("status")}
+                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                >
+                                    <option value="">Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
                             <div className="flex justify-end">
                                 <button
                                     type="button"
-                                    onClick={closeAddModal}
+                                    onClick={closeEditProjectModal}
                                     className="mr-2 px-4 py-2 bg-red-500 text-white rounded-md hover:bg-gray-400"
                                 >
                                     Cancel
@@ -101,4 +116,4 @@ const AddProject_MasterModal = ({ isProject_MasterModalOpen, setIsProject_Master
     );
 }
 
-export default AddProject_MasterModal;
+export default EditProject_MasterModal;

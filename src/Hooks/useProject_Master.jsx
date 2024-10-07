@@ -6,9 +6,9 @@ const useProject_Master = (page, limit) => {
     const axiosSecure = useAxiosSecure();
 
     const { data, isPending: loading, refetch } = useQuery({
-        queryKey: ["project_master", page, limit],
+        queryKey: ["projects_master", page, limit],
         queryFn: async () => {
-            const res = await axiosSecure.get("/project_master", {
+            const res = await axiosSecure.get("/projects_master", {
                 params: { page, limit },
             });
             return res.data;

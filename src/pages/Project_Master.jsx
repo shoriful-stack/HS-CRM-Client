@@ -4,10 +4,10 @@ import { IoAddCircleSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
-import AddDepartmentModal from "../Components/AddDepartmentModal";
 import EditDepartmentModal from "../Components/EditDepartmentModal";
 import useProject_Master from "../Hooks/useProject_Master";
 import AddProject_MasterModal from "../Components/AddProject_MasterModal";
+import EditProject_MasterModal from "../Components/EditProject_MasterModal";
 
 const Project_Master = () => {
     const [isProject_MasterModalOpen, setIsProject_MasterModalOpen] = useState(false);
@@ -100,7 +100,7 @@ const Project_Master = () => {
             <div className="flex justify-between items-center mt-4">
                 {/* Show customer range information */}
                 <span className="text-sm text-gray-600">
-                    Showing {startDepartment} to {endDepartment} of {total} Project
+                    Showing {startDepartment} to {endDepartment} of {total} Projects
                 </span>
 
                 <div className="flex items-center">
@@ -176,14 +176,9 @@ const Project_Master = () => {
                                     </td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${project.project_status === '1' ? 'bg-green-500 text-white' :
-                                                project.project_status === '' ? 'bg-red-500 text-white' :
-                                                    ''
-                                                }`}
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${project.project_status === '1' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
                                         >
-                                            {project.project_status === '1' ? '1' :
-                                                project.project_status === '' ? '' :
-                                                    ''}
+                                            {project.project_status === '1' ? 'Active' : 'Inactive'}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
@@ -202,7 +197,7 @@ const Project_Master = () => {
             )}
 
             <AddProject_MasterModal isProject_MasterModalOpen={isProject_MasterModalOpen} setIsProject_MasterModalOpen={setIsProject_MasterModalOpen} refetch={refetch} />
-            <EditDepartmentModal editProject_MasterModalOpen={editProject_MasterModalOpen} setEditProject_MasterModalOpen={setEditProject_MasterModalOpen} project_master={selectedProject_Master} refetch={refetch}></EditDepartmentModal>
+            <EditProject_MasterModal editProject_MasterModalOpen={editProject_MasterModalOpen} setEditProject_MasterModalOpen={setEditProject_MasterModalOpen} project_master={selectedProject_Master} refetch={refetch}></EditProject_MasterModal>
             <ToastContainer></ToastContainer>
         </div>
     );
