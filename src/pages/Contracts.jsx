@@ -13,7 +13,7 @@ import AddProjectModal from "../Components/AddProjectModal";
 import EditProjectModal from "../Components/EditProjectModal";
 import ImportProjectsModal from "../Components/ImportProjectsModal";
 
-const Projects = () => {
+const Contracts = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -142,7 +142,7 @@ const Projects = () => {
         <div className="flex justify-between items-center mt-4">
             {/* Show customer range information */}
             <span className="text-sm text-gray-600">
-                Showing {startProject} to {endProject} of {total} projects
+                Showing {startProject} to {endProject} of {total} contracts
             </span>
 
             <div className="flex items-center">
@@ -168,7 +168,7 @@ const Projects = () => {
   return (
     <div className="font-lexend">
       <div className="flex justify-between items-center mb-2">
-        <h1 className="font-bold text-xl">Projects</h1>
+        <h1 className="font-bold text-xl">Contracts</h1>
         <div className="flex items-center gap-1">
           <button
             onClick={openAddModal}
@@ -203,15 +203,17 @@ const Projects = () => {
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
-                <th className="px-2 py-2 border text-xs">Project Name</th>
-                <th className="px-2 py-2 border text-xs">Project Category</th>
-                <th className="px-2 py-2 border text-xs">Customer Name</th>
-                <th className="px-2 py-2 border text-xs">Department</th>
-                <th className="px-2 py-2 border text-xs">HOD</th>
-                <th className="px-2 py-2 border text-xs">Project Manager</th>
-                <th className="px-2 py-2 border text-xs">Year</th>
-                <th className="px-2 py-2 border text-xs">Phase</th>
-                <th className="px-2 py-2 border text-xs">Project Code</th>
+                <th className="px-2 py-2 border text-xs">Project Title</th>
+                <th className="px-2 py-2 border text-xs">Project Type</th>
+                <th className="px-2 py-2 border text-xs">First Party</th>
+                <th className="px-2 py-2 border text-xs">Customer</th>
+                <th className="px-2 py-2 border text-xs text-center">Signing <br /> Date</th>
+                <th className="px-2 py-2 border text-xs text-center">Effective <br /> Date</th>
+                <th className="px-2 py-2 border text-xs text-center">Closing <br /> Date</th>
+                <th className="px-2 py-2 border text-xs">Ref No.</th>
+                <th className="px-2 py-2 border text-xs text-center">Scan Copy <br /> Status</th>
+                <th className="px-2 py-2 border text-xs text-center">Hard Copy <br /> Status</th>
+                <th className="px-2 py-2 border text-xs text-center">Contract <br />Status</th>
                 <th className="px-2 py-2 border text-xs">Action</th>
               </tr>
             </thead>
@@ -233,6 +235,8 @@ const Projects = () => {
                     {project.year}
                   </td>
                   <td className="px-3 py-2 border text-xs">{project.phase}</td>
+                  <td className="px-3 py-2 border text-xs">{project.project_code}</td>
+                  <td className="px-3 py-2 border text-xs">{project.project_code}</td>
                   <td className="px-3 py-2 border text-xs">{project.project_code}</td>
                   <td className="px-1 py-[1px] border text-center text-sm relative">
                     <div className="dropdown dropdown-bottom dropdown-end relative">
@@ -284,4 +288,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default Contracts;

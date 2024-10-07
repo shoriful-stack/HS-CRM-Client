@@ -17,6 +17,7 @@ import Projects from "./pages/Projects";
 import Employee from "./pages/Employee";
 import Department from "./pages/Department";
 import Designation from "./pages/Designation";
+import Contracts from "./pages/Contracts";
 
 const queryClient = new QueryClient()
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/projects",
         element: <Projects></Projects>
+      },
+      {
+        path: "/dashboard/contracts",
+        element: <Contracts></Contracts>
       },
       {
         path: "/dashboard/customers",
