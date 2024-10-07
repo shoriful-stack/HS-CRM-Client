@@ -2,10 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const EditProject_MasterModal = ({ editProject_MasterModalOpen, setEditProject_MasterModalOpen, project_master, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         if (project_master) {
@@ -32,6 +34,7 @@ const EditProject_MasterModal = ({ editProject_MasterModalOpen, setEditProject_M
         if (projectRes.data.modifiedCount > 0) {
             reset();
             refetch();
+            queryClient.invalidateQueries(['projects']);
             toast.success(`${data.project_name} updated successfully`);
             closeEditProjectModal();
         }

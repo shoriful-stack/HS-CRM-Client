@@ -42,7 +42,7 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
             {/* Modal Component */}
             {isAddContractModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+                    <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
                         <button
                             onClick={closeAddModal}
                             className="absolute top-3 right-3 hover:text-gray-700 text-3xl"
@@ -51,16 +51,16 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                         </button>
                         <h2 className="text-xl font-semibold mb-4">Add New Contract</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Project Title*
+                                        Title*
                                     </label>
                                     <input
                                         type="text"
-                                        name="project_title"
-                                        {...register("project_title", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        name="contract_title"
+                                        {...register("contract_title", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -70,19 +70,19 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                     <select
                                         name="customer_name"
                                         {...register("customer_name", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Customer</option>
                                         {allCustomers.map((customer) => (
                                             <option key={customer._id} value={customer.name}>
-                                                {customer.name} 
+                                                {customer.name}
                                             </option>
                                         ))}
                                     </select>
 
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-3 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Type*
@@ -90,12 +90,23 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                     <select
                                         name="project_type"
                                         {...register("project_type", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Type</option>
                                         <option value="Service">Service</option>
                                         <option value="Product">Product</option>
                                     </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Ref No.*
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="refNo"
+                                        {...register("refNo", { required: true })}
+                                        className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -105,67 +116,87 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         type="text"
                                         name="first_party"
                                         {...register("first_party", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-3 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        HOD
+                                        Signing Date*
                                     </label>
                                     <input
-                                        type="text"
-                                        name="hod"
-                                        {...register("hod")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        type="date"
+                                        name="signing_date"
+                                        {...register("signing_date", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        PM
+                                        Effective Date*
                                     </label>
                                     <input
-                                        type="text"
-                                        name="pm"
-                                        {...register("pm")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        type="date"
+                                        name="effective_date"
+                                        {...register("effective_date", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Closing Date*
+                                    </label>
+                                    <input
+                                        type="date"
+                                        name="closing_date"
+                                        {...register("closing_date", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>
-                            <div className="flex items-center gap-2">
+                            <div className="grid grid-cols-3 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Year
+                                        Scan Copy Status*
                                     </label>
-                                    <input
-                                        type="number"
-                                        name="year"
-                                        {...register("year", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                    <select
+                                        name="scan_copy_status"
+                                        {...register("scan_copy_status", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Status</option>
+                                        <option value="1">Done</option>
+                                        <option value="0">Undone</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Phase
+                                        Hard Copy Status*
                                     </label>
-                                    <input
-                                        type="text"
-                                        name="phase"
-                                        {...register("phase")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                    <select
+                                        name="hard_copy_status"
+                                        {...register("hard_copy_status", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Status</option>
+                                        <option value="1">Done</option>
+                                        <option value="0">Undone</option>
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Project Code
+                                        Contract Status*
                                     </label>
-                                    <input
-                                        type="text"
-                                        name="project_code"
-                                        {...register("project_code", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                    <select
+                                        name="contract_status"
+                                        {...register("contract_status", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Status</option>
+                                        <option value="0">Expired</option>
+                                        <option value="1">Not Expired</option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="flex justify-end">

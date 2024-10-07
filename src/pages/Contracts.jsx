@@ -203,7 +203,7 @@ const Contracts = () => {
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
-                <th className="px-2 py-2 border text-xs">Project Title</th>
+                <th className="px-2 py-2 border text-xs">Title</th>
                 <th className="px-2 py-2 border text-xs">Project Type</th>
                 <th className="px-2 py-2 border text-xs">First Party</th>
                 <th className="px-2 py-2 border text-xs">Customer</th>
