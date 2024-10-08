@@ -11,6 +11,18 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
     const onSubmit = async (data) => {
         console.log(data);
 
+        // Determine contract_status based on closing_date
+        const closingDate = new Date(data.closing_date);
+        const today = new Date();
+        const contract_status = closingDate > today ? "1" : "0";
+
+        // Optionally, you can display a message or set a state based on contract_status
+        if (contract_status === "0") {
+            toast.info("The contract will be marked as Expired.");
+        } else {
+            toast.info("The contract will be marked as Not Expired.");
+        }
+
         // Create a FormData object to hold the form values and the file
         const formData = new FormData();
 
@@ -25,9 +37,6 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
         formData.append('closing_date', data.closing_date);
         formData.append('scan_copy_status', data.scan_copy_status);
         formData.append('hard_copy_status', data.hard_copy_status);
-        formData.append('contract_status', data.contract_status);
-
-        // Append file (ensure data.contract_file[0] to get the actual file)
         formData.append('contract_file', data.contract_file[0]);
 
         try {
@@ -51,6 +60,7 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
             toast.error('Failed to upload contract');
         }
     };
+
 
     const closeAddModal = () => {
         setIsAddContractModalOpen(false);
@@ -175,7 +185,7 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Scan Copy Status*
@@ -202,20 +212,6 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         <option className="hidden" value="">Select Status</option>
                                         <option value="1">Found</option>
                                         <option value="0">Not Found</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Contract Status
-                                    </label>
-                                    <select
-                                        name="contract_status"
-                                        {...register("contract_status")}
-                                        className="block mt-1 text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Status</option>
-                                        <option value="0">Expired</option>
-                                        <option value="1">Not Expired</option>
                                     </select>
                                 </div>
                             </div>
