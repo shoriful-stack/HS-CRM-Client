@@ -12,16 +12,14 @@ import AddContractModal from "../Components/AddContractModal";
 import useContract from "../Hooks/useContract";
 import ImportContractModal from "../Components/ImportContractModal";
 import EditContractModal from "../Components/EditContractModal";
-import ViewContractModal from "../Components/ViewContractModal";
+import { useNavigate } from "react-router-dom";
 
 const Contracts = () => {
     const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
     const [editContractModalOpen, setEditContractModalOpen] = useState(false);
     const [selectedContract, setSelectedContract] = useState(null);
     const [importContractModalOpen, setImportContractModalOpen] = useState(false);
-    // Inside your Contracts component
-    const [viewContractDetailsModalOpen, setViewContractDetailsModalOpen] = useState(false);
-    const [viewedContract, setViewedContract] = useState(null);
+    const navigate = useNavigate();
 
     const axiosSecure = useAxiosSecure();
 
@@ -52,14 +50,9 @@ const Contracts = () => {
         setEditContractModalOpen(true);
     };
 
-    const openViewContractModal = (contract) => {
-        setViewedContract(contract);
-        setViewContractDetailsModalOpen(true);
-    };
-
-    const closeViewContractModal = () => {
-        setViewedContract(null);
-        setViewContractDetailsModalOpen(false);
+    // Handler to navigate to ViewContract page
+    const handleViewContract = (contract) => {
+        navigate(`/dashboard/contracts/view/${contract._id}`);
     };
 
     const openImportModal = () => {
@@ -226,7 +219,7 @@ const Contracts = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <div className="overflow-x-auto">
+                <div className="">
                     <table className="table w-[1180px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
@@ -267,17 +260,17 @@ const Contracts = () => {
                                                 className="dropdown-content bg-base-100 text-start w-[150px] pl-3 py-2 rounded-md shadow text-sm z-50"
                                             >
                                                 <li>
-                                                    <a href="#" onClick={() => openViewContractModal(contract)}
+                                                    <button onClick={() => handleViewContract(contract)}
                                                         className="flex items-center space-x-2">
                                                         <FaRegEye />
                                                         <span>View</span>
-                                                    </a>
+                                                    </button>
                                                 </li>
                                                 <li>
-                                                    <a onClick={() => openEditContractModal(contract)} href="#" className="flex items-center space-x-2">
+                                                    <button onClick={() => openEditContractModal(contract)} href="#" className="flex items-center space-x-2">
                                                         <FaEdit />
                                                         <span>Edit</span>
-                                                    </a>
+                                                    </button>
                                                 </li>
                                                 {/* <li>
                                                     <a href="#" className="flex items-center space-x-2">
@@ -318,12 +311,6 @@ const Contracts = () => {
             <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
             <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />
             <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} />
-            <ViewContractModal
-                isOpen={viewContractDetailsModalOpen}
-                onClose={closeViewContractModal}
-                contract={viewedContract}
-            />
-
             <ToastContainer></ToastContainer>
         </div>
     );

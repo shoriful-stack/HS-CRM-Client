@@ -19,6 +19,7 @@ import Department from "./pages/Department";
 import Designation from "./pages/Designation";
 import Contracts from "./pages/Contracts";
 import Project_Master from "./pages/Project_Master";
+import ViewContract from "./pages/ViewContract";
 
 const queryClient = new QueryClient()
 
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/designation",
         element: <Designation></Designation>
+      },
+      {
+        path: "/dashboard/contracts/view/:id",
+        element: <ViewContract></ViewContract>
       }
     ]
   },
