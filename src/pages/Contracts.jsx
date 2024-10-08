@@ -8,15 +8,15 @@ import Loader from "../Components/Loader";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import EditProjectModal from "../Components/EditProjectModal";
 import AddContractModal from "../Components/AddContractModal";
 import useContract from "../Hooks/useContract";
 import ImportContractModal from "../Components/ImportContractModal";
+import EditContractModal from "../Components/EditContractModal";
 
 const Contracts = () => {
     const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
-    const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
-    const [selectedProject, setSelectedProject] = useState(null);
+    const [editContractModalOpen, setEditContractModalOpen] = useState(false);
+    const [selectedContract, setSelectedContract] = useState(null);
     const [importContractModalOpen, setImportContractModalOpen] = useState(false);
     const axiosSecure = useAxiosSecure();
 
@@ -42,9 +42,9 @@ const Contracts = () => {
     const openAddModal = () => {
         setIsAddContractModalOpen(true);
     };
-    const openEditTenderModal = (project) => {
-        setSelectedProject(project);
-        setEditProjectModalOpen(true);
+    const openEditContractModal = (contract) => {
+        setSelectedContract(contract);
+        setEditContractModalOpen(true);
     };
     const openImportModal = () => {
         setImportContractModalOpen(true);
@@ -257,7 +257,7 @@ const Contracts = () => {
                           </a>
                         </li> */}
                                                 <li>
-                                                    <a onClick={() => openEditTenderModal(project)} href="#" className="flex items-center space-x-2">
+                                                    <a onClick={() => openEditContractModal(contract)} href="#" className="flex items-center space-x-2">
                                                         <FaEdit />
                                                         <span>Edit</span>
                                                     </a>
@@ -299,7 +299,7 @@ const Contracts = () => {
                 </div>
             )}
             <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
-            <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
+            <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />
             <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>
