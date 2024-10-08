@@ -226,6 +226,7 @@ const Contracts = () => {
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
                                 <th className="px-2 py-2 border text-xs">Action</th>
                                 <th className="px-2 py-2 border text-xs">Title</th>
+                                <th className="px-2 py-2 border text-xs">Project Name</th>
                                 <th className="px-2 py-2 border text-xs">Project Type</th>
                                 <th className="px-2 py-2 border text-xs">First Party</th>
                                 <th className="px-2 py-2 border text-xs">Customer</th>
@@ -257,7 +258,7 @@ const Contracts = () => {
                                             </div>
                                             <ul
                                                 tabIndex={0}
-                                                className="dropdown-content bg-base-100 text-start w-[150px] pl-3 py-2 rounded-md shadow text-sm z-50"
+                                                className="dropdown-content bg-base-100 text-start w-[100px] pl-3 py-2 rounded-md shadow text-sm z-50"
                                             >
                                                 <li>
                                                     <button onClick={() => handleViewContract(contract)}
@@ -282,6 +283,7 @@ const Contracts = () => {
                                         </div>
                                     </td>
                                     <td className="px-1 py-1 border text-xs">{contract.contract_title}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.project_name}</td>
                                     <td className="px-1 py-1 border text-xs">
                                         {contract.project_type === '1' ? 'Service' :
                                             contract.project_type === '2' ? 'Product' :
