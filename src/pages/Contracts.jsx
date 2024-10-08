@@ -9,15 +9,15 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import EditProjectModal from "../Components/EditProjectModal";
-import ImportProjectsModal from "../Components/ImportProjectsModal";
 import AddContractModal from "../Components/AddContractModal";
 import useContract from "../Hooks/useContract";
+import ImportContractModal from "../Components/ImportContractModal";
 
 const Contracts = () => {
     const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
     const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
-    const [importModalOpen, setImportModalOpen] = useState(false);
+    const [importContractModalOpen, setImportContractModalOpen] = useState(false);
     const axiosSecure = useAxiosSecure();
 
     const formatDate = (dateString) => {
@@ -47,7 +47,7 @@ const Contracts = () => {
         setEditProjectModalOpen(true);
     };
     const openImportModal = () => {
-        setImportModalOpen(true);
+        setImportContractModalOpen(true);
     };
 
     const handleImport = async (contractsData) => {
@@ -75,35 +75,39 @@ const Contracts = () => {
             const response = await axiosSecure.get("/contracts/all");
 
             if (response.status === 200) {
-                const allProjects = response.data;
+                const allContracts = response.data;
 
                 // Prepare the data for export
-                const data = allProjects.map((project, index) => ({
+                const data = allContracts.map((contract, index) => ({
                     "Sl.No.": index + 1,
-                    "Project Name": project.project_name,
-                    "Customer Name": project.customer_name,
-                    "Project Category": project.project_category,
-                    "Department": project.department,
-                    "HOD": project.hod,
-                    "Project Manager": project.pm,
-                    "Year": project.year,
-                    "Phase": project.phase,
-                    "Project Code": project.project_code
+                    "Title": contract.contract_title,
+                    "Project Type": contract.project_type === '1' ? 'Service' :
+                        contract.project_type === '2' ? 'Product' :
+                            'Supply & Service',
+                    "First Party": contract.first_party,
+                    "Customer": contract.customer_name,
+                    "Ref No.": contract.refNo,
+                    "Signing Date": contract.signing_date,
+                    "Effective Date": contract.effective_date,
+                    "Closing Date": contract.closing_date,
+                    "Status": contract.contract_status === '1' ? 'Not Expired' : 'Expired',
+                    "Scan Copy": contract.scan_copy_status === '1' ? 'Done' : 'Undone',
+                    "Hard Copy": contract.hard_copy_status === '1' ? 'Found' : 'Not Found'
                 }));
 
                 // Create worksheet
                 const worksheet = XLSX.utils.json_to_sheet(data);
                 const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Projects");
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Contracts");
 
                 const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
                 // Download the file
                 const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-                saveAs(dataBlob, 'projects.xlsx');
+                saveAs(dataBlob, 'contracts.xlsx');
             }
         } catch (error) {
-            console.error("Failed to export projects:", error);
+            console.error("Failed to export contracts:", error);
         }
     };
 
@@ -233,8 +237,8 @@ const Contracts = () => {
                             ) : (
                                 contracts.map((contract, index) => <tr key={contract._id} className="bg-gray-100">
                                     <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
-                                    <td className="px-1 py-[1px] border text-center text-sm relative">
-                                        <div className="dropdown dropdown-bottom dropdown-end relative">
+                                    <td className="px-1 py-[1px] border text-center text-sm">
+                                        <div className="dropdown">
                                             <div
                                                 tabIndex={0}
                                                 role="button"
@@ -296,7 +300,7 @@ const Contracts = () => {
             )}
             <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
             <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
-            <ImportProjectsModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
+            <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
         </div>
     );
