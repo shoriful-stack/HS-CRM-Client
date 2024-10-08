@@ -12,9 +12,11 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import AddProjectModal from "../Components/AddProjectModal";
 import EditProjectModal from "../Components/EditProjectModal";
 import ImportProjectsModal from "../Components/ImportProjectsModal";
+import AddContractModal from "../Components/AddContractModal";
 
 const Projects = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
@@ -33,6 +35,9 @@ const Projects = () => {
 
   const openAddModal = () => {
     setIsAddModalOpen(true);
+  };
+  const openAddContractModal = () => {
+    setIsAddContractModalOpen(true);
   };
   const openEditTenderModal = (project) => {
     setSelectedProject(project);
@@ -223,8 +228,8 @@ const Projects = () => {
               ) : (
                 projects.map((project, index) => <tr key={project._id} className="bg-gray-100">
                   <td className="px-1 py-1 border text-center">{index + 1 + (currentPage - 1) * limit}</td>
-                  <td className="px-1 py-[1px] border text-center text-sm relative">
-                    <div className="dropdown dropdown-bottom dropdown-end relative">
+                  <td className="px-1 py-[1px] border text-center text-sm">
+                    <div className="dropdown">
                       <div
                         tabIndex={0}
                         role="button"
@@ -234,14 +239,14 @@ const Projects = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
+                        className="dropdown-content bg-base-100 text-start w-32 pl-3 py-2 rounded-md shadow text-xs z-50"
                       >
-                        <li>
+                        {/* <li>
                           <a href="#" className="flex items-center space-x-2">
                             <FaRegEye />
                             <span>View</span>
                           </a>
-                        </li>
+                        </li> */}
                         <li>
                           <a onClick={() => openEditTenderModal(project)} href="#" className="flex items-center space-x-2">
                             <FaEdit />
@@ -249,11 +254,17 @@ const Projects = () => {
                           </a>
                         </li>
                         <li>
+                          <a onClick={openAddContractModal} href="#" className="flex items-center space-x-2">
+                            <IoAddCircleSharp className="text-sm -ml-[1px]"/>
+                            <span>Add Contract</span>
+                          </a>
+                        </li>
+                        {/* <li>
                           <a href="#" className="flex items-center space-x-2">
                             <FaHistory />
                             <span>Project History</span>
                           </a>
-                        </li>
+                        </li> */}
                       </ul>
                     </div>
                   </td>
@@ -279,6 +290,7 @@ const Projects = () => {
       <AddProjectModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
       <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
       <ImportProjectsModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
+      <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch}/>
       <ToastContainer></ToastContainer>
     </div>
   );

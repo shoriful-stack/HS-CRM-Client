@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaDownload, FaEdit, FaFileImport } from "react-icons/fa";
+import { FaDownload, FaEdit, FaFileImport, FaRegEye } from "react-icons/fa";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -12,12 +12,17 @@ import AddContractModal from "../Components/AddContractModal";
 import useContract from "../Hooks/useContract";
 import ImportContractModal from "../Components/ImportContractModal";
 import EditContractModal from "../Components/EditContractModal";
+import ViewContractModal from "../Components/ViewContractModal";
 
 const Contracts = () => {
     const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
     const [editContractModalOpen, setEditContractModalOpen] = useState(false);
     const [selectedContract, setSelectedContract] = useState(null);
     const [importContractModalOpen, setImportContractModalOpen] = useState(false);
+    // Inside your Contracts component
+    const [viewContractDetailsModalOpen, setViewContractDetailsModalOpen] = useState(false);
+    const [viewedContract, setViewedContract] = useState(null);
+
     const axiosSecure = useAxiosSecure();
 
     const formatDate = (dateString) => {
@@ -46,6 +51,17 @@ const Contracts = () => {
         setSelectedContract(contract);
         setEditContractModalOpen(true);
     };
+
+    const openViewContractModal = (contract) => {
+        setViewedContract(contract);
+        setViewContractDetailsModalOpen(true);
+    };
+
+    const closeViewContractModal = () => {
+        setViewedContract(null);
+        setViewContractDetailsModalOpen(false);
+    };
+
     const openImportModal = () => {
         setImportContractModalOpen(true);
     };
@@ -250,24 +266,25 @@ const Contracts = () => {
                                                 tabIndex={0}
                                                 className="dropdown-content bg-base-100 text-start w-[150px] pl-3 py-2 rounded-md shadow text-sm z-50"
                                             >
-                                                {/* <li>
-                          <a href="#" className="flex items-center space-x-2">
-                            <FaRegEye />
-                            <span>View</span>
-                          </a>
-                        </li> */}
+                                                <li>
+                                                    <a href="#" onClick={() => openViewContractModal(contract)}
+                                                        className="flex items-center space-x-2">
+                                                        <FaRegEye />
+                                                        <span>View</span>
+                                                    </a>
+                                                </li>
                                                 <li>
                                                     <a onClick={() => openEditContractModal(contract)} href="#" className="flex items-center space-x-2">
                                                         <FaEdit />
                                                         <span>Edit</span>
                                                     </a>
                                                 </li>
-                                                <li>
+                                                {/* <li>
                                                     <a href="#" className="flex items-center space-x-2">
                                                         <FaDownload />
                                                         <span>Contract Details</span>
                                                     </a>
-                                                </li>
+                                                </li> */}
                                             </ul>
                                         </div>
                                     </td>
@@ -301,6 +318,12 @@ const Contracts = () => {
             <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
             <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />
             <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} />
+            <ViewContractModal
+                isOpen={viewContractDetailsModalOpen}
+                onClose={closeViewContractModal}
+                contract={viewedContract}
+            />
+
             <ToastContainer></ToastContainer>
         </div>
     );
