@@ -17,6 +17,8 @@ import AddContractModal from "../Components/AddContractModal";
 const Projects = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
+  // New state to store the selected project for adding a contract
+  const [contractProject, setContractProject] = useState(null);
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
@@ -36,7 +38,8 @@ const Projects = () => {
   const openAddModal = () => {
     setIsAddModalOpen(true);
   };
-  const openAddContractModal = () => {
+  const openAddContractModal = (project) => {
+    setContractProject(project);
     setIsAddContractModalOpen(true);
   };
   const openEditTenderModal = (project) => {
@@ -254,7 +257,7 @@ const Projects = () => {
                           </button>
                         </li>
                         <li>
-                          <button onClick={openAddContractModal} className="flex items-center space-x-2">
+                          <button onClick={() => openAddContractModal(project)} className="flex items-center space-x-2">
                             <IoAddCircleSharp className="-ml-[1px]" />
                             <span>Add Contract</span>
                           </button>
@@ -294,7 +297,7 @@ const Projects = () => {
       <AddProjectModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
       <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
       <ImportProjectsModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
-      <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
+      <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} selectedProject={contractProject} refetch={refetch} />
       <ToastContainer></ToastContainer>
     </div>
   );

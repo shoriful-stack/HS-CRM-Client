@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import useAllCustomer from "../Hooks/useAllCustomers";
 import useAllProjects_Master from "../Hooks/useAllProjects_Master";
 
-const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, refetch }) => {
+const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, selectedProject, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
     const [allCustomers] = useAllCustomer();
@@ -14,12 +14,11 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
     const onSubmit = async (data) => {
         console.log(data);
 
-        // Determine contract_status based on closing_date
+        // contract_status based on closing_date
         const closingDate = new Date(data.closing_date);
         const today = new Date();
         const contract_status = closingDate > today ? "1" : "0";
 
-        // Optionally, you can display a message or set a state based on contract_status
         if (contract_status === "0") {
             toast.info("The contract will be marked as Expired.");
         } else {
@@ -31,6 +30,7 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
 
         // Append form fields to FormData
         formData.append('contract_title', data.contract_title);
+        formData.append('project_id', data.project_id);
         formData.append('project_name', data.project_name);
         formData.append('customer_name', data.customer_name);
         formData.append('project_type', data.project_type);
@@ -96,11 +96,28 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Project Name*
-                                    </label>
-                                    <select
+                                {selectedProject && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            Project Name*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="project_name"
+                                            value={selectedProject.project_name}
+                                            readOnly
+                                            className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
+                                        />
+                                        <input
+                                            type="hidden"
+                                            name="project_id"
+                                            value={selectedProject._id}
+                                            {...register("project_id", { required: true })}
+                                        />
+                                    </div>
+                                )}
+
+                                {/* <select
                                         name="project_name"
                                         {...register("project_name", { required: true })}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
@@ -109,13 +126,11 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         {allProjects
                                             .filter(project => project.project_status === "1") // Adjust based on data type
                                             .map((project) => (
-                                                <option key={project._id} value={project.project_name}>
+                                                <option key={project._id} value={project.name}>
                                                     {project.project_name}
                                                 </option>
                                             ))}
-                                    </select>
-
-                                </div>
+                                    </select> */}
                             </div>
                             <div className="grid grid-cols-3 gap-2">
                                 <div>

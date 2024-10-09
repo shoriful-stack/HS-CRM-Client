@@ -3,21 +3,19 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import useAllCustomer from "../Hooks/useAllCustomers";
-import useAllProjects_Master from "../Hooks/useAllProjects_Master";
 // import { useQueryClient } from "@tanstack/react-query";
 
 const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, contract, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
     const [allCustomers] = useAllCustomer();
-    const [allProjects] = useAllProjects_Master();
     // const queryClient = useQueryClient();
 
     useEffect(() => {
         if (contract) {
             // Set form values with contract data when modal opens
             setValue('contract_title', contract.contract_title);
-            setValue('project_name', contract.project_name);
+            setValue('project_name', contract.project_details.project_name);
             setValue('customer_name', contract.customer_name);
             setValue('project_type', contract.project_type);
             setValue('refNo', contract.refNo);
@@ -89,7 +87,7 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                         >
                             ×
                         </button>
-                        <h2 className="text-xl font-semibold mb-4">Edit Project</h2>
+                        <h2 className="text-xl font-semibold mb-4">Edit Contract</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                             <div className="grid grid-cols-2 gap-2">
                                 <div>
@@ -107,7 +105,7 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Name
                                     </label>
-                                    <select
+                                    {/* <select
                                         name="project_name"
                                         {...register("project_name")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
@@ -120,7 +118,15 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                                     {project.project_name}
                                                 </option>
                                             ))}
-                                    </select>
+                                    </select> */}
+
+                                    <input
+                                        type="text"
+                                        name="project_name"
+                                        value={contract.project_details.project_name}
+                                        readOnly
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
+                                    />
 
                                 </div>
                             </div>

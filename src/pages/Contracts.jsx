@@ -8,17 +8,19 @@ import Loader from "../Components/Loader";
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
-import AddContractModal from "../Components/AddContractModal";
+// import AddContractModal from "../Components/AddContractModal";
 import useContract from "../Hooks/useContract";
 import ImportContractModal from "../Components/ImportContractModal";
 import EditContractModal from "../Components/EditContractModal";
 import { useNavigate } from "react-router-dom";
+import useAllContract from "../Hooks/useAllContract";
 
 const Contracts = () => {
-    const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
+    // const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
     const [editContractModalOpen, setEditContractModalOpen] = useState(false);
     const [selectedContract, setSelectedContract] = useState(null);
     const [importContractModalOpen, setImportContractModalOpen] = useState(false);
+    const [allContracts] = useAllContract();
     const navigate = useNavigate();
 
     const axiosSecure = useAxiosSecure();
@@ -42,9 +44,9 @@ const Contracts = () => {
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
 
-    const openAddModal = () => {
-        setIsAddContractModalOpen(true);
-    };
+    // const openAddModal = () => {
+    //     setIsAddContractModalOpen(true);
+    // };
     const openEditContractModal = (contract) => {
         setSelectedContract(contract);
         setEditContractModalOpen(true);
@@ -191,13 +193,13 @@ const Contracts = () => {
             <div className="flex justify-between items-center mb-2 w-[1037px]">
                 <h1 className="font-bold text-xl">Contracts</h1>
                 <div className="flex items-center gap-1">
-                    <button
+                    {/* <button
                         onClick={openAddModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
                         <IoAddCircleSharp className="w-5 h-4" />
                         <span className="text-xs">Add New</span>
-                    </button>
+                    </button> */}
                     <button
                         onClick={openImportModal}
                         className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
@@ -242,7 +244,7 @@ const Contracts = () => {
                         <tbody>
                             {contracts.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" className="text-center py-4">No contract available.</td>
+                                    <td colSpan="11" className="text-center py-4">No contract available.</td>
                                 </tr>
                             ) : (
                                 contracts.map((contract, index) => <tr key={contract._id} className="bg-gray-100">
@@ -283,7 +285,7 @@ const Contracts = () => {
                                         </div>
                                     </td>
                                     <td className="px-1 py-1 border text-xs">{contract.contract_title}</td>
-                                    <td className="px-1 py-1 border text-xs">{contract.project_name}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.project_name : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">
                                         {contract.project_type === '1' ? 'Service' :
                                             contract.project_type === '2' ? 'Product' :
@@ -310,7 +312,7 @@ const Contracts = () => {
                     {renderPagination()}
                 </div>
             )}
-            <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
+            {/* <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} /> */}
             <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />
             <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
