@@ -244,14 +244,14 @@ const Employees = () => {
                                                 tabIndex={0}
                                                 className="dropdown-content bg-base-100 text-start w-36 pl-3 py-2 rounded-md shadow text-sm z-50"
                                             >
-                                                <li>
+                                                {/* <li>
                                                     <a href="#" className="flex items-center space-x-2">
                                                         <FaRegEye />
                                                         <span>View</span>
                                                     </a>
-                                                </li>
+                                                </li> */}
                                                 <li>
-                                                    <a onClick={() => openEditEmployeeModal(employee)} href="#" className="flex items-center space-x-2">
+                                                    <a onClick={() => openEditEmployeeModal(employee)} className="flex items-center space-x-2">
                                                         <FaEdit />
                                                         <span>Edit</span>
                                                     </a>

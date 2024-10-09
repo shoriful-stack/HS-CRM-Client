@@ -43,7 +43,7 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
         if (employeeRes.data.modifiedCount > 0) {
             reset();
             refetch();
-            toast.success(`${data.employee_name} updated successfully`);
+            toast.success(`${data.employee_name} updated successfully`, {autoClose: 1500});
             closeEditEmployeeModal();
         }
         if (employeeRes.data.modifiedCount === 0) {
@@ -64,9 +64,9 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                         >
                             ×
                         </button>
-                        <h2 className="text-xl font-semibold mb-4">Edit Project</h2>
+                        <h2 className="text-xl font-semibold mb-4">Edit Employee</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        {/* Employee Name */}
+                            {/* Employee Name */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">
                                     Employee Name
@@ -75,11 +75,11 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                     type="text"
                                     name="employee_name"
                                     {...register("employee_name")}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
                             {/* Department and Designation dropdown */}
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Department
@@ -87,10 +87,10 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                     <select
                                         name="department_name"
                                         {...register("department_name")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Department</option>
-                                        {allDepartments.map((department) => (
+                                        {allDepartments.filter(department => department.department_status === "1").map((department) => (
                                             <option key={department._id} value={department.department_name}>
                                                 {department.department_name}
                                             </option>
@@ -104,10 +104,10 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                     <select
                                         name="designation"
                                         {...register("designation")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Designation</option>
-                                        {allDesignations.map((designation) => (
+                                        {allDesignations.filter(designation => designation.designation_status === "1").map((designation) => (
                                             <option key={designation._id} value={designation.designation}>
                                                 {designation.designation}
                                             </option>
@@ -116,7 +116,7 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                 </div>
                             </div>
                             {/* Phone and Email */}
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Phone
@@ -125,7 +125,7 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                         type="number"
                                         name="employee_phone"
                                         {...register("employee_phone")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -136,12 +136,12 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                         type="email"
                                         name="employee_email"
                                         {...register("employee_email")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>
                             {/* Office ID and password */}
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Office ID
@@ -150,7 +150,7 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                         type="text"
                                         name="employee_uid"
                                         {...register("employee_uid")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -161,7 +161,7 @@ const EditEmployeeModal = ({ editEmployeeModalOpen, setEditEmployeeModalOpen, em
                                         type="text"
                                         name="employee_pass"
                                         {...register("employee_pass")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>

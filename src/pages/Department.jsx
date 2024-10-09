@@ -140,14 +140,9 @@ const Department = () => {
                                     </td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${department.department_status === 'Active' ? 'bg-green-500 text-white' :
-                                                department.department_status === 'Inactive' ? 'bg-red-500 text-white' :
-                                                    ''
-                                                }`}
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${department.department_status === '1' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
                                         >
-                                            {department.department_status === 'Active' ? 'Active' :
-                                                department.department_status === 'Inactive' ? 'Inactive' :
-                                                    ''}
+                                            {department.department_status === '1' ? 'Active' : 'Inactive'}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">

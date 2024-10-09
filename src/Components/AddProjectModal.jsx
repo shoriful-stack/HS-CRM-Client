@@ -34,7 +34,7 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
         if (projectRes.data.insertedId) {
             reset();
             refetch();
-            toast.success(`${data.project_name} added successfully`);
+            toast.success(`${data.project_name} added successfully`, { autoClose: 1500 });
             closeAddModal();
         }
     }
@@ -85,11 +85,13 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Customer</option>
-                                        {allCustomers.map((customer) => (
-                                            <option key={customer._id} value={customer.name}>
-                                                {customer.name}
-                                            </option>
-                                        ))}
+                                        {allCustomers
+                                            .filter(customer => customer.status === "1") // Adjust based on data type
+                                            .map((customer) => (
+                                                <option key={customer._id} value={customer.name}>
+                                                    {customer.name}
+                                                </option>
+                                            ))}
                                     </select>
 
                                 </div>
@@ -105,8 +107,9 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                         className="mt-1 block w-full text-sm border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Category</option>
-                                        <option value="Service">Service</option>
-                                        <option value="Product">Product</option>
+                                        <option value="1">Service</option>
+                                        <option value="2">Product</option>
+                                        <option value="3">Supply & Service</option>
                                     </select>
                                 </div>
                                 <div>
@@ -119,7 +122,7 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Department</option>
-                                        {allDepartments.map((department) => (
+                                        {allDepartments.filter(department => department.department_status === "1").map((department) => (
                                             <option key={department._id} value={department.department_name}>
                                                 {department.department_name}
                                             </option>
@@ -190,7 +193,7 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Code*
                                     </label>
-                                    <select
+                                    {/* <select
                                         name="project_code"
                                         {...register("project_code", { required: true })}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
@@ -201,7 +204,12 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                                 {project.project_code}
                                             </option>
                                         ))}
-                                    </select>
+                                    </select> */}
+                                    <input 
+                                    type="text" 
+                                    name="project_code" 
+                                    {...register("project_code", { required: true })}
+                                     className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500" />
                                 </div>
                             </div>
                             <div className="flex justify-end">

@@ -223,7 +223,7 @@ const Projects = () => {
             <tbody>
               {projects.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center py-4">No projects available.</td>
+                  <td colSpan="11" className="text-center py-4">No projects available.</td>
                 </tr>
               ) : (
                 projects.map((project, index) => <tr key={project._id} className="bg-gray-100">
@@ -239,7 +239,7 @@ const Projects = () => {
                       </div>
                       <ul
                         tabIndex={0}
-                        className="dropdown-content bg-base-100 text-start w-32 pl-3 py-2 rounded-md shadow text-xs z-50"
+                        className="dropdown-content bg-base-100 text-start w-32 pl-3 py-2 rounded-md shadow z-50"
                       >
                         {/* <li>
                           <a href="#" className="flex items-center space-x-2">
@@ -248,16 +248,16 @@ const Projects = () => {
                           </a>
                         </li> */}
                         <li>
-                          <a onClick={() => openEditTenderModal(project)} href="#" className="flex items-center space-x-2">
+                          <button onClick={() => openEditTenderModal(project)} className="flex items-center space-x-2">
                             <FaEdit />
                             <span>Edit</span>
-                          </a>
+                          </button>
                         </li>
                         <li>
-                          <a onClick={openAddContractModal} href="#" className="flex items-center space-x-2">
-                            <IoAddCircleSharp className="text-sm -ml-[1px]"/>
+                          <button onClick={openAddContractModal} className="flex items-center space-x-2">
+                            <IoAddCircleSharp className="-ml-[1px]" />
                             <span>Add Contract</span>
-                          </a>
+                          </button>
                         </li>
                         {/* <li>
                           <a href="#" className="flex items-center space-x-2">
@@ -269,7 +269,11 @@ const Projects = () => {
                     </div>
                   </td>
                   <td className="px-1 py-1 border text-xs">{project.project_name}</td>
-                  <td className="px-1 py-1 border text-xs">{project.project_category}</td>
+                  <td className="px-1 py-1 border text-xs">
+                    {project.project_category === '1' ? 'Service' :
+                      project.project_category === '2' ? 'Product' :
+                        'Supply & Service'}
+                  </td>
                   <td className="px-1 py-1 border text-xs">{project.customer_name}</td>
                   <td className="px-1 py-1 border text-xs">{project.department}</td>
                   <td className="px-1 py-1 border text-xs">{project.hod}</td>
@@ -290,7 +294,7 @@ const Projects = () => {
       <AddProjectModal isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} refetch={refetch} />
       <EditProjectModal editProjectModalOpen={editProjectModalOpen} setEditProjectModalOpen={setEditProjectModalOpen} project={selectedProject} refetch={refetch} />
       <ImportProjectsModal isOpen={importModalOpen} onClose={() => setImportModalOpen(false)} onImport={handleImport} />
-      <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch}/>
+      <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} />
       <ToastContainer></ToastContainer>
     </div>
   );

@@ -40,7 +40,7 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch
             reset();
             refetch();
             queryClient.invalidateQueries(['projects']);
-            toast.success(`${data.name} updated successfully`);
+            toast.success(`${data.name} updated successfully`, {autoClose: 1500});
             closeModal();
         }
         if (customerRes.data.modifiedCount === 0) {
@@ -71,10 +71,10 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch
                                     type="text"
                                     name="name"
                                     {...register("name")}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Phone
@@ -83,7 +83,7 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch
                                         type="phone"
                                         name="phone"
                                         {...register("phone")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -94,7 +94,7 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch
                                         type="email"
                                         name="email"
                                         {...register("email")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch
                                     type="text"
                                     name="address"
                                     {...register("address")}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
                             <div>
@@ -116,11 +116,11 @@ const EditCustomerModal = ({ editModalOpen, setEditModalOpen,  customer, refetch
                                 <select
                                      name="status"
                                      {...register("status")}
-                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                     className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 >
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
+                                    <option className="hidden" value="">Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
                             <div className="flex justify-end">

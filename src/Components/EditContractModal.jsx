@@ -3,18 +3,21 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import useAllCustomer from "../Hooks/useAllCustomers";
+import useAllProjects_Master from "../Hooks/useAllProjects_Master";
 // import { useQueryClient } from "@tanstack/react-query";
 
 const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, contract, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
     const [allCustomers] = useAllCustomer();
+    const [allProjects] = useAllProjects_Master();
     // const queryClient = useQueryClient();
 
     useEffect(() => {
         if (contract) {
-            // Set form values with customer data when modal opens
+            // Set form values with contract data when modal opens
             setValue('contract_title', contract.contract_title);
+            setValue('project_name', contract.project_name);
             setValue('customer_name', contract.customer_name);
             setValue('project_type', contract.project_type);
             setValue('refNo', contract.refNo);
@@ -47,6 +50,7 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
 
         const updatedContract = {
             contract_title: data.contract_title,
+            project_name: data.project_name,
             customer_name: data.customer_name,
             project_type: data.project_type,
             refNo: data.refNo,
@@ -78,7 +82,7 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
             {/* Modal Component */}
             {editContractModalOpen && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
+                    <div className="bg-white rounded-lg shadow-lg w-full max-w-lg p-6 relative">
                         <button
                             onClick={closeEditContractModal}
                             className="absolute top-3 right-3 hover:text-gray-700 text-3xl"
@@ -101,19 +105,21 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Customer Name
+                                        Project Name
                                     </label>
                                     <select
-                                        name="customer_name"
-                                        {...register("customer_name")}
+                                        name="project_name"
+                                        {...register("project_name")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
-                                        <option className="hidden" value="">Select Customer</option>
-                                        {allCustomers.map((customer) => (
-                                            <option key={customer._id} value={customer.name}>
-                                                {customer.name}
-                                            </option>
-                                        ))}
+                                        <option className="hidden" value="">Select Project</option>
+                                        {allProjects
+                                            .filter(project => project.project_status === "1") // Adjust based on data type
+                                            .map((project) => (
+                                                <option key={project._id} value={project.project_name}>
+                                                    {project.project_name}
+                                                </option>
+                                            ))}
                                     </select>
 
                                 </div>
@@ -136,14 +142,21 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
-                                        Ref No.
+                                        Customer Name
                                     </label>
-                                    <input
-                                        type="text"
-                                        name="refNo"
-                                        {...register("refNo")}
-                                        className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                    <select
+                                        name="customer_name"
+                                        {...register("customer_name")}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Customer</option>
+                                        {allCustomers.map((customer) => (
+                                            <option key={customer._id} value={customer.name}>
+                                                {customer.name}
+                                            </option>
+                                        ))}
+                                    </select>
+
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -155,6 +168,47 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                         {...register("first_party")}
                                         className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Ref No.
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="refNo"
+                                        {...register("refNo")}
+                                        className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Scan Copy Status
+                                    </label>
+                                    <select
+                                        name="scan_copy_status"
+                                        {...register("scan_copy_status")}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Status</option>
+                                        <option value="1">Done</option>
+                                        <option value="0">Undone</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700">
+                                        Hard Copy Status
+                                    </label>
+                                    <select
+                                        name="hard_copy_status"
+                                        {...register("hard_copy_status")}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Status</option>
+                                        <option value="1">Found</option>
+                                        <option value="0">Not Found</option>
+                                    </select>
                                 </div>
                             </div>
                             <div className="grid grid-cols-3 gap-2">
@@ -190,36 +244,6 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                         {...register("closing_date")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Scan Copy Status
-                                    </label>
-                                    <select
-                                        name="scan_copy_status"
-                                        {...register("scan_copy_status")}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Status</option>
-                                        <option value="1">Done</option>
-                                        <option value="0">Undone</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Hard Copy Status
-                                    </label>
-                                    <select
-                                        name="hard_copy_status"
-                                        {...register("hard_copy_status")}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Status</option>
-                                        <option value="1">Found</option>
-                                        <option value="0">Not Found</option>
-                                    </select>
                                 </div>
                             </div>
                             {/* <div>

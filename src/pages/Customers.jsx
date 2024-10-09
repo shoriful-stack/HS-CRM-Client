@@ -224,14 +224,9 @@ const Customers = () => {
                                     <td className="px-3 py-1 border text-xs">{customer.address}</td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === 'Active' ? 'bg-green-500 text-white' :
-                                                customer.status === 'Inactive' ? 'bg-red-500 text-white' :
-                                                    ''
-                                                }`}
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${customer.status === '1' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
                                         >
-                                            {customer.status === 'Active' ? 'Active' :
-                                                customer.status === 'Inactive' ? 'Inactive' :
-                                                    ''}
+                                            {customer.status === '1' ? 'Active' : 'Inactive'}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">

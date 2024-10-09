@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-import useAllDepartment from "../Hooks/useAllDepartments";
 import useAllDesignation from "../Hooks/useAllDesignation";
+import useAllDepartment from "../Hooks/useAllDepartments";
 
 const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
@@ -36,7 +36,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
             if (employeeRes.data.insertedId) {
                 reset();
                 refetch();
-                toast.success(`${data.employee_name} added successfully`);
+                toast.success(`${data.employee_name} added successfully`, {autoClose: 1500});
                 closeModal();
             }
         } catch (error) {
@@ -59,7 +59,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                         </button>
                         <h2 className="text-xl font-semibold mb-4">Add New Employee</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                        {/* Employee Name */}
+                            {/* Employee Name */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">
                                     Employee Name*
@@ -68,11 +68,11 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                     type="text"
                                     name="employee_name"
                                     {...register("employee_name", { required: true })}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
                             {/* Department and Designation dropdown */}
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Department*
@@ -80,10 +80,10 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                     <select
                                         name="department_name"
                                         {...register("department_name", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Department</option>
-                                        {allDepartments.map((department) => (
+                                        {allDepartments.filter(department => department.department_status === "1").map((department) => (
                                             <option key={department._id} value={department.department_name}>
                                                 {department.department_name}
                                             </option>
@@ -97,10 +97,10 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                     <select
                                         name="designation"
                                         {...register("designation", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Designation</option>
-                                        {allDesignations.map((designation) => (
+                                        {allDesignations.filter(designation => designation.designation_status === "1").map((designation) => (
                                             <option key={designation._id} value={designation.designation}>
                                                 {designation.designation}
                                             </option>
@@ -109,7 +109,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                 </div>
                             </div>
                             {/* Phone and Email */}
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Phone*
@@ -118,7 +118,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                         type="number"
                                         name="employee_phone"
                                         {...register("employee_phone", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -129,12 +129,12 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                         type="email"
                                         name="employee_email"
                                         {...register("employee_email", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>
                             {/* Office ID and password */}
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Office ID*
@@ -143,7 +143,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                         type="text"
                                         name="employee_uid"
                                         {...register("employee_uid", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -154,7 +154,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                         type="text"
                                         name="employee_pass"
                                         {...register("employee_pass", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>

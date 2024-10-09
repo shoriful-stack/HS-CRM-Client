@@ -140,14 +140,9 @@ const Designation = () => {
                                     </td>
                                     <td className="px-2 py-1 border text-xs text-center">
                                         <p
-                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${designation.designation_status === 'Active' ? 'bg-green-500 text-white' :
-                                                designation.designation_status === 'Inactive' ? 'bg-red-500 text-white' :
-                                                    ''
-                                                }`}
+                                            className={`px-1 py-1 text-xs font-semibold rounded-md ${designation.designation_status === '1' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
                                         >
-                                            {designation.designation_status === 'Active' ? 'Active' :
-                                                designation.designation_status === 'Inactive' ? 'Inactive' :
-                                                    ''}
+                                            {designation.designation_status === '1' ? 'Active' : 'Inactive'}
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">

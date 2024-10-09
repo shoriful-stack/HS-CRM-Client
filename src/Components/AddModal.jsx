@@ -18,7 +18,7 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
             name: data.name.trim(),
             phone: data.phone,
             email: data.email,
-            status: data.status || "Active",
+            status: data.status || "1",
             address: data.address
         }
 
@@ -29,7 +29,7 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
             if (customerRes.data.insertedId) {
                 reset();
                 refetch();
-                toast.success(`${data.name} added successfully`);
+                toast.success(`${data.name} added successfully`, {autoClose: 1500});
                 closeModal();
             }
         }catch (error){
@@ -60,10 +60,10 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
                                     type="text"
                                     name="name"
                                     {...register("name", { required: true })}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Phone
@@ -72,7 +72,7 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
                                         type="phone"
                                         name="phone"
                                         {...register("phone")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -83,18 +83,7 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
                                         type="email"
                                         name="email"
                                         {...register("email")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
-                                <div className="hidden">
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Status
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="status"
-                                        {...register("status")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>
@@ -106,7 +95,7 @@ const AddModal = ({isModalOpen, setIsModalOpen, refetch}) => {
                                     type="text"
                                     name="address"
                                     {...register("address")}
-                                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
                             </div>
                             <div className="flex justify-end">

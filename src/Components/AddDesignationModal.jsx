@@ -16,7 +16,7 @@ const AddDesignationModal = ({ isDesignationModalOpen, setIsDesignationModalOpen
 
         const addDesignation = {
             designation: data.designation.trim(),
-            designation_status: data.designation_status || "Active"
+            designation_status: data.designation_status || "1"
         }
         try {
             const designationRes = await axiosSecure.post('/designations', addDesignation);
@@ -25,7 +25,7 @@ const AddDesignationModal = ({ isDesignationModalOpen, setIsDesignationModalOpen
             if (designationRes.data.insertedId) {
                 reset();
                 refetch();
-                toast.success(`${data.designation} added successfully`);
+                toast.success(`${data.designation} added successfully`, {autoClose: 1500});
                 closeModal();
             }
         } catch (error) {
@@ -57,19 +57,6 @@ const AddDesignationModal = ({ isDesignationModalOpen, setIsDesignationModalOpen
                                     {...register("designation", { required: true })}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
-                            </div>
-                            <div className="flex justify-between items-center gap-2">
-                                <div className="hidden">
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Status
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="designation_status"
-                                        {...register("designation_status")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
                             </div>
                             <div className="flex justify-end">
                                 <button

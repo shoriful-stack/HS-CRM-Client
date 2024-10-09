@@ -16,7 +16,7 @@ const AddDepartmentModal = ({ isDepartmentModalOpen, setIsDepartmentModalOpen, r
 
         const addDepartment = {
             department_name: data.department_name.trim(),
-            department_status: data.department_status || "Active"
+            department_status: data.department_status || "1"
         }
         try {
             const departmentRes = await axiosSecure.post('/departments', addDepartment);
@@ -25,7 +25,10 @@ const AddDepartmentModal = ({ isDepartmentModalOpen, setIsDepartmentModalOpen, r
             if (departmentRes.data.insertedId) {
                 reset();
                 refetch();
-                toast.success(`${data.department_name} added successfully`);
+                toast.success(`${data.department_name} added successfully`, {
+                    autoClose: 1500
+                });
+                
                 closeModal();
             }
         } catch (error) {
@@ -57,19 +60,6 @@ const AddDepartmentModal = ({ isDepartmentModalOpen, setIsDepartmentModalOpen, r
                                     {...register("department_name", { required: true })}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 />
-                            </div>
-                            <div className="flex justify-between items-center gap-2">
-                                <div className="hidden">
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Status
-                                    </label>
-                                    <input
-                                        type="text"
-                                        name="department_status"
-                                        {...register("department_status")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
-                                </div>
                             </div>
                             <div className="flex justify-end">
                                 <button

@@ -56,7 +56,7 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
             if (contractRes.data.insertedId) {
                 reset();
                 refetch();
-                toast.success(`${data.contract_title} added successfully`);
+                toast.success(`${data.contract_title} added successfully`, { autoClose: 1500 });
                 closeAddModal();
             }
         } catch (error) {
@@ -106,11 +106,13 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Project</option>
-                                        {allProjects.map((project) => (
-                                            <option key={project._id} value={project.project_name}>
-                                                {project.project_name}
-                                            </option>
-                                        ))}
+                                        {allProjects
+                                            .filter(project => project.project_status === "1") // Adjust based on data type
+                                            .map((project) => (
+                                                <option key={project._id} value={project.project_name}>
+                                                    {project.project_name}
+                                                </option>
+                                            ))}
                                     </select>
 
                                 </div>
@@ -141,11 +143,13 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, r
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Customer</option>
-                                        {allCustomers.map((customer) => (
-                                            <option key={customer._id} value={customer.name}>
-                                                {customer.name}
-                                            </option>
-                                        ))}
+                                        {allCustomers
+                                            .filter(customer => customer.status === "1") // Adjust based on data type
+                                            .map((customer) => (
+                                                <option key={customer._id} value={customer.name}>
+                                                    {customer.name}
+                                                </option>
+                                            ))}
                                     </select>
                                 </div>
                                 <div>

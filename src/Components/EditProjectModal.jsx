@@ -3,10 +3,16 @@ import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import useAllCustomer from "../Hooks/useAllCustomers";
+import useAllProjects_Master from "../Hooks/useAllProjects_Master";
+import useAllDepartment from "../Hooks/useAllDepartments";
+import useAllEmployee from "../Hooks/useAllEmployees";
 
 const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, project, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
+    const [allProjects] = useAllProjects_Master();
+    const [allDepartments] = useAllDepartment();
+    const [allEmployees] = useAllEmployee();
     const [allCustomers] = useAllCustomer(); // This hook contain all the data of customers collection
 
     useEffect(() => {
@@ -46,7 +52,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
         if (projectRes.data.modifiedCount > 0) {
             reset();
             refetch();
-            toast.success(`${data.project_name} updated successfully`);
+            toast.success(`${data.project_name} updated successfully`, { autoClose: 1500 });
             closeEditProjectModal();
         }
         if (projectRes.data.modifiedCount === 0) {
@@ -69,17 +75,23 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                         </button>
                         <h2 className="text-xl font-semibold mb-4">Edit Project</h2>
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Name
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="project_name"
-                                        {...register("project_name")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        {...register("project_name", { required: true })}
+                                        className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Project</option>
+                                        {allProjects.map((project) => (
+                                            <option key={project._id} value={project.project_name}>
+                                                {project.project_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -88,19 +100,21 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                     <select
                                         name="customer_name"
                                         {...register("customer_name")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Customer</option>
-                                        {allCustomers.map((customer) => (
-                                            <option key={customer._id} value={customer.name}>
-                                                {customer.name}
-                                            </option>
-                                        ))}
+                                        {allCustomers
+                                            .filter(customer => customer.status === "1") // Adjust based on data type
+                                            .map((customer) => (
+                                                <option key={customer._id} value={customer.name}>
+                                                    {customer.name}
+                                                </option>
+                                            ))}
                                     </select>
 
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Category
@@ -108,47 +122,66 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                     <select
                                         name="project_category"
                                         {...register("project_category")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Category</option>
-                                        <option value="Service">Service</option>
-                                        <option value="Product">Product</option>
+                                        <option value="1">Service</option>
+                                        <option value="2">Product</option>
+                                        <option value="3">Supply & Service</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Department
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="department"
                                         {...register("department")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select Department</option>
+                                        {allDepartments.filter(department => department.department_status === "1").map((department) => (
+                                            <option key={department._id} value={department.department_name}>
+                                                {department.department_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
-                            <div className="flex justify-between items-center gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         HOD
                                     </label>
-                                    <input
-                                        type="text"
+                                    <select
                                         name="hod"
                                         {...register("hod")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select HOD</option>
+                                        {allEmployees.map((employee) => (
+                                            <option key={employee._id} value={employee.employee_name}>
+                                                {employee.employee_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         PM
                                     </label>
-                                    <input
-                                        type="text"
-                                        name="pm"
-                                        {...register("pm")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    />
+                                    <select
+                                        name="hod"
+                                        {...register("hod", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                    >
+                                        <option className="hidden" value="">Select HOD</option>
+                                        {allEmployees.map((employee) => (
+                                            <option key={employee._id} value={employee.employee_name}>
+                                                {employee.employee_name}
+                                            </option>
+                                        ))}
+                                    </select>
                                 </div>
                             </div>
                             <div className="flex items-center gap-2">
@@ -160,7 +193,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                         type="number"
                                         name="year"
                                         {...register("year", { required: true })}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -171,7 +204,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                         type="text"
                                         name="phase"
                                         {...register("phase")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                                 <div>
@@ -182,7 +215,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                         type="text"
                                         name="project_code"
                                         {...register("project_code")}
-                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>
                             </div>

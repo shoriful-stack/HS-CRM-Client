@@ -34,7 +34,7 @@ const EditDepartmentModal = ({ editDepartmentModalOpen, setEditDepartmentModalOp
             reset();
             refetch();
             queryClient.invalidateQueries(['employees']);
-            toast.success(`${data.department_name} updated successfully`);
+            toast.success(`${data.department_name} updated successfully`, {autoClose: 1500});
             closeModal();
         }
         if (departmentRes.data.modifiedCount === 0) {
@@ -77,9 +77,9 @@ const EditDepartmentModal = ({ editDepartmentModalOpen, setEditDepartmentModalOp
                                     {...register("department_status")}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                 >
-                                    <option value="">Select Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
+                                    <option className="hidden" value="">Select Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
                                 </select>
                             </div>
                             <div className="flex justify-end">
