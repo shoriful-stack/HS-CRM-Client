@@ -3,6 +3,7 @@ import { useState } from "react";
 import { FaFileContract, FaUsers } from "react-icons/fa";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { IoClose, IoMenu, IoSettings } from "react-icons/io5";
+import { SiMastercomfig } from "react-icons/si";
 import { TbLogout2 } from "react-icons/tb";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -115,6 +116,13 @@ const Sidebar = () => {
                                         <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                                     </svg>
                                     {!isCollapsed && <span className="ms-3 text-white font-medium">Dashboard</span>}
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/dashboard/master" className={getNavLinkClass}>
+                                    {/* Master Icon */}
+                                    <SiMastercomfig className="text-base flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
+                                    {!isCollapsed && <span className="flex-1 ms-2 text-left text-white font-medium text-sm">Master Tree</span>}
                                 </NavLink>
                             </li>
                             <li>

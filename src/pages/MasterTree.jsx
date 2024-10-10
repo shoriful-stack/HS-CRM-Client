@@ -14,7 +14,7 @@ import ImportContractModal from "../Components/ImportContractModal";
 import EditContractModal from "../Components/EditContractModal";
 import { useNavigate } from "react-router-dom";
 
-const Contracts = () => {
+const MasterTree = () => {
     // const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
     const [editContractModalOpen, setEditContractModalOpen] = useState(false);
     const [selectedContract, setSelectedContract] = useState(null);
@@ -163,7 +163,7 @@ const Contracts = () => {
             <div className="flex justify-between items-center mt-4 w-[1037px]">
                 {/* Show customer range information */}
                 <span className="text-sm text-gray-600">
-                    Showing {startProject} to {endProject} of {total} contracts
+                    Showing {startProject} to {endProject} of {total}
                 </span>
 
                 <div className="flex items-center">
@@ -189,7 +189,7 @@ const Contracts = () => {
     return (
         <div className="font-lexend">
             <div className="flex justify-between items-center mb-2 w-[1037px]">
-                <h1 className="font-bold text-xl">Contracts</h1>
+                <h1 className="font-bold text-xl">Master Tree</h1>
                 <div className="flex items-center gap-1">
                     {/* <button
                         onClick={openAddModal}
@@ -318,4 +318,4 @@ const Contracts = () => {
     );
 };
 
-export default Contracts;
+export default MasterTree;

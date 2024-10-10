@@ -20,6 +20,7 @@ import Designation from "./pages/Designation";
 import Contracts from "./pages/Contracts";
 import Project_Master from "./pages/Project_Master";
 import ViewContract from "./pages/ViewContract";
+import MasterTree from "./pages/MasterTree";
 
 const queryClient = new QueryClient()
 
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/contracts/view/:id",
         element: <ViewContract></ViewContract>
+      },
+      {
+        path: "/dashboard/master",
+        element: <MasterTree></MasterTree>
       }
     ]
   },
