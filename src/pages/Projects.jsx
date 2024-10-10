@@ -212,13 +212,13 @@ const Projects = () => {
               <tr className="bg-gray-800 text-white">
                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
                 <th className="px-2 py-2 border text-xs">Action</th>
+                <th className="px-2 py-2 border text-xs">Year</th>
                 <th className="px-2 py-2 border text-xs">Project Name</th>
                 <th className="px-2 py-2 border text-xs">Project Category</th>
                 <th className="px-2 py-2 border text-xs">Customer Name</th>
                 <th className="px-2 py-2 border text-xs">Department</th>
                 <th className="px-2 py-2 border text-xs">HOD</th>
                 <th className="px-2 py-2 border text-xs">Project Manager</th>
-                <th className="px-2 py-2 border text-xs">Year</th>
                 <th className="px-2 py-2 border text-xs">Phase</th>
                 <th className="px-2 py-2 border text-xs">Project Code</th>
               </tr>
@@ -271,6 +271,9 @@ const Projects = () => {
                       </ul>
                     </div>
                   </td>
+                  <td className="px-1 py-1 border text-xs">
+                    {project.year}
+                  </td>
                   <td className="px-1 py-1 border text-xs">{project.project_name}</td>
                   <td className="px-1 py-1 border text-xs">
                     {project.project_category === '1' ? 'Service' :
@@ -281,9 +284,6 @@ const Projects = () => {
                   <td className="px-1 py-1 border text-xs">{project.department}</td>
                   <td className="px-1 py-1 border text-xs">{project.hod}</td>
                   <td className="px-1 py-1 border text-xs">{project.pm}</td>
-                  <td className="px-1 py-1 border text-xs">
-                    {project.year}
-                  </td>
                   <td className="px-1 py-1 border text-xs">{project.phase}</td>
                   <td className="px-1 py-1 border text-xs">{project.project_code}</td>
                 </tr>))

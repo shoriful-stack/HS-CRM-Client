@@ -126,7 +126,10 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, s
                                         <input
                                             type="text"
                                             name="project_category"
-                                            value={selectedProject.project_category}
+                                            value={selectedProject.project_category === '1' ? 'Service' :
+                                                selectedProject.project_category === '2' ? 'Product' :
+                                                'Supply & Service'
+                                            }
                                             readOnly
                                             className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
                                         />

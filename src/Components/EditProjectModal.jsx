@@ -159,7 +159,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select HOD</option>
-                                        {allEmployees.map((employee) => (
+                                        {allEmployees.filter(employee => employee.employee_status === "1").map((employee) => (
                                             <option key={employee._id} value={employee.employee_name}>
                                                 {employee.employee_name}
                                             </option>
@@ -176,7 +176,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select HOD</option>
-                                        {allEmployees.map((employee) => (
+                                        {allEmployees.filter(employee => employee.employee_status === "1").map((employee) => (
                                             <option key={employee._id} value={employee.employee_name}>
                                                 {employee.employee_name}
                                             </option>

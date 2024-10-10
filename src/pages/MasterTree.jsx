@@ -232,7 +232,7 @@ const MasterTree = () => {
                                 <th className="px-2 py-2 border text-xs">Department</th>
                                 <th className="px-2 py-2 border text-xs">HOD</th>
                                 <th className="px-2 py-2 border text-xs">Project Manager</th>
-                                <th className="px-2 py-2 border text-xs">Year</th>
+                                {/* <th className="px-2 py-2 border text-xs">Year</th> */}
                                 <th className="px-2 py-2 border text-xs">Phase</th>
                                 <th className="px-2 py-2 border text-xs">Project Code</th>
                                 <th className="px-2 py-2 border text-xs">First Party</th>
@@ -299,9 +299,9 @@ const MasterTree = () => {
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.department : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.hod : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.pm : 'N/A'}</td>
-                                    <td className="px-1 py-1 border text-xs">
+                                    {/* <td className="px-1 py-1 border text-xs">
                                     {contract.project_details ? contract.project_details.year : 'N/A'}
-                                    </td>
+                                    </td> */}
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.phase : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.project_code : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.first_party}</td>
