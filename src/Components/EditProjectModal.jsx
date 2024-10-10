@@ -82,7 +82,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                     </label>
                                     <select
                                         name="project_name"
-                                        {...register("project_name", { required: true })}
+                                        {...register("project_name")}
                                         className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Project</option>
@@ -172,7 +172,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                     </label>
                                     <select
                                         name="hod"
-                                        {...register("hod", { required: true })}
+                                        {...register("hod")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select HOD</option>
@@ -192,7 +192,7 @@ const EditProjectModal = ({ editProjectModalOpen, setEditProjectModalOpen, proje
                                     <input
                                         type="number"
                                         name="year"
-                                        {...register("year", { required: true })}
+                                        {...register("year")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     />
                                 </div>

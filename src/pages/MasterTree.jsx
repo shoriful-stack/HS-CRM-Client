@@ -89,31 +89,37 @@ const MasterTree = () => {
                 // Prepare the data for export
                 const data = allContracts.map((contract, index) => ({
                     "Sl.No.": index + 1,
-                    "Title": contract.contract_title,
-                    "Project Type": contract.project_type === '1' ? 'Service' :
-                        contract.project_type === '2' ? 'Product' :
+                    "Contract Title": contract.contract_title,
+                    "Project Name": contract.project_details ? contract.project_details.project_name : 'N/A',
+                    "Project Category": contract.project_category === '1' ? 'Service' :
+                        contract.project_category === '2' ? 'Product' :
                             'Supply & Service',
-                    "First Party": contract.first_party,
                     "Customer": contract.customer_name,
+                    "Department": contract.project_details ? contract.project_details.department : 'N/A',
+                    "HOD": contract.project_details ? contract.project_details.hod : 'N/A',
+                    "Project Manager": contract.project_details ? contract.project_details.pm : 'N/A',
+                    "Phase": contract.project_details ? contract.project_details.phase : 'N/A',
+                    "Project Code": contract.project_details ? contract.project_details.project_code : 'N/A',
+                    "First Party": contract.first_party,
                     "Ref No.": contract.refNo,
-                    "Signing Date": contract.signing_date,
-                    "Effective Date": contract.effective_date,
-                    "Closing Date": contract.closing_date,
-                    "Status": contract.contract_status === '1' ? 'Not Expired' : 'Expired',
-                    "Scan Copy": contract.scan_copy_status === '1' ? 'Done' : 'Undone',
-                    "Hard Copy": contract.hard_copy_status === '1' ? 'Found' : 'Not Found'
+                    "Contract Signing Date": contract.signing_date,
+                    "Contract Effective Date": contract.effective_date,
+                    "Contract Closing Date": contract.closing_date,
+                    "Contract Status": contract.contract_status === '1' ? 'Not Expired' : 'Expired',
+                    "Scan Copy Status": contract.scan_copy_status === '1' ? 'Done' : 'Undone',
+                    "Hard Copy Status": contract.hard_copy_status === '1' ? 'Found' : 'Not Found'
                 }));
 
                 // Create worksheet
                 const worksheet = XLSX.utils.json_to_sheet(data);
                 const workbook = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(workbook, worksheet, "Contracts");
+                XLSX.utils.book_append_sheet(workbook, worksheet, "Master Tree");
 
                 const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
                 // Download the file
                 const dataBlob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-                saveAs(dataBlob, 'contracts.xlsx');
+                saveAs(dataBlob, 'masterTree.xlsx');
             }
         } catch (error) {
             console.error("Failed to export contracts:", error);
@@ -219,8 +225,8 @@ const MasterTree = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <div className="">
-                    <table className="table w-[1240px] border-collapse border">
+                <>
+                    <table className="table w-[1700px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
@@ -237,12 +243,12 @@ const MasterTree = () => {
                                 <th className="px-2 py-2 border text-xs">Project Code</th>
                                 <th className="px-2 py-2 border text-xs">First Party</th>
                                 <th className="px-2 py-2 border text-xs">Ref No.</th>
-                                <th className="px-2 py-2 border text-xs">Contract Signing Date</th>
-                                <th className="px-2 py-2 border text-xs">Contract Effective Date</th>
-                                <th className="px-2 py-2 border text-xs">Contract Closing Date</th>
-                                <th className="px-2 py-2 border text-xs">Contract Status</th>
-                                <th className="px-2 py-2 border text-xs">Scan Copy</th>
-                                <th className="px-2 py-2 border text-xs">Hard Copy</th>
+                                <th className="px-2 py-2 border text-xs text-center">Contract <br />Signing Date</th>
+                                <th className="px-2 py-2 border text-xs text-center">Contract<br /> Effective Date</th>
+                                <th className="px-2 py-2 border text-xs text-center">Contract <br />Closing  Date</th>
+                                <th className="px-2 py-2 border text-xs text-center">Contract <br />Status</th>
+                                <th className="px-2 py-2 border text-xs text-center">Scan Copy <br /> Status</th>
+                                <th className="px-2 py-2 border text-xs text-center">Hard Copy <br /> Status </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -291,7 +297,7 @@ const MasterTree = () => {
                                     <td className="px-1 py-1 border text-xs">{contract.contract_title}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.project_name : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">
-                                    {contract.project_category === '1' ? 'Service' :
+                                        {contract.project_category === '1' ? 'Service' :
                                             contract.project_category === '2' ? 'Product' :
                                                 'Supply & Service'}
                                     </td>
@@ -322,7 +328,7 @@ const MasterTree = () => {
                     </table>
                     {/* Pagination control */}
                     {renderPagination()}
-                </div>
+                </>
             )}
             {/* <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} /> */}
             <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />

@@ -17,7 +17,7 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
             setValue('contract_title', contract.contract_title);
             setValue('project_name', contract.project_details.project_name);
             setValue('customer_name', contract.customer_name);
-            setValue('project_type', contract.project_type);
+            setValue('project_category', contract.project_category);
             setValue('refNo', contract.refNo);
             setValue('first_party', contract.first_party);
             setValue('signing_date', contract.signing_date);
@@ -50,7 +50,7 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
             contract_title: data.contract_title,
             project_name: data.project_name,
             customer_name: data.customer_name,
-            project_type: data.project_type,
+            project_category: data.project_category,
             refNo: data.refNo,
             first_party: data.first_party,
             signing_date: data.signing_date,
@@ -136,8 +136,8 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                         Project Type
                                     </label>
                                     <select
-                                        name="project_type"
-                                        {...register("project_type")}
+                                        name="project_category"
+                                        {...register("project_category")}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Type</option>

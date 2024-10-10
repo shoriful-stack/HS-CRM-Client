@@ -219,7 +219,7 @@ const Contracts = () => {
             {loading ? (
                 <Loader />
             ) : (
-                <div className="">
+                <>
                     <table className="table w-[1240px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
@@ -308,7 +308,7 @@ const Contracts = () => {
                     </table>
                     {/* Pagination control */}
                     {renderPagination()}
-                </div>
+                </>
             )}
             {/* <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} /> */}
             <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />
