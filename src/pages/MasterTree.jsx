@@ -225,16 +225,22 @@ const MasterTree = () => {
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
                                 <th className="px-2 py-2 border text-xs">Action</th>
-                                <th className="px-2 py-2 border text-xs">Title</th>
+                                <th className="px-2 py-2 border text-xs">Contract Title</th>
                                 <th className="px-2 py-2 border text-xs">Project Name</th>
-                                <th className="px-2 py-2 border text-xs">Project Type</th>
+                                <th className="px-2 py-2 border text-xs">Project Category</th>
+                                <th className="px-2 py-2 border text-xs">Customer Name</th>
+                                <th className="px-2 py-2 border text-xs">Department</th>
+                                <th className="px-2 py-2 border text-xs">HOD</th>
+                                <th className="px-2 py-2 border text-xs">Project Manager</th>
+                                <th className="px-2 py-2 border text-xs">Year</th>
+                                <th className="px-2 py-2 border text-xs">Phase</th>
+                                <th className="px-2 py-2 border text-xs">Project Code</th>
                                 <th className="px-2 py-2 border text-xs">First Party</th>
-                                <th className="px-2 py-2 border text-xs">Customer</th>
                                 <th className="px-2 py-2 border text-xs">Ref No.</th>
-                                <th className="px-2 py-2 border text-xs">Signing Date</th>
-                                <th className="px-2 py-2 border text-xs">Effective Date</th>
-                                <th className="px-2 py-2 border text-xs">Closing Date</th>
-                                <th className="px-2 py-2 border text-xs">Status</th>
+                                <th className="px-2 py-2 border text-xs">Contract Signing Date</th>
+                                <th className="px-2 py-2 border text-xs">Contract Effective Date</th>
+                                <th className="px-2 py-2 border text-xs">Contract Closing Date</th>
+                                <th className="px-2 py-2 border text-xs">Contract Status</th>
                                 <th className="px-2 py-2 border text-xs">Scan Copy</th>
                                 <th className="px-2 py-2 border text-xs">Hard Copy</th>
                             </tr>
@@ -242,7 +248,7 @@ const MasterTree = () => {
                         <tbody>
                             {contracts.length === 0 ? (
                                 <tr>
-                                    <td colSpan="11" className="text-center py-4">No contract available.</td>
+                                    <td colSpan="11" className="text-center py-4">No data available.</td>
                                 </tr>
                             ) : (
                                 contracts.map((contract, index) => <tr key={contract._id} className="bg-gray-100">
@@ -285,12 +291,20 @@ const MasterTree = () => {
                                     <td className="px-1 py-1 border text-xs">{contract.contract_title}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.project_name : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">
-                                        {contract.project_type === '1' ? 'Service' :
-                                            contract.project_type === '2' ? 'Product' :
+                                    {contract.project_category === '1' ? 'Service' :
+                                            contract.project_category === '2' ? 'Product' :
                                                 'Supply & Service'}
                                     </td>
-                                    <td className="px-1 py-1 border text-xs">{contract.first_party}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.customer_name}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.department : 'N/A'}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.hod : 'N/A'}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.pm : 'N/A'}</td>
+                                    <td className="px-1 py-1 border text-xs">
+                                    {contract.project_details ? contract.project_details.year : 'N/A'}
+                                    </td>
+                                    <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.phase : 'N/A'}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.project_code : 'N/A'}</td>
+                                    <td className="px-1 py-1 border text-xs">{contract.first_party}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.refNo}</td>
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.signing_date)}</td>
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.effective_date)}</td>

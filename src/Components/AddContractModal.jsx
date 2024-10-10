@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-import useAllCustomer from "../Hooks/useAllCustomers";
-import useAllProjects_Master from "../Hooks/useAllProjects_Master";
+// import useAllCustomer from "../Hooks/useAllCustomers";
+// import useAllProjects_Master from "../Hooks/useAllProjects_Master";
 
 const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, selectedProject, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [allCustomers] = useAllCustomer();
-    const [allProjects] = useAllProjects_Master();
+    // const [allCustomers] = useAllCustomer();
+    // const [allProjects] = useAllProjects_Master();
 
 
     const onSubmit = async (data) => {
@@ -33,7 +33,7 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, s
         formData.append('project_id', data.project_id);
         formData.append('project_name', data.project_name);
         formData.append('customer_name', data.customer_name);
-        formData.append('project_type', data.project_type);
+        formData.append('project_category', data.project_category);
         formData.append('refNo', data.refNo);
         formData.append('first_party', data.first_party);
         formData.append('signing_date', data.signing_date);
@@ -116,57 +116,37 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, s
                                         />
                                     </div>
                                 )}
-
-                                {/* <select
-                                        name="project_name"
-                                        {...register("project_name", { required: true })}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Project</option>
-                                        {allProjects
-                                            .filter(project => project.project_status === "1") // Adjust based on data type
-                                            .map((project) => (
-                                                <option key={project._id} value={project.name}>
-                                                    {project.project_name}
-                                                </option>
-                                            ))}
-                                    </select> */}
                             </div>
                             <div className="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Project Type*
-                                    </label>
-                                    <select
-                                        name="project_type"
-                                        {...register("project_type", { required: true })}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Type</option>
-                                        <option value="1">Service</option>
-                                        <option value="2">Product</option>
-                                        <option value="3">Supply & Service</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        Customer Name*
-                                    </label>
-                                    <select
-                                        name="customer_name"
-                                        {...register("customer_name", { required: true })}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Customer</option>
-                                        {allCustomers
-                                            .filter(customer => customer.status === "1") // Adjust based on data type
-                                            .map((customer) => (
-                                                <option key={customer._id} value={customer.name}>
-                                                    {customer.name}
-                                                </option>
-                                            ))}
-                                    </select>
-                                </div>
+                                {selectedProject && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            Project Category*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="project_category"
+                                            value={selectedProject.project_category}
+                                            readOnly
+                                            className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
+                                        />
+                                    </div>
+                                )}
+
+                                {selectedProject && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            Customer Name*
+                                        </label>
+                                        <input
+                                            type="text"
+                                            name="customer_name"
+                                            value={selectedProject.customer_name}
+                                            readOnly
+                                            className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
+                                        />
+                                    </div>
+                                )}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         First Party*

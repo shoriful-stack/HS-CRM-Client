@@ -14,14 +14,18 @@ const AddProject_MasterModal = ({ isProject_MasterModalOpen, setIsProject_Master
             project_code: data.project_code,
             project_status: data.project_status || "1"
         }
-        const projectRes = await axiosSecure.post('/projects_master', addProject);
-        console.log(projectRes.data);
-
-        if (projectRes.data.insertedId) {
-            reset();
-            refetch();
-            toast.success(`${data.project_name} added successfully`);
-            closeAddModal();
+        try{
+            const projectRes = await axiosSecure.post('/projects_master', addProject);
+            console.log(projectRes.data);
+    
+            if (projectRes.data.insertedId) {
+                reset();
+                refetch();
+                toast.success(`${data.project_name} added successfully`, {autoClose: 1500});
+                closeAddModal();
+            }
+        }catch (error) {
+            toast.error(`${data.project_name} already exists.`);
         }
     }
 

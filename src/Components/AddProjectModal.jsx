@@ -68,11 +68,13 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                         className="mt-1 block text-sm w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
                                     >
                                         <option className="hidden" value="">Select Project</option>
-                                        {allProjects.map((project) => (
-                                            <option key={project._id} value={project.project_name}>
-                                                {project.project_name}
-                                            </option>
-                                        ))}
+                                        {allProjects
+                                            .filter(projects_master => projects_master.project_status === "1") // Adjust based on data type
+                                            .map((project) => (
+                                                <option key={project._id} value={project.project_name}>
+                                                    {project.project_name}
+                                                </option>
+                                            ))}
                                     </select>
                                 </div>
                                 <div>
@@ -205,11 +207,11 @@ const AddProjectModal = ({ isAddModalOpen, setIsAddModalOpen, refetch }) => {
                                             </option>
                                         ))}
                                     </select> */}
-                                    <input 
-                                    type="text" 
-                                    name="project_code" 
-                                    {...register("project_code", { required: true })}
-                                     className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500" />
+                                    <input
+                                        type="text"
+                                        name="project_code"
+                                        {...register("project_code", { required: true })}
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500" />
                                 </div>
                             </div>
                             <div className="flex justify-end">
