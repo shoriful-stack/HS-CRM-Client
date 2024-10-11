@@ -220,7 +220,7 @@ const Contracts = () => {
                 <Loader />
             ) : (
                 <>
-                    <table className="table w-[1240px] border-collapse border">
+                    <table className="table w-[1250px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
@@ -231,10 +231,10 @@ const Contracts = () => {
                                 <th className="px-2 py-2 border text-xs">First Party</th>
                                 <th className="px-2 py-2 border text-xs">Customer</th>
                                 <th className="px-2 py-2 border text-xs">Ref No.</th>
-                                <th className="px-2 py-2 border text-xs">Signing Date</th>
-                                <th className="px-2 py-2 border text-xs">Effective Date</th>
-                                <th className="px-2 py-2 border text-xs">Closing Date</th>
-                                <th className="px-2 py-2 border text-xs">Status</th>
+                                <th className="px-1 py-2 border text-xs">Signing Date</th>
+                                <th className="px-1 py-2 border text-xs">Effective Date</th>
+                                <th className="px-1 py-2 border text-xs">Closing Date</th>
+                                <th className="px-2 py-2 border text-xs text-center">Status</th>
                                 <th className="px-2 py-2 border text-xs">Scan Copy</th>
                                 <th className="px-2 py-2 border text-xs">Hard Copy</th>
                             </tr>
@@ -295,8 +295,12 @@ const Contracts = () => {
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.signing_date)}</td>
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.effective_date)}</td>
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.closing_date)}</td>
-                                    <td className="px-1 py-1 border text-xs">
-                                        {contract.contract_status === '1' ? 'Not Expired' : 'Expired'}
+                                    <td className="px-1 py-1 border text-xs text-center w-24">
+                                        <span
+                                            className={`px-1 py-1 font-semibold rounded-md ${contract.contract_status === '1' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
+                                        >
+                                            {contract.contract_status === '1' ? 'Not Expired' : 'Expired'}
+                                        </span>
                                     </td>
                                     <td className="px-1 py-1 border text-xs">
                                         {contract.scan_copy_status === '1' ? 'Done' : 'Undone'}

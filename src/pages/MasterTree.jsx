@@ -226,7 +226,7 @@ const MasterTree = () => {
                 <Loader />
             ) : (
                 <>
-                    <table className="table w-[1700px] border-collapse border">
+                    <table className="table w-[1730px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
@@ -243,12 +243,12 @@ const MasterTree = () => {
                                 <th className="px-2 py-2 border text-xs">Project Code</th>
                                 <th className="px-2 py-2 border text-xs">First Party</th>
                                 <th className="px-2 py-2 border text-xs">Ref No.</th>
-                                <th className="px-2 py-2 border text-xs text-center">Contract <br />Signing Date</th>
-                                <th className="px-2 py-2 border text-xs text-center">Contract<br /> Effective Date</th>
-                                <th className="px-2 py-2 border text-xs text-center">Contract <br />Closing  Date</th>
-                                <th className="px-2 py-2 border text-xs text-center">Contract <br />Status</th>
-                                <th className="px-2 py-2 border text-xs text-center">Scan Copy <br /> Status</th>
-                                <th className="px-2 py-2 border text-xs text-center">Hard Copy <br /> Status </th>
+                                <th className="px-1 py-1 border text-xs text-center">Contract <br />Signing Date</th>
+                                <th className="px-1 py-1 border text-xs text-center">Contract<br /> Effective Date</th>
+                                <th className="px-1 py-1 border text-xs text-center">Contract <br />Closing  Date</th>
+                                <th className="px-1 py-1 border text-xs text-center">Contract <br />Status</th>
+                                <th className="px-1 py-1 border text-xs text-center">Scan Copy <br /> Status</th>
+                                <th className="px-1 py-1 border text-xs text-center">Hard Copy <br /> Status </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -315,8 +315,12 @@ const MasterTree = () => {
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.signing_date)}</td>
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.effective_date)}</td>
                                     <td className="px-1 py-1 border text-xs">{formatDate(contract.closing_date)}</td>
-                                    <td className="px-1 py-1 border text-xs">
-                                        {contract.contract_status === '1' ? 'Not Expired' : 'Expired'}
+                                    <td className="px-1 py-1 border text-xs w-24 text-center">
+                                        <span
+                                            className={`px-1 py-1 font-semibold rounded-md ${contract.contract_status === '1' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}
+                                        >
+                                            {contract.contract_status === '1' ? 'Not Expired' : 'Expired'}
+                                        </span>
                                     </td>
                                     <td className="px-1 py-1 border text-xs">
                                         {contract.scan_copy_status === '1' ? 'Done' : 'Undone'}
