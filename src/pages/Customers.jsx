@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaEdit, FaFileImport } from "react-icons/fa";
-import { IoAddCircleSharp } from "react-icons/io5";
+import { IoAddCircleSharp, IoSearchSharp } from "react-icons/io5";
 import AddModal from "../Components/AddModal";
 import { toast, ToastContainer } from "react-toastify";
 import EditCustomerModal from "../Components/EditCustomerModal";
@@ -90,7 +90,7 @@ const Customers = () => {
                     "Phone": customer.phone,
                     "Email": customer.email,
                     "Address": customer.address,
-                    "Status": customer.status,
+                    "Status": customer.status === "1" ? "Active" : "Inactive",
                 }));
 
                 // Create worksheet
@@ -182,13 +182,16 @@ const Customers = () => {
                 <h1 className="font-bold text-xl">Customers</h1>
                 <div className="flex items-center gap-1">
                     {/* Search Input */}
-                    <input
-                        type="text"
-                        value={search}
-                        onChange={handleSearchChange}
-                        placeholder="Search..."
-                        className="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring focus:border-blue-300"
-                    />
+                    <div className="relative">
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={handleSearchChange}
+                            placeholder="Search..."
+                            className="px-2 py-1 text-sm bg-gray-100 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                        />
+                        <IoSearchSharp className="absolute right-3 top-1.5" />
+                    </div>
                     <button
                         onClick={openModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
