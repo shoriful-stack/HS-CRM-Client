@@ -11,20 +11,34 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import ImportModal from "../Components/ImportModal";
+import debounce from "lodash.debounce";
 
 const Customers = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [importModalOpen, setImportModalOpen] = useState(false);
+    const [search, setSearch] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
     const axiosSecure = useAxiosSecure();
+
+    // Debounce the search input to prevent excessive API calls
+    const debounceSearch = debounce((value) => {
+        setDebouncedSearch(value);
+        setCurrentPage(1); // Reset to first page on new search
+    }, 500);
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+        debounceSearch(e.target.value);
+    };
 
     // Pagination States
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
 
     // Fetch Customers
-    const [data, loading, refetch] = useCustomer(currentPage, limit); // This hook contain the 1st 10 data of customer collection cause of pagination
+    const [data, loading, refetch] = useCustomer(currentPage, limit, debouncedSearch); // This hook contain the 1st 10 data of customer collection cause of pagination
     const customers = data?.customers || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
@@ -167,6 +181,14 @@ const Customers = () => {
             <div className="flex justify-between items-center mb-2">
                 <h1 className="font-bold text-xl">Customers</h1>
                 <div className="flex items-center gap-1">
+                    {/* Search Input */}
+                    <input
+                        type="text"
+                        value={search}
+                        onChange={handleSearchChange}
+                        placeholder="Search..."
+                        className="px-3 py-1 text-sm border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                    />
                     <button
                         onClick={openModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"

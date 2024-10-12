@@ -93,7 +93,7 @@ const Sidebar = () => {
                         {/* Toggle Button */}
                         <button
                             onClick={toggleSidebar}
-                            className="flex items-center justify-center w-full p-1 mt-3 mb-0 text-gray-400 bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-400 hover:to-blue-500 rounded-md hover:bg-gray-600 focus:outline-none"
+                            className="flex items-center justify-center w-full p-1 mt-3 mb-0 text-gray-400 bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-400 hover:to-blue-500 rounded-md focus:outline-none"
                         >
                             {isCollapsed ? (
                                 <IoClose className="w-6 h-6 text-white" />

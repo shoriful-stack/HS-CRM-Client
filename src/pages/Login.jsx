@@ -37,7 +37,7 @@ const Login = () => {
                 <img className="w-48 h-9" src="https://i.ibb.co.com/zrNvt4h/logo-hs.png" alt="Logo" />
             </div>
             <div className="flex items-center justify-center">
-                <div className="w-full max-w-sm px-5 py-4 bg-white rounded-lg shadow-lg">
+                <div className="w-full max-w-[350px] px-5 py-4 bg-white rounded-lg shadow-lg">
                     <div className="flex justify-center mb-2">
                         <div className="bg-gray-200 p-4 rounded-full">
                             <svg
@@ -59,7 +59,7 @@ const Login = () => {
                                 <input
                                     type="email"
                                     name="email"
-                                    className="w-full px-4 py-3 pl-10 rounded-lg"
+                                    className="w-full py-2 pl-10 rounded-lg focus:outline-none text-sm"
                                     placeholder="Email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
@@ -75,19 +75,19 @@ const Login = () => {
                                 <input
                                     type={showPassword ? 'text' : 'password'}
                                     name="password"
-                                    className="w-full px-4 py-3 pl-10 rounded-lg focus:outline-none"
+                                    className="w-full py-2 pl-10 rounded-lg text-sm"
                                     placeholder="Password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
-                                <span className="absolute inset-y-0 right-3 flex items-center text-gray-400 cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
+                                <span className="absolute inset-y-0 right-3 flex items-center cursor-pointer" onClick={() => setShowPassword(!showPassword)}>
                                     {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
                                 </span>
                             </div>
                         </div>
                         <div className="form-control">
-                            <button type="submit" className="btn bg-green-500 hover:bg-black text-white w-full font-lexend">Login</button>
+                            <button type="submit" className="btn bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-400 hover:to-blue-500 text-white w-full font-lexend">Login</button>
                         </div>
                     </form>
                 </div>
