@@ -9,6 +9,8 @@ import AddProject_MasterModal from "../Components/AddProject_MasterModal";
 import EditProject_MasterModal from "../Components/EditProject_MasterModal";
 import ImportProjects_MasterModal from "../Components/ImportProjects_MasterModal";
 import debounce from "lodash.debounce";
+import { MdModeEdit } from "react-icons/md";
+import { AiFillEdit } from "react-icons/ai";
 
 const Project_Master = () => {
     const [isProject_MasterModalOpen, setIsProject_MasterModalOpen] = useState(false);
@@ -182,8 +184,8 @@ const Project_Master = () => {
                                 <th className="px-1 py-2 border text-sm">Sl.No.</th>
                                 <th className="px-2 py-2 border text-sm">Project Name</th>
                                 <th className="px-2 py-2 border text-sm">Project Code</th>
-                                <th className="px-2 py-2 border text-sm">Status</th>
-                                <th className="px-2 py-2 border text-sm">Action</th>
+                                <th className="px-2 py-2 border text-sm text-center">Status</th>
+                                <th className="px-2 py-2 border text-sm text-center">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -208,8 +210,8 @@ const Project_Master = () => {
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(project)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
-                                            <FaEdit className="bg-blue-500 text-white" />
+                                        <button onClick={() => openEditModal(project)} className="bg-blue-500 rounded-md w-8 pl-[6px] py-1">
+                                        <AiFillEdit className="bg-blue-500 text-white font-bold text-xl" />
                                         </button>
                                     </td>
                                 </tr>))

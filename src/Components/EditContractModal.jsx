@@ -17,7 +17,10 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
             setValue('contract_title', contract.contract_title);
             setValue('project_name', contract.project_details.project_name);
             setValue('customer_name', contract.customer_name);
-            setValue('project_category', contract.project_category);
+            setValue('project_category', contract.project_category === "1" ? "Service" :
+                contract.project_category === "2" ? "Product" :
+                "Supply & Service"
+            );
             setValue('refNo', contract.refNo);
             setValue('first_party', contract.first_party);
             setValue('signing_date', contract.signing_date);
@@ -105,21 +108,6 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Name
                                     </label>
-                                    {/* <select
-                                        name="project_name"
-                                        {...register("project_name")}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Project</option>
-                                        {allProjects
-                                            .filter(project => project.project_status === "1") // Adjust based on data type
-                                            .map((project) => (
-                                                <option key={project._id} value={project.project_name}>
-                                                    {project.project_name}
-                                                </option>
-                                            ))}
-                                    </select> */}
-
                                     <input
                                         type="text"
                                         name="project_name"
@@ -135,34 +123,28 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                     <label className="block text-sm font-medium text-gray-700">
                                         Project Type
                                     </label>
-                                    <select
+                                    <input
+                                        type="text"
                                         name="project_category"
-                                        {...register("project_category")}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Type</option>
-                                        <option value="1">Service</option>
-                                        <option value="2">Product</option>
-                                        <option value="3">Supply & Service</option>
-                                    </select>
+                                        value={contract.project_category === '1' ? 'Service' :
+                                            contract.project_category === '2' ? 'Product' :
+                                            'Supply & Service'
+                                        }
+                                        readOnly
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
+                                    />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">
                                         Customer Name
                                     </label>
-                                    <select
+                                    <input
+                                        type="text"
                                         name="customer_name"
-                                        {...register("customer_name")}
-                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"
-                                    >
-                                        <option className="hidden" value="">Select Customer</option>
-                                        {allCustomers.map((customer) => (
-                                            <option key={customer._id} value={customer.name}>
-                                                {customer.name}
-                                            </option>
-                                        ))}
-                                    </select>
-
+                                        value={contract.customer_name}
+                                        readOnly
+                                        className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
+                                    />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700">

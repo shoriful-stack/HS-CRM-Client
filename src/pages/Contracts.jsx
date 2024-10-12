@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FaDownload, FaEdit, FaFileImport, FaRegEye } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+import { FaDownload, FaEdit, FaFileImport, FaFilter, FaRegEye } from "react-icons/fa";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -20,8 +20,29 @@ const Contracts = () => {
     const [selectedContract, setSelectedContract] = useState(null);
     const [importContractModalOpen, setImportContractModalOpen] = useState(false);
     const navigate = useNavigate();
-
     const axiosSecure = useAxiosSecure();
+    // New states for filters
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
+    const [filters, setFilters] = useState({
+        project_category: "", // 'Service', 'Product', 'Supply & Service'
+        contractStatus: "" // 'Expired', 'Not Expired'
+    });
+
+    // Reference for clicking outside the filter dropdown
+    const filterRef = useRef();
+
+    // Handle click outside to close filter dropdown
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (filterRef.current && !filterRef.current.contains(event.target)) {
+                setIsFilterOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     const formatDate = (dateString) => {
         if (!dateString) return ''; // Return empty if no date is provided
@@ -37,14 +58,37 @@ const Contracts = () => {
     const limit = 10;
 
     // Fetch contracts
-    const [data, loading, refetch] = useContract(currentPage, limit); // This hook contain the 1st 10 data of project collection
+    const [data, loading, refetch] = useContract(currentPage, limit, filters); // This hook contain the 1st 10 data of project collection
     const contracts = data?.contracts || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
 
-    // const openAddModal = () => {
-    //     setIsAddContractModalOpen(true);
-    // };
+    // Handler for applying filters
+    const applyFilter = (filterKey, value) => {
+        setFilters((prev) => ({
+            ...prev,
+            [filterKey]: value
+        }));
+        setCurrentPage(1); // Reset to first page on filter change
+    };
+
+    // Handler to clear a specific filter
+    const clearFilter = (filterKey) => {
+        setFilters((prev) => ({
+            ...prev,
+            [filterKey]: ""
+        }));
+        setCurrentPage(1);
+    };
+
+    // Handler to clear all filters
+    const clearAllFilters = () => {
+        setFilters({
+            project_category: "",
+            contractStatus: ""
+        });
+        setCurrentPage(1);
+    };
     const openEditContractModal = (contract) => {
         setSelectedContract(contract);
         setEditContractModalOpen(true);
@@ -191,13 +235,62 @@ const Contracts = () => {
             <div className="flex justify-between items-center mb-2 w-[1037px]">
                 <h1 className="font-bold text-xl">Contracts</h1>
                 <div className="flex items-center gap-1">
-                    {/* <button
-                        onClick={openAddModal}
-                        className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
-                    >
-                        <IoAddCircleSharp className="w-5 h-4" />
-                        <span className="text-xs">Add New</span>
-                    </button> */}
+                    <div className="relative" ref={filterRef}>
+                        <button
+                            onClick={() => setIsFilterOpen(!isFilterOpen)}
+                            className="bg-indigo-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
+                        >
+                            <FaFilter className="w-4 h-4" />
+                            <span className="text-xs">Filter</span>
+                        </button>
+
+                        {isFilterOpen && (
+                            <div className="absolute right-0 mt-2 w-56 bg-white border rounded-md shadow-lg z-50">
+                                <div className="p-4">
+                                    <h3 className="text-sm font-semibold mb-2">Filter By</h3>
+
+                                    {/* Project Type Filter */}
+                                    <div className="mb-4">
+                                        <label className="block text-xs font-medium text-gray-700">Project Type</label>
+                                        <select
+                                            value={filters.project_category}
+                                            onChange={(e) => applyFilter('project_category', e.target.value)}
+                                            className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                        >
+                                            <option value="">All</option>
+                                            <option value="Service">Service</option>
+                                            <option value="Product">Product</option>
+                                            <option value="Supply & Service">Supply & Service</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Contract Status Filter */}
+                                    <div className="mb-4">
+                                        <label className="block text-xs font-medium text-gray-700">Contract Status</label>
+                                        <select
+                                            value={filters.contractStatus}
+                                            onChange={(e) => applyFilter('contractStatus', e.target.value)}
+                                            className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                        >
+                                            <option value="">All</option>
+                                            <option value="Not Expired">Not Expired</option>
+                                            <option value="Expired">Expired</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Clear Filters */}
+                                    <div className="flex justify-end">
+                                        <button
+                                            onClick={clearAllFilters}
+                                            className="text-xs text-red-500 hover:underline"
+                                        >
+                                            Clear All
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
                     <button
                         onClick={openImportModal}
                         className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
@@ -285,8 +378,8 @@ const Contracts = () => {
                                     <td className="px-1 py-1 border text-xs">{contract.contract_title}</td>
                                     <td className="px-1 py-1 border text-xs">{contract.project_details ? contract.project_details.project_name : 'N/A'}</td>
                                     <td className="px-1 py-1 border text-xs">
-                                        {contract.project_type === '1' ? 'Service' :
-                                            contract.project_type === '2' ? 'Product' :
+                                        {contract.project_category === '1' ? 'Service' :
+                                            contract.project_category === '2' ? 'Product' :
                                                 'Supply & Service'}
                                     </td>
                                     <td className="px-1 py-1 border text-xs">{contract.first_party}</td>

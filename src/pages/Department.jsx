@@ -8,6 +8,7 @@ import AddDepartmentModal from "../Components/AddDepartmentModal";
 import useDepartment from "../Hooks/useDepartment";
 import EditDepartmentModal from "../Components/EditDepartmentModal";
 import debounce from "lodash.debounce";
+import { AiFillEdit } from "react-icons/ai";
 
 const Department = () => {
     const [isDepartmentModalOpen, setIsDepartmentModalOpen] = useState(false);
@@ -173,8 +174,8 @@ const Department = () => {
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(department)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
-                                            <FaEdit className="bg-blue-500 text-white" />
+                                        <button onClick={() => openEditModal(department)} className="bg-blue-500 rounded-md pl-[6px] py-1 w-8">
+                                        <AiFillEdit className="bg-blue-500 text-white font-bold text-xl" />
                                         </button>
                                     </td>
                                 </tr>))

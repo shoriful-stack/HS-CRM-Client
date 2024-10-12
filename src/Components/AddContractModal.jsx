@@ -61,7 +61,8 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, s
             }
         } catch (error) {
             console.error('Error uploading contract:', error);
-            toast.error('Failed to upload contract');
+            toast.error('This project already have a contract');
+            reset();
         }
     };
 

@@ -8,6 +8,7 @@ import EditDesignationModal from "../Components/EditDesignationModal";
 import AddDesignationModal from "../Components/AddDesignationModal";
 import useDesignation from "../Hooks/useDesignation";
 import debounce from "lodash.debounce";
+import { AiFillEdit } from "react-icons/ai";
 
 const Designation = () => {
     const [isDesignationModalOpen, setIsDesignationModalOpen] = useState(false);
@@ -172,8 +173,8 @@ const Designation = () => {
                                         </p>
                                     </td>
                                     <td className="px-2 py-1 border text-center">
-                                        <button onClick={() => openEditModal(designation)} className="bg-blue-500 rounded-md px-2 py-2 w-8">
-                                            <FaEdit className="bg-blue-500 text-white" />
+                                        <button onClick={() => openEditModal(designation)} className="bg-blue-500 rounded-md pl-[6px] py-1 w-8">
+                                        <AiFillEdit className="bg-blue-500 text-white font-bold text-xl" />
                                         </button>
                                     </td>
                                 </tr>))
