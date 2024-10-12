@@ -118,6 +118,7 @@ const Department = () => {
             <div className="flex justify-between items-center mb-2">
                 <h1 className="font-bold text-xl">Departments</h1>
                 <div className="flex items-center gap-1">
+                    {/* Search Input */}
                     <div className="relative">
                         <input
                             type="text"
@@ -128,6 +129,7 @@ const Department = () => {
                         />
                         <IoSearchSharp className="absolute right-3 top-1.5" />
                     </div>
+                    {/* add button */}
                     <button
                         onClick={openDepartmentModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
