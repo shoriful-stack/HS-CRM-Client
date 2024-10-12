@@ -13,12 +13,18 @@ const useContract = (page, limit, filters) => {
                 limit,
             };
 
-            if (filters.projectType) {
-                params.projectType = filters.projectType;
+            if (filters.project_category) {
+                params.project_category = filters.project_category;
             }
 
             if (filters.contractStatus) {
                 params.contractStatus = filters.contractStatus;
+            }
+            if (filters.project_name) {
+                params.project_name = filters.project_name;
+            }
+            if (filters.customer_name) {
+                params.customer_name = filters.customer_name;
             }
 
             const res = await axiosSecure.get("/contracts", { params });

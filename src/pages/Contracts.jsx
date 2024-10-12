@@ -13,19 +13,25 @@ import useContract from "../Hooks/useContract";
 import ImportContractModal from "../Components/ImportContractModal";
 import EditContractModal from "../Components/EditContractModal";
 import { useNavigate } from "react-router-dom";
+import useAllProjects_Master from "../Hooks/useAllProjects_Master";
+import useAllCustomer from "../Hooks/useAllCustomers";
 
 const Contracts = () => {
     // const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
     const [editContractModalOpen, setEditContractModalOpen] = useState(false);
     const [selectedContract, setSelectedContract] = useState(null);
     const [importContractModalOpen, setImportContractModalOpen] = useState(false);
+    const [allProjects] = useAllProjects_Master();
+    const [allCustomers] = useAllCustomer();
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
     // New states for filters
     const [isFilterOpen, setIsFilterOpen] = useState(false);
     const [filters, setFilters] = useState({
         project_category: "", // 'Service', 'Product', 'Supply & Service'
-        contractStatus: "" // 'Expired', 'Not Expired'
+        contractStatus: "", // 'Expired', 'Not Expired'
+        project_name: "",
+        customer_name: "",
     });
 
     // Reference for clicking outside the filter dropdown
@@ -85,7 +91,9 @@ const Contracts = () => {
     const clearAllFilters = () => {
         setFilters({
             project_category: "",
-            contractStatus: ""
+            contractStatus: "",
+            project_name: "",
+            customer_name: ""
         });
         setCurrentPage(1);
     };
@@ -125,7 +133,9 @@ const Contracts = () => {
     const handleExport = async () => {
         try {
             // Fetch all contracts from the new API endpoint
-            const response = await axiosSecure.get("/contracts/all");
+            const response = await axiosSecure.get("/contracts/all", {
+                params: { ...filters } // Pass current filters as query parameters
+            });
 
             if (response.status === 200) {
                 const allContracts = response.data;
@@ -134,6 +144,7 @@ const Contracts = () => {
                 const data = allContracts.map((contract, index) => ({
                     "Sl.No.": index + 1,
                     "Title": contract.contract_title,
+                    "Project Name": contract.project_details.project_name,
                     "Project Type": contract.project_type === '1' ? 'Service' :
                         contract.project_type === '2' ? 'Product' :
                             'Supply & Service',
@@ -235,47 +246,86 @@ const Contracts = () => {
             <div className="flex justify-between items-center mb-2 w-[1037px]">
                 <h1 className="font-bold text-xl">Contracts</h1>
                 <div className="flex items-center gap-1">
+                    {/* Filter Button */}
                     <div className="relative" ref={filterRef}>
                         <button
                             onClick={() => setIsFilterOpen(!isFilterOpen)}
                             className="bg-indigo-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                         >
-                            <FaFilter className="w-4 h-4" />
+                            <FaFilter className="w-3 h-3" />
                             <span className="text-xs">Filter</span>
                         </button>
 
                         {isFilterOpen && (
-                            <div className="absolute right-0 mt-2 w-56 bg-white border rounded-md shadow-lg z-50">
-                                <div className="p-4">
+                            <div className="absolute right-0 mt-2 w-96 bg-white border rounded-md shadow-lg z-50">
+                                <div className="p-3">
                                     <h3 className="text-sm font-semibold mb-2">Filter By</h3>
-
-                                    {/* Project Type Filter */}
-                                    <div className="mb-4">
-                                        <label className="block text-xs font-medium text-gray-700">Project Type</label>
-                                        <select
-                                            value={filters.project_category}
-                                            onChange={(e) => applyFilter('project_category', e.target.value)}
-                                            className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
-                                        >
-                                            <option value="">All</option>
-                                            <option value="Service">Service</option>
-                                            <option value="Product">Product</option>
-                                            <option value="Supply & Service">Supply & Service</option>
-                                        </select>
+                                    <div className="grid grid-cols-2 gap-2 mb-1">
+                                        {/* Project Name Filter */}
+                                        <div className="">
+                                            <label className="block text-xs font-medium text-gray-700">Project Name</label>
+                                            <select
+                                                value={filters.project_name}
+                                                onChange={(e) => applyFilter('project_name', e.target.value)}
+                                                className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                            >
+                                                <option value="">All</option>
+                                                {allProjects
+                                                    .filter(projects_master => projects_master.project_status === "1") // Adjust based on data type
+                                                    .map((project) => (
+                                                        <option key={project._id} value={project.project_name}>
+                                                            {project.project_name}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
+                                        {/* Customer Name Filter */}
+                                        <div className="">
+                                            <label className="block text-xs font-medium text-gray-700">Customer Name</label>
+                                            <select
+                                                value={filters.customer_name}
+                                                onChange={(e) => applyFilter('customer_name', e.target.value)}
+                                                className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                            >
+                                                <option value="">All</option>
+                                                {allCustomers
+                                                    .filter(customer => customer.status === "1") // Adjust based on data type
+                                                    .map((customer) => (
+                                                        <option key={customer._id} value={customer.name}>
+                                                            {customer.name}
+                                                        </option>
+                                                    ))}
+                                            </select>
+                                        </div>
                                     </div>
-
-                                    {/* Contract Status Filter */}
-                                    <div className="mb-4">
-                                        <label className="block text-xs font-medium text-gray-700">Contract Status</label>
-                                        <select
-                                            value={filters.contractStatus}
-                                            onChange={(e) => applyFilter('contractStatus', e.target.value)}
-                                            className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
-                                        >
-                                            <option value="">All</option>
-                                            <option value="Not Expired">Not Expired</option>
-                                            <option value="Expired">Expired</option>
-                                        </select>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        {/* Project Type Filter */}
+                                        <div className="">
+                                            <label className="block text-xs font-medium text-gray-700">Project Type</label>
+                                            <select
+                                                value={filters.project_category}
+                                                onChange={(e) => applyFilter('project_category', e.target.value)}
+                                                className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                            >
+                                                <option value="">All</option>
+                                                <option value="Service">Service</option>
+                                                <option value="Product">Product</option>
+                                                <option value="Supply & Service">Supply & Service</option>
+                                            </select>
+                                        </div>
+                                        {/* Contract Status Filter */}
+                                        <div className="mb-4">
+                                            <label className="block text-xs font-medium text-gray-700">Contract Status</label>
+                                            <select
+                                                value={filters.contractStatus}
+                                                onChange={(e) => applyFilter('contractStatus', e.target.value)}
+                                                className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                            >
+                                                <option value="">All</option>
+                                                <option value="Not Expired">Not Expired</option>
+                                                <option value="Expired">Expired</option>
+                                            </select>
+                                        </div>
                                     </div>
 
                                     {/* Clear Filters */}
@@ -291,6 +341,7 @@ const Contracts = () => {
                             </div>
                         )}
                     </div>
+                    {/* import and export button */}
                     <button
                         onClick={openImportModal}
                         className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
@@ -335,7 +386,11 @@ const Contracts = () => {
                         <tbody>
                             {contracts.length === 0 ? (
                                 <tr>
-                                    <td colSpan="11" className="text-center py-4">No contract available.</td>
+                                    <td colSpan="14" className="text-center py-4">
+                                        {filters.project_category || filters.contractStatus || filters.project_name || filters.customer_name
+                                            ? "No contracts match the selected filters."
+                                            : "No contract available."}
+                                    </td>
                                 </tr>
                             ) : (
                                 contracts.map((contract, index) => <tr key={contract._id} className="bg-gray-100">
@@ -407,7 +462,6 @@ const Contracts = () => {
                     {renderPagination()}
                 </>
             )}
-            {/* <AddContractModal isAddContractModalOpen={isAddContractModalOpen} setIsAddContractModalOpen={setIsAddContractModalOpen} refetch={refetch} /> */}
             <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />
             <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} />
             <ToastContainer></ToastContainer>
