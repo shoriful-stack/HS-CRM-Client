@@ -1,24 +1,39 @@
 import { useState } from "react";
 import { FaEdit } from "react-icons/fa";
-import { IoAddCircleSharp } from "react-icons/io5";
+import { IoAddCircleSharp, IoSearchSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
 import AddDepartmentModal from "../Components/AddDepartmentModal";
 import useDepartment from "../Hooks/useDepartment";
 import EditDepartmentModal from "../Components/EditDepartmentModal";
+import debounce from "lodash.debounce";
 
 const Department = () => {
     const [isDepartmentModalOpen, setIsDepartmentModalOpen] = useState(false);
     const [editDepartmentModalOpen, setEditDepartmentModalOpen] = useState(false);
     const [selectedDepartment, setSelectedDepartment] = useState(null);
+    const [search, setSearch] = useState("");
+    const [debouncedSearch, setDebouncedSearch] = useState("");
+
+
+    // Debounce the search input to prevent excessive API calls
+    const debounceSearch = debounce((value) => {
+        setDebouncedSearch(value);
+        setCurrentPage(1); // Reset to first page on new search
+    }, 500);
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value);
+        debounceSearch(e.target.value);
+    };
 
     // Pagination States
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 10;
 
     // Fetch Department
-    const [data, loading, refetch] = useDepartment(currentPage, limit); // This hook contain the 1st 10 data of department collection cause of pagination
+    const [data, loading, refetch] = useDepartment(currentPage, limit, debouncedSearch); // This hook contain the 1st 10 data of department collection cause of pagination
     const departments = data?.departments || [];
     const total = data?.total || 0;
     const totalPages = data?.totalPages || 1;
@@ -103,6 +118,16 @@ const Department = () => {
             <div className="flex justify-between items-center mb-2">
                 <h1 className="font-bold text-xl">Departments</h1>
                 <div className="flex items-center gap-1">
+                    <div className="relative">
+                        <input
+                            type="text"
+                            value={search}
+                            onChange={handleSearchChange}
+                            placeholder="Search..."
+                            className="px-2 py-1 text-sm bg-gray-100 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                        />
+                        <IoSearchSharp className="absolute right-3 top-1.5" />
+                    </div>
                     <button
                         onClick={openDepartmentModal}
                         className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
