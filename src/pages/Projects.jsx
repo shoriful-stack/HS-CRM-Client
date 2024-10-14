@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FaEdit, FaFileImport, FaHistory, FaRegEye } from "react-icons/fa";
+import React, { useEffect, useRef, useState } from "react";
+import { FaEdit, FaFileImport, FaFilter, FaHistory, FaRegEye } from "react-icons/fa";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -13,6 +13,10 @@ import AddProjectModal from "../Components/AddProjectModal";
 import EditProjectModal from "../Components/EditProjectModal";
 import ImportProjectsModal from "../Components/ImportProjectsModal";
 import AddContractModal from "../Components/AddContractModal";
+import useAllProjects_Master from "../Hooks/useAllProjects_Master";
+import useAllCustomer from "../Hooks/useAllCustomers";
+import useAllDepartment from "../Hooks/useAllDepartments";
+import useAllEmployee from "../Hooks/useAllEmployees";
 
 const Projects = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -22,7 +26,70 @@ const Projects = () => {
   const [editProjectModalOpen, setEditProjectModalOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
   const [importModalOpen, setImportModalOpen] = useState(false);
+  const [allProjects] = useAllProjects_Master();
+  const [allCustomers] = useAllCustomer();
+  const [allDepartments] = useAllDepartment();
+  const [allEmployees] = useAllEmployee();
   const axiosSecure = useAxiosSecure();
+  // New states for filters
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    project_category: "", // 'Service', 'Product', 'Supply & Service'
+    project_name: "",
+    customer_name: "",
+    department: "",
+    pm: "",
+    year: "",
+    project_code: ""
+  });
+
+  // Reference for clicking outside the filter dropdown
+  const filterRef = useRef();
+
+  // Handle click outside to close filter dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Handler for applying filters
+  const applyFilter = (filterKey, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterKey]: value
+    }));
+    setCurrentPage(1); // Reset to first page on filter change
+  };
+
+  // Handler to clear a specific filter
+  const clearFilter = (filterKey) => {
+    setFilters((prev) => ({
+      ...prev,
+      [filterKey]: ""
+    }));
+    setCurrentPage(1);
+  };
+
+  // Handler to clear all filters
+  const clearAllFilters = () => {
+    setFilters({
+      project_category: "", // 'Service', 'Product', 'Supply & Service'
+      project_name: "",
+      customer_name: "",
+      department: "",
+      pm: "",
+      year: "",
+      project_code: ""
+    });
+    setCurrentPage(1);
+  };
 
 
   // Pagination States
@@ -30,7 +97,7 @@ const Projects = () => {
   const limit = 10;
 
   // Fetch Projects
-  const [data, loading, refetch] = useProject(currentPage, limit); // This hook contain the 1st 10 data of project collection
+  const [data, loading, refetch] = useProject(currentPage, limit, filters); // This hook contain the 1st 10 data of project collection
   const projects = data?.projects || [];
   const total = data?.total || 0;
   const totalPages = data?.totalPages || 1;
@@ -72,7 +139,9 @@ const Projects = () => {
   const handleExport = async () => {
     try {
       // Fetch all projects from the new API endpoint
-      const response = await axiosSecure.get("/projects/all");
+      const response = await axiosSecure.get("/projects/all", {
+        params: { ...filters } // Pass current filters as query parameters
+      });
 
       if (response.status === 200) {
         const allProjects = response.data;
@@ -82,7 +151,9 @@ const Projects = () => {
           "Sl.No.": index + 1,
           "Project Name": project.project_name,
           "Customer Name": project.customer_name,
-          "Project Category": project.project_category,
+          "Project Category": project.project_category === '1' ? 'Service' :
+            project.project_category === '2' ? 'Product' :
+              'Supply & Service',
           "Department": project.department,
           "HOD": project.hod,
           "Project Manager": project.pm,
@@ -178,6 +249,144 @@ const Projects = () => {
       <div className="flex justify-between items-center mb-2">
         <h1 className="font-bold text-xl">Projects</h1>
         <div className="flex items-center gap-1">
+          {/* Filter Button */}
+          <div className="relative" ref={filterRef}>
+            <button
+              onClick={() => setIsFilterOpen(!isFilterOpen)}
+              className="bg-indigo-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
+            >
+              <FaFilter className="w-3 h-3" />
+              <span className="text-xs">Filter</span>
+            </button>
+
+            {isFilterOpen && (
+              <div className="absolute right-0 mt-2 w-96 bg-white border rounded-md shadow-lg z-50">
+                <div className="p-3">
+                  <h3 className="text-sm font-semibold mb-2">Filter By</h3>
+                  <div className="grid grid-cols-2 gap-2 mb-1">
+                    {/* Project Name Filter */}
+                    <div className="">
+                      <label className="block text-xs font-medium text-gray-700">Project Name</label>
+                      <select
+                        value={filters.project_name}
+                        onChange={(e) => applyFilter('project_name', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                      >
+                        <option value="">All</option>
+                        {allProjects
+                          .filter(projects_master => projects_master.project_status === "1") // Adjust based on data type
+                          .map((project) => (
+                            <option key={project._id} value={project.project_name}>
+                              {project.project_name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                    {/* Customer Name Filter */}
+                    <div className="">
+                      <label className="block text-xs font-medium text-gray-700">Customer Name</label>
+                      <select
+                        value={filters.customer_name}
+                        onChange={(e) => applyFilter('customer_name', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                      >
+                        <option value="">All</option>
+                        {allCustomers
+                          .filter(customer => customer.status === "1") // Adjust based on data type
+                          .map((customer) => (
+                            <option key={customer._id} value={customer.name}>
+                              {customer.name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {/* Project Type Filter */}
+                    <div className="">
+                      <label className="block text-xs font-medium text-gray-700">Project Type</label>
+                      <select
+                        value={filters.project_category}
+                        onChange={(e) => applyFilter('project_category', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                      >
+                        <option value="">All</option>
+                        <option value="Service">Service</option>
+                        <option value="Product">Product</option>
+                        <option value="Supply & Service">Supply & Service</option>
+                      </select>
+                    </div>
+                    {/* Department Filter */}
+                    <div className="">
+                      <label className="block text-xs font-medium text-gray-700">Department</label>
+                      <select
+                        value={filters.department}
+                        onChange={(e) => applyFilter('department', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                      >
+                        <option value="">All</option>
+                        {allDepartments
+                          .filter(department => department.department_status === "1") // Adjust based on data type
+                          .map((department) => (
+                            <option key={department._id} value={department.department_name}>
+                              {department.department_name}
+                            </option>
+                          ))}
+                      </select>
+                    </div>
+                  </div>
+                  {/* Project Manager */}
+                  <div className="my-2 grid grid-cols-4 gap-2">
+                    <div className="col-span-2">
+                      <label className="block text-xs font-medium text-gray-700">Project Manager</label>
+                      <select
+                        value={filters.pm}
+                        onChange={(e) => applyFilter('pm', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                      >
+                        <option value="">All</option>
+                        {allEmployees.map((employee) => (
+                          <option key={employee._id} value={employee.employee_name}>
+                            {employee.employee_name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* Year Filter */}
+                    <div className="">
+                      <label className="block text-xs font-medium text-gray-700">Year</label>
+                      <input
+                        type="number"
+                        value={filters.year}
+                        onChange={(e) => applyFilter('year', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                      />
+                    </div>
+                    {/* Project Code Filter */}
+                    <div className="">
+                      <label className="block text-xs font-medium text-gray-700">Project Code</label>
+                      <input
+                        type="text"
+                        value={filters.project_code}
+                        onChange={(e) => applyFilter('project_code', e.target.value)}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-1 text-xs"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Clear Filters */}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={clearAllFilters}
+                      className="text-xs text-red-500 hover:underline"
+                    >
+                      Clear All
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
           <button
             onClick={openAddModal}
             className="bg-green-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
