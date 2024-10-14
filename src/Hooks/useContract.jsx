@@ -13,6 +13,7 @@ const useContract = (page, limit, filters) => {
                 limit,
             };
 
+            // Add filters to params if they are set
             if (filters.project_category) {
                 params.project_category = filters.project_category;
             }
@@ -20,11 +21,37 @@ const useContract = (page, limit, filters) => {
             if (filters.contractStatus) {
                 params.contractStatus = filters.contractStatus;
             }
+
             if (filters.project_name) {
                 params.project_name = filters.project_name;
             }
+
             if (filters.customer_name) {
                 params.customer_name = filters.customer_name;
+            }
+
+            if (filters.signingDateFrom) {
+                params.signingDateFrom = filters.signingDateFrom;
+            }
+
+            if (filters.signingDateTo) {
+                params.signingDateTo = filters.signingDateTo;
+            }
+
+            if (filters.effectiveDateFrom) {
+                params.effectiveDateFrom = filters.effectiveDateFrom;
+            }
+
+            if (filters.effectiveDateTo) {
+                params.effectiveDateTo = filters.effectiveDateTo;
+            }
+
+            if (filters.closingDateFrom) {
+                params.closingDateFrom = filters.closingDateFrom;
+            }
+
+            if (filters.closingDateTo) {
+                params.closingDateTo = filters.closingDateTo;
             }
 
             const res = await axiosSecure.get("/contracts", { params });
@@ -34,6 +61,6 @@ const useContract = (page, limit, filters) => {
     });
 
     return [data, loading, refetch];
-};
+}
 
 export default useContract;

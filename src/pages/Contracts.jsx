@@ -32,6 +32,12 @@ const Contracts = () => {
         contractStatus: "", // 'Expired', 'Not Expired'
         project_name: "",
         customer_name: "",
+        signingDateFrom: "",
+        signingDateTo: "",
+        effectiveDateFrom: "",
+        effectiveDateTo: "",
+        closingDateFrom: "",
+        closingDateTo: ""
     });
 
     // Reference for clicking outside the filter dropdown
@@ -93,7 +99,13 @@ const Contracts = () => {
             project_category: "",
             contractStatus: "",
             project_name: "",
-            customer_name: ""
+            customer_name: "",
+            signingDateFrom: "",
+            signingDateTo: "",
+            effectiveDateFrom: "",
+            effectiveDateTo: "",
+            closingDateFrom: "",
+            closingDateTo: ""
         });
         setCurrentPage(1);
     };
@@ -314,7 +326,7 @@ const Contracts = () => {
                                             </select>
                                         </div>
                                         {/* Contract Status Filter */}
-                                        <div className="mb-4">
+                                        <div className="">
                                             <label className="block text-xs font-medium text-gray-700">Contract Status</label>
                                             <select
                                                 value={filters.contractStatus}
@@ -325,6 +337,64 @@ const Contracts = () => {
                                                 <option value="Not Expired">Not Expired</option>
                                                 <option value="Expired">Expired</option>
                                             </select>
+                                        </div>
+                                    </div>
+                                    {/* signing date */}
+                                    <div className="my-2">
+                                        <label className="block text-xs font-medium text-gray-700">Signing Date</label>
+                                        <div className="flex space-x-2">
+                                            <input
+                                                type="date"
+                                                value={filters.signingDateFrom}
+                                                onChange={(e) => applyFilter('signingDateFrom', e.target.value)}
+                                                className="block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                                placeholder="From"
+                                            />
+                                            <input
+                                                type="date"
+                                                value={filters.signingDateTo}
+                                                onChange={(e) => applyFilter('signingDateTo', e.target.value)}
+                                                className="block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                                placeholder="To"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="my-2">
+                                        <h4 className="block text-xs font-medium text-gray-700">Effective Date</h4>
+                                        <div className="flex space-x-2">
+                                            <input
+                                                type="date"
+                                                value={filters.effectiveDateFrom}
+                                                onChange={(e) => applyFilter('effectiveDateFrom', e.target.value)}
+                                                className="block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                                placeholder="From"
+                                            />
+                                            <input
+                                                type="date"
+                                                value={filters.effectiveDateTo}
+                                                onChange={(e) => applyFilter('effectiveDateTo', e.target.value)}
+                                                className="block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                                placeholder="To"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="my-2">
+                                        <h4 className="block text-xs font-medium text-gray-700">Closing Date</h4>
+                                        <div className="flex space-x-2">
+                                            <input
+                                                type="date"
+                                                value={filters.closingDateFrom}
+                                                onChange={(e) => applyFilter('closingDateFrom', e.target.value)}
+                                                className="block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                                placeholder="From"
+                                            />
+                                            <input
+                                                type="date"
+                                                value={filters.closingDateTo}
+                                                onChange={(e) => applyFilter('closingDateTo', e.target.value)}
+                                                className="block w-full border border-gray-300 rounded-md p-1 text-xs"
+                                                placeholder="To"
+                                            />
                                         </div>
                                     </div>
 
@@ -387,9 +457,13 @@ const Contracts = () => {
                             {contracts.length === 0 ? (
                                 <tr>
                                     <td colSpan="14" className="text-center py-4">
-                                        {filters.project_category || filters.contractStatus || filters.project_name || filters.customer_name
+                                        {filters.project_category || filters.contractStatus || filters.project_name || filters.customer_name ||
+                                            (filters.signingDateFrom && filters.signingDateTo) ||
+                                            (filters.effectiveDateFrom && filters.effectiveDateTo) ||
+                                            (filters.closingDateFrom && filters.closingDateTo)
                                             ? "No contracts match the selected filters."
                                             : "No contract available."}
+
                                     </td>
                                 </tr>
                             ) : (

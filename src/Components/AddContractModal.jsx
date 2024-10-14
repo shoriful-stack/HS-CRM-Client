@@ -1,20 +1,17 @@
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-// import useAllCustomer from "../Hooks/useAllCustomers";
-// import useAllProjects_Master from "../Hooks/useAllProjects_Master";
-
 const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, selectedProject, refetch }) => {
     const { register, handleSubmit, reset } = useForm();
     const axiosSecure = useAxiosSecure();
-    // const [allCustomers] = useAllCustomer();
-    // const [allProjects] = useAllProjects_Master();
 
 
     const onSubmit = async (data) => {
         console.log(data);
 
         // contract_status based on closing_date
+        // const signingDate = new Date(data.signing_date_date);
+        // const effectiveDate = new Date(data.effective_date);
         const closingDate = new Date(data.closing_date);
         const today = new Date();
         const contract_status = closingDate > today ? "1" : "0";
@@ -65,7 +62,6 @@ const AddContractModal = ({ isAddContractModalOpen, setIsAddContractModalOpen, s
             reset();
         }
     };
-
 
     const closeAddModal = () => {
         setIsAddContractModalOpen(false);

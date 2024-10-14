@@ -272,7 +272,7 @@ const MasterTree = () => {
                         {isFilterOpen && (
                             <div className="absolute right-0 mt-2 w-96 bg-white border rounded-md shadow-lg z-50">
                                 <div className="p-3">
-                                    <h3 className="text-sm font-semibold mb-2">Filter By</h3>
+                                    <h3 className="text-lg font-semibold mb-2">Filter By</h3>
                                     <div className="grid grid-cols-2 gap-2 mb-1">
                                         {/* Project Name Filter */}
                                         <div className="">

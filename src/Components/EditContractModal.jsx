@@ -2,13 +2,12 @@ import { useForm } from "react-hook-form";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
-import useAllCustomer from "../Hooks/useAllCustomers";
 // import { useQueryClient } from "@tanstack/react-query";
 
 const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, contract, refetch }) => {
     const { register, handleSubmit, reset, setValue } = useForm();
     const axiosSecure = useAxiosSecure();
-    const [allCustomers] = useAllCustomer();
+    // const [allCustomers] = useAllCustomer();
     // const queryClient = useQueryClient();
 
     useEffect(() => {
@@ -19,13 +18,20 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
             setValue('customer_name', contract.customer_name);
             setValue('project_category', contract.project_category === "1" ? "Service" :
                 contract.project_category === "2" ? "Product" :
-                "Supply & Service"
+                    "Supply & Service"
             );
             setValue('refNo', contract.refNo);
             setValue('first_party', contract.first_party);
-            setValue('signing_date', contract.signing_date);
-            setValue('effective_date', contract.effective_date);
-            setValue('closing_date', contract.closing_date);
+            // Format the dates for the date input fields
+            if (contract.signing_date) {
+                setValue('signing_date', new Date(contract.signing_date).toISOString().slice(0, 10));
+            }
+            if (contract.effective_date) {
+                setValue('effective_date', new Date(contract.effective_date).toISOString().slice(0, 10));
+            }
+            if (contract.closing_date) {
+                setValue('closing_date', new Date(contract.closing_date).toISOString().slice(0, 10));
+            }
             setValue('scan_copy_status', contract.scan_copy_status);
             setValue('hard_copy_status', contract.hard_copy_status);
             // setValue('contract_file', contract.contract_file[0]);
@@ -38,6 +44,8 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
         console.log(data);
 
         // Determine contract_status based on closing_date
+        // const signing_date = new Date(data.signing_date);
+        // const effectiveDate = new Date(data.effective_date);
         const closingDate = new Date(data.closing_date);
         const today = new Date();
         const contract_status = closingDate > today ? "1" : "0";
@@ -128,7 +136,7 @@ const EditContractModal = ({ editContractModalOpen, setEditContractModalOpen, co
                                         name="project_category"
                                         value={contract.project_category === '1' ? 'Service' :
                                             contract.project_category === '2' ? 'Product' :
-                                            'Supply & Service'
+                                                'Supply & Service'
                                         }
                                         readOnly
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 bg-gray-100"
