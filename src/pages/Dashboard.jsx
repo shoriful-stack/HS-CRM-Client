@@ -13,8 +13,11 @@ const Dashboard = () => {
     const [allProjects] = useAllProject();
     const [allEmployees] = useAllEmployee();
     return (
-        <div className='font-lexend px-2'>
-            <h1 className='text-2xl font-bold mt-1 mb-2'>Dashboard</h1>
+        <div className='font-lexend px-1'>
+            <div className='flex items-center gap-1'>
+                <h1 className='text-2xl font-bold mb-2 bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'>Dashboard</h1>
+                <img className='w-5 h-5 mb-1' src="https://i.ibb.co.com/nshdyJj/5581393.png" alt="" />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-[10px] gap-y-3">
                 {/* Total Tenders Card */}
                 <div className="bg-gradient-to-r from-[#11998e] to-[#38ef7d] shadow-lg rounded-lg px-5 py-4 text-white">
