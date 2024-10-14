@@ -20,12 +20,12 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
         console.log(data);
 
         const addEmployee = {
-            employee_name: data.employee_name.trim(),
+            employee_name: data.employee_name,
             department_name: data.department_name,
             designation: data.designation,
             employee_phone: data.employee_phone,
             employee_email: data.employee_email,
-            employee_uid: data.employee_uid,
+            employee_uid: data.employee_uid.trim(),
             employee_pass: data.employee_pass
         }
 
@@ -40,7 +40,8 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                 closeModal();
             }
         } catch (error) {
-            toast.error(`${data.employee_name} already exists.`);
+            toast.error(`${data.employee_uid} already exists.`);
+            reset();
         }
     }
 
@@ -115,7 +116,7 @@ const AddEmployeeModal = ({ isEmployeeModalOpen, setIsEmployeeModalOpen, refetch
                                         Phone*
                                     </label>
                                     <input
-                                        type="number"
+                                        type="phone"
                                         name="employee_phone"
                                         {...register("employee_phone", { required: true })}
                                         className="mt-1 text-sm block w-full border border-gray-300 rounded-md shadow-sm p-1 focus:outline-none focus:ring-teal-500 focus:border-teal-500"

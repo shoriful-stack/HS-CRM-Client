@@ -446,7 +446,7 @@ const MasterTree = () => {
                 <Loader />
             ) : (
                 <>
-                    <table className="table w-[1730px] border-collapse border">
+                    <table className="table w-[1800px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>

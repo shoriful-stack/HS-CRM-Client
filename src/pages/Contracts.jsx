@@ -434,7 +434,7 @@ const Contracts = () => {
                 <Loader />
             ) : (
                 <>
-                    <table className="table w-[1250px] border-collapse border">
+                    <table className="table w-[1290px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
@@ -443,7 +443,7 @@ const Contracts = () => {
                                 <th className="px-2 py-2 border text-xs">Project Name</th>
                                 <th className="px-2 py-2 border text-xs">Project Type</th>
                                 <th className="px-2 py-2 border text-xs">First Party</th>
-                                <th className="px-2 py-2 border text-xs">Customer</th>
+                                <th className="px-2 py-2 border text-xs">Customer Name</th>
                                 <th className="px-2 py-2 border text-xs">Ref No.</th>
                                 <th className="px-1 py-2 border text-xs">Signing Date</th>
                                 <th className="px-1 py-2 border text-xs">Effective Date</th>

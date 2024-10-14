@@ -51,31 +51,62 @@ const Sidebar = () => {
                                 <img src="https://i.ibb.co.com/zrNvt4h/logo-hs.png" className="h-8 me-3 bg-white" alt="HS Logo" />
                             </div>
                         </div>
-                        {/* User Dropdown */}
-                        <div className="dropdown dropdown-end">
-                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                                <div className="w-10 rounded-full">
-                                    <img src="https://i.ibb.co.com/vDkNq27/307ce493-b254-4b2d-8ba4-d12c080d6651.jpg" alt="User Avatar" />
-                                </div>
+                        <div className="flex items-center space-x-3">
+                            {/* theme controller and User Dropdown */}
+                            <div className="dropdown dropdown-end">
+                                <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                                    <div className="w-10 rounded-full">
+                                        <img src="https://i.ibb.co.com/vDkNq27/307ce493-b254-4b2d-8ba4-d12c080d6651.jpg" alt="User Avatar" />
+                                    </div>
+                                </label>
+                                <ul tabIndex={0} className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-40">
+                                    <li>
+                                        <p className="font-medium">Ronaldo</p>
+                                    </li>
+                                    <li>
+                                        <button className="font-medium">Profile</button>
+                                    </li>
+                                    <li>
+                                        <Button
+                                            onClick={handleLogout}
+                                            gradientMonochrome="failure"
+                                            className="w-full flex items-center justify-center"
+                                        >
+                                            <TbLogout2 className="w-5 h-5" />
+                                            <span className="text-sm ml-2">Logout</span>
+                                        </Button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <label className="flex cursor-pointer gap-2">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="5" />
+                                    <path
+                                        d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+                                </svg>
+                                <input type="checkbox" value="synthwave" className="toggle theme-controller" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
                             </label>
-                            <ul tabIndex={0} className="menu menu-sm dropdown-content z-[1] p-2 shadow bg-base-100 rounded-box w-40">
-                                <li>
-                                    <p className="font-medium">Ronaldo</p>
-                                </li>
-                                <li>
-                                    <button className="font-medium">Profile</button>
-                                </li>
-                                <li>
-                                    <Button
-                                        onClick={handleLogout}
-                                        gradientMonochrome="failure"
-                                        className="w-full flex items-center justify-center"
-                                    >
-                                        <TbLogout2 className="w-5 h-5" />
-                                        <span className="text-sm ml-2">Logout</span>
-                                    </Button>
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -138,7 +169,7 @@ const Sidebar = () => {
                                     >
                                         <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286C10 17.169 10.831 18 11.857 18h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
                                     </svg> */}
-                                    <RiProjectorFill className="text-xl flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"/>
+                                    <RiProjectorFill className="text-xl flex-shrink-0 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white" />
                                     {!isCollapsed && <span className="ms-[10px] text-white">Projects</span>}
                                 </NavLink>
                             </li>
