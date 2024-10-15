@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FaEdit, FaFileImport } from "react-icons/fa";
-import { IoAddCircleSharp, IoSearchSharp } from "react-icons/io5";
+import { FaEdit, FaFileImport, FaHome, FaUsers } from "react-icons/fa";
+import { IoAddCircleSharp, IoSearchSharp, IoSettings } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../Components/Loader";
 import { TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -140,7 +140,29 @@ const Project_Master = () => {
         );
     };
     return (
-        <div className="font-lexend">
+        <div className="font-lexend -mt-2">
+            {/* Breadcrumbs Component */}
+            <div className="breadcrumbs text-sm">
+                <ul>
+                    <li>
+                        <a>
+                            <IoSettings />
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <FaUsers className="font-bold mr-1" />
+                            CRM
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            All Projects
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div className="flex justify-between items-center mb-2">
                 <h1 className="font-bold text-xl">All Projects</h1>
                 <div className="flex items-center gap-1">
@@ -211,7 +233,7 @@ const Project_Master = () => {
                                     </td>
                                     <td className="px-2 py-1 border text-center">
                                         <button onClick={() => openEditModal(project)} className="bg-blue-500 rounded-md w-8 pl-[6px] py-1">
-                                        <AiFillEdit className="bg-blue-500 text-white font-bold text-xl" />
+                                            <AiFillEdit className="bg-blue-500 text-white font-bold text-xl" />
                                         </button>
                                     </td>
                                 </tr>))

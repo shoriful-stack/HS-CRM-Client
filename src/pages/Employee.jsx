@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEdit, FaFileImport, FaRegEye } from "react-icons/fa";
+import { FaEdit, FaFileImport, FaHome, FaRegEye, FaUsers } from "react-icons/fa";
 import { IoAddCircleSharp, IoSearchSharp } from "react-icons/io5";
 import { toast, ToastContainer } from "react-toastify";
 import Loader from "../Components/Loader";
@@ -181,7 +181,29 @@ const Employees = () => {
         );
     };
     return (
-        <div className="font-lexend">
+        <div className="font-lexend -mt-2">
+            {/* Breadcrumbs Component */}
+            <div className="breadcrumbs text-sm">
+                <ul>
+                    <li>
+                        <a>
+                            <FaHome />
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <FaUsers className="font-bold mr-1" />
+                            CRM
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            Employees
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div className="flex justify-between items-center mb-2">
                 <h1 className="font-bold text-xl">Employees</h1>
                 <div className="flex items-center gap-1">

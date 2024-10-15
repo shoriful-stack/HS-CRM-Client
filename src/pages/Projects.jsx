@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaEdit, FaFileImport, FaFilter, FaHistory, FaRegEye } from "react-icons/fa";
+import { FaEdit, FaFileImport, FaFilter, FaHistory, FaHome, FaRegEye } from "react-icons/fa";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -17,6 +17,7 @@ import useAllProjects_Master from "../Hooks/useAllProjects_Master";
 import useAllCustomer from "../Hooks/useAllCustomers";
 import useAllDepartment from "../Hooks/useAllDepartments";
 import useAllEmployee from "../Hooks/useAllEmployees";
+import { RiProjectorFill } from "react-icons/ri";
 
 const Projects = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -244,8 +245,25 @@ const Projects = () => {
       </div>
     );
   };
-  return (
-    <div className="font-lexend">
+  return ( 
+    <div className="font-lexend -mt-2">
+      {/* Breadcrumbs Component */}
+      <div className="breadcrumbs text-sm">
+        <ul>
+          <li>
+            <a>
+              <FaHome />
+              Home
+            </a>
+          </li>
+          <li>
+            <a>
+              <RiProjectorFill />
+              Projects
+            </a>
+          </li>
+        </ul>
+      </div>
       <div className="flex justify-between items-center mb-2">
         <h1 className="font-bold text-xl">Projects</h1>
         <div className="flex items-center gap-1">

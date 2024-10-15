@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaEdit, FaFileImport } from "react-icons/fa";
+import { FaEdit, FaFileImport, FaHome, FaUsers } from "react-icons/fa";
 import { IoAddCircleSharp, IoSearchSharp } from "react-icons/io5";
 import AddModal from "../Components/AddModal";
 import { toast, ToastContainer } from "react-toastify";
@@ -177,7 +177,29 @@ const Customers = () => {
         );
     };
     return (
-        <div className="font-lexend">
+        <div className="font-lexend -mt-2">
+            {/* Breadcrumbs Component */}
+            <div className="breadcrumbs text-sm">
+                <ul>
+                    <li>
+                        <a>
+                            <FaHome />
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <FaUsers className="font-bold mr-1" />
+                            CRM
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            Customers
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div className="flex justify-between items-center mb-2">
                 <h1 className="font-bold text-xl">Customers</h1>
                 <div className="flex items-center gap-1">

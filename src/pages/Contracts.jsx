@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaDownload, FaEdit, FaFileImport, FaFilter, FaRegEye } from "react-icons/fa";
+import { FaDownload, FaEdit, FaFileImport, FaFilter, FaHome, FaMoneyCheckAlt, FaRegEye } from "react-icons/fa";
 import { IoMdArrowDropdownCircle } from "react-icons/io";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { TbDatabaseExport, TbPlayerTrackNextFilled, TbPlayerTrackPrevFilled } from "react-icons/tb";
@@ -254,7 +254,24 @@ const Contracts = () => {
         );
     };
     return (
-        <div className="font-lexend">
+        <div className="font-lexend -mt-2">
+            {/* Breadcrumbs Component */}
+            <div className="breadcrumbs text-sm">
+                <ul>
+                    <li>
+                        <a>
+                            <FaHome />
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <FaMoneyCheckAlt className="mr-[2px]"/>
+                            Contracts
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <div className="flex justify-between items-center mb-2 w-[1037px]">
                 <h1 className="font-bold text-xl">Contracts</h1>
                 <div className="flex items-center gap-1">
