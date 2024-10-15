@@ -20,7 +20,7 @@ const Contracts = () => {
     // const [isAddContractModalOpen, setIsAddContractModalOpen] = useState(false);
     const [editContractModalOpen, setEditContractModalOpen] = useState(false);
     const [selectedContract, setSelectedContract] = useState(null);
-    const [importContractModalOpen, setImportContractModalOpen] = useState(false);
+    // const [importContractModalOpen, setImportContractModalOpen] = useState(false);
     const [allProjects] = useAllProjects_Master();
     const [allCustomers] = useAllCustomer();
     const navigate = useNavigate();
@@ -119,28 +119,28 @@ const Contracts = () => {
         navigate(`/dashboard/contracts/view/${contract._id}`);
     };
 
-    const openImportModal = () => {
-        setImportContractModalOpen(true);
-    };
+    // const openImportModal = () => {
+    //     setImportContractModalOpen(true);
+    // };
 
-    const handleImport = async (contractsData) => {
-        try {
-            const response = await axiosSecure.post("/contracts/all", contractsData, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
+    // const handleImport = async (contractsData) => {
+    //     try {
+    //         const response = await axiosSecure.post("/contracts/all", contractsData, {
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //             },
+    //         });
 
-            if (response.status === 200) {
-                refetch();
-            } else {
-                toast.error("Import failed!");
-            }
-        } catch (error) {
-            console.error("Import failed:", error);
-            toast.error("Import failed: " + (error.response?.data?.message || error.message));
-        }
-    };
+    //         if (response.status === 200) {
+    //             refetch();
+    //         } else {
+    //             toast.error("Import failed!");
+    //         }
+    //     } catch (error) {
+    //         console.error("Import failed:", error);
+    //         toast.error("Import failed: " + (error.response?.data?.message || error.message));
+    //     }
+    // };
 
     const handleExport = async () => {
         try {
@@ -412,13 +412,13 @@ const Contracts = () => {
                         )}
                     </div>
                     {/* import and export button */}
-                    <button
+                    {/* <button
                         onClick={openImportModal}
                         className="bg-blue-700 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
                     >
                         <FaFileImport className="w-5 h-4" />
                         <span className="text-xs">Import</span>
-                    </button>
+                    </button> */}
                     <button
                         onClick={handleExport}
                         className="bg-blue-500 text-white px-2 py-2 rounded-md hover:bg-black flex items-center gap-1"
@@ -537,7 +537,7 @@ const Contracts = () => {
                 </>
             )}
             <EditContractModal editContractModalOpen={editContractModalOpen} setEditContractModalOpen={setEditContractModalOpen} contract={selectedContract} refetch={refetch} />
-            <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} />
+            {/* <ImportContractModal isOpen={importContractModalOpen} onClose={() => setImportContractModalOpen(false)} onImport={handleImport} /> */}
             <ToastContainer></ToastContainer>
         </div>
     );
