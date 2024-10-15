@@ -31,27 +31,27 @@ const Login = () => {
     return (
         <div className="bg-slate-50 min-h-screen flex flex-col justify-center">
             <div className="text-center mb-1">
-                <h1 className="text-[22px] font-bold text-gray-800">CUSTOMER RELATIONSHIP MANAGEMENT SYSTEM</h1>
-            </div>
-            <div className="flex justify-center items-center mb-4">
-                <img className="w-48 h-9" src="https://i.ibb.co.com/zrNvt4h/logo-hs.png" alt="Logo" />
+                <h1 className="text-[22px] font-bold text-gray-800">CONTRACT MANAGEMENT SYSTEM</h1>
             </div>
             <div className="flex items-center justify-center">
-                <div className="w-full max-w-[350px] px-5 py-4 bg-white rounded-lg shadow-lg">
-                    <div className="flex justify-center mb-2">
-                        <div className="bg-gray-200 p-4 rounded-full">
+                <div className="w-full max-w-[300px] px-5 py-4 bg-white rounded-lg shadow-lg">
+                    <div className="flex justify-center items-center mb-2">
+                        <img className="w-48 h-9" src="https://i.ibb.co.com/zrNvt4h/logo-hs.png" alt="Logo" />
+                    </div>
+                    <div className="flex justify-center">
+                        <div className="bg-gray-200 p-4 rounded-full w-16 flex justify-center">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
-                                className="h-10 w-10 text-teal-500">
+                                className="h-7 w-7 text-teal-500">
                                 <path d="M12 12c2.97 0 5.35-2.17 5.87-5.01A5.992 5.992 0 0 0 12 2c-2.68 0-4.94 1.79-5.77 4.23C6.68 9.95 9.12 12 12 12zM12 14c-4.41 0-8 3.59-8 8h2c0-3.31 2.69-6 6-6s6 2.69 6 6h2c0-4.41-3.59-8-8-8z" />
                             </svg>
                         </div>
                     </div>
-                    <h2 className="text-3xl font-semibold text-center text-gray-700 mb-4 font-lexend">Login</h2>
+                    <h3 className="text-2xl font-semibold text-center text-gray-700 mb-4 font-lexend">Login</h3>
                     <form onSubmit={handleLogin}>
-                        <div className="form-group mb-4">
+                        <div className="form-group mb-2">
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-3 flex items-center">
                                     <MdEmail className="h-4 w-5" />
@@ -67,7 +67,7 @@ const Login = () => {
                                 />
                             </div>
                         </div>
-                        <div className="form-group mb-4">
+                        <div className="form-group mb-2">
                             <div className="relative">
                                 <span className="absolute inset-y-0 left-3 flex items-center">
                                     <FaLock className="h-4 w-5" />
@@ -87,7 +87,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="form-control">
-                            <button type="submit" className="btn bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-400 hover:to-blue-500 text-white w-full font-lexend">Login</button>
+                            <button type="submit" className="btn-sm rounded-md bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-400 hover:to-blue-500 text-white w-full font-lexend text-xs font-semibold">Login</button>
                         </div>
                     </form>
                 </div>
