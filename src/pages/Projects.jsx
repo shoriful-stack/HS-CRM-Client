@@ -264,7 +264,7 @@ const Projects = () => {
           </li>
         </ul>
       </div>
-      <div className="flex justify-between items-center mb-2">
+      <div className="flex justify-between items-center mb-2 w-[1037px]">
         <h1 className="font-bold text-xl">Projects</h1>
         <div className="flex items-center gap-1">
           {/* Filter Button */}
@@ -434,7 +434,7 @@ const Projects = () => {
         <Loader />
       ) : (
         <>
-          <table className="table table-xs w-full border-collapse border">
+          <table className="table table-xs w-[1050px] border-collapse border">
             <thead>
               <tr className="bg-gray-800 text-white">
                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
@@ -503,8 +503,8 @@ const Projects = () => {
                   </td>
                   <td className="px-1 py-1 border text-xs">{project.project_name}</td>
                   <td className="px-1 py-1 border text-xs">
-                    {project.project_category === '1' ? 'Service' :
-                      project.project_category === '2' ? 'Product' :
+                    {project.project_category === 1 ? 'Service' :
+                      project.project_category === 2 ? 'Product' :
                         'Supply & Service'}
                   </td>
                   <td className="px-1 py-1 border text-xs">{project.customer_name}</td>

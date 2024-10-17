@@ -464,7 +464,7 @@ const MasterTree = () => {
                 <Loader />
             ) : (
                 <>
-                    <table className="table w-[1800px] border-collapse border">
+                    <table className="table w-[1900px] border-collapse border">
                         <thead>
                             <tr className="bg-gray-800 text-white">
                                 <th className="px-2 py-2 border text-xs">Sl.No.</th>
@@ -492,7 +492,7 @@ const MasterTree = () => {
                         <tbody>
                             {contracts.length === 0 ? (
                                 <tr>
-                                    <td colSpan="14" className="text-center py-4">
+                                    <td colSpan="11" className="text-center py-4">
                                         {filters.project_category || filters.contractStatus || filters.project_name || filters.customer_name
                                             ? "No data match the selected filters."
                                             : "No data available."}
